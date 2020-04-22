@@ -14,3 +14,5 @@ To run tests sequentially:
 
 To run tests in asynchronous mode:
 > reframe --system ibex -c ibex_checks --exec-policy async -r
+
+Shaaban Added a comment
