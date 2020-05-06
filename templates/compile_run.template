@@ -48,7 +48,7 @@ class ring_check(rfm.RegressionTest):
 
         # you can define your job configuration here: 
         #(Check https://reframe-hpc.readthedocs.io/en/latest/reference.html for all possible options)
-        self.time_limit = '1h'   # is a string in format '<DAYS>d' or '<HOURS>h' or '<MINUTES>m' or '<SECONDS>s'
+        self.time_limit = (0,10,0)  #is a tuple in the format (H,M,S)
         self.num_tasks = 4
         self.num_tasks_per_node = 4 
         #self.num_tasks_per_socket = 2
