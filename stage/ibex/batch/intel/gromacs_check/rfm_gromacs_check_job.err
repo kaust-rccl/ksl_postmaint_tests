@@ -1,0 +1,87 @@
+INTEL DEFAULT APPSTACK is now loaded
+Loading module for Intel Parallel Studio
+Intel Parallel Studio 2018 update 1 is now loaded
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/site.py", line 177
+    file=sys.stderr)
+        ^
+SyntaxError: invalid syntax
+Loading module for OPENMPI 2.1.1
+OPENMPI 2.1.1 is now loaded
+Loading module GROMACS
+GROMACS 2019.4 module now loaded
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/site.py", line 177
+    file=sys.stderr)
+        ^
+SyntaxError: invalid syntax
+                      :-) GROMACS - gmx mdrun, 2019.4 (-:
+
+                            GROMACS is written by:
+     Emile Apol      Rossen Apostolov      Paul Bauer     Herman J.C. Berendsen
+    Par Bjelkmar      Christian Blau   Viacheslav Bolnykh     Kevin Boyd    
+ Aldert van Buuren   Rudi van Drunen     Anton Feenstra       Alan Gray     
+  Gerrit Groenhof     Anca Hamuraru    Vincent Hindriksen  M. Eric Irrgang  
+  Aleksei Iupinov   Christoph Junghans     Joe Jordan     Dimitrios Karkoulis
+    Peter Kasson        Jiri Kraus      Carsten Kutzner      Per Larsson    
+  Justin A. Lemkul    Viveca Lindahl    Magnus Lundborg     Erik Marklund   
+    Pascal Merz     Pieter Meulenhoff    Teemu Murtola       Szilard Pall   
+    Sander Pronk      Roland Schulz      Michael Shirts    Alexey Shvetsov  
+   Alfons Sijbers     Peter Tieleman      Jon Vincent      Teemu Virolainen 
+ Christian Wennberg    Maarten Wolf   
+                           and the project leaders:
+        Mark Abraham, Berk Hess, Erik Lindahl, and David van der Spoel
+
+Copyright (c) 1991-2000, University of Groningen, The Netherlands.
+Copyright (c) 2001-2018, The GROMACS development team at
+Uppsala University, Stockholm University and
+the Royal Institute of Technology, Sweden.
+check out http://www.gromacs.org for more information.
+
+GROMACS is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1
+of the License, or (at your option) any later version.
+
+GROMACS:      gmx mdrun, version 2019.4
+Executable:   /sw/csi/gromacs/2019/el7.6_openmpi2.1.1_intel2018-sp/executables/bin/gmx_mpi
+Data prefix:  /sw/csi/gromacs/2019/el7.6_openmpi2.1.1_intel2018-sp/executables
+Working dir:  /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/stage/ibex/batch/intel/gromacs_check
+Command line:
+  gmx_mpi mdrun -deffnm md_0_1
+
+Compiled SIMD: SSE4.1, but for this host/run AVX_512 might be better (see
+log).
+The current CPU can measure timings more accurately than the code in
+gmx mdrun was configured to use. This might affect your simulation
+speed as accurate timings are needed for load-balancing.
+Please consider rebuilding gmx mdrun with the GMX_USE_RDTSCP=ON CMake option.
+Reading file md_0_1.tpr, VERSION 2019.4 (single precision)
+Changing nstlist from 10 to 50, rlist from 1 to 1.116
+
+
+Using 8 MPI processes
+Using 1 OpenMP thread per MPI process
+
+
+Non-default thread affinity set probably by the OpenMP library,
+disabling internal thread affinity
+starting mdrun 'LYSOZYME in water'
+50000 steps,    100.0 ps.
+
+Writing final coordinates.
+
+
+Dynamic load balancing report:
+ DLB was turned on during the run due to measured imbalance.
+ Average load imbalance: 1.2%.
+ The balanceable part of the MD step is 78%, load imbalance is computed from this.
+ Part of the total run time spent waiting due to load imbalance: 0.9%.
+ Steps where the load balancing was limited by -rdd, -rcon and/or -dds: X 0 % Y 0 %
+
+
+               Core t (s)   Wall t (s)        (%)
+       Time:     2626.239      328.281      800.0
+                 (ns/day)    (hour/ns)
+Performance:       26.319        0.912
+
+GROMACS reminds you: "There is no such thing as free energy. Anyone who advocates it does not know what he is talking about." (Alireza Haghighat)
+
