@@ -37,11 +37,12 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
         # sanity_patterns is a method to introduce a check on the output file self.stdout (which is slurm-jobid.out).
         # sanity check is a way to know that the simulation has started in a normal fashion. 
         # see list of possible sanity function here https://reframe-hpc.readthedocs.io/en/latest/sanity_functions_reference.html
-        self.sanity_patterns = sn.assert_found(r':-) GROMACS - gmx mdrun, 2019.4 (-:', 'rfm_gromacs_check_job.err', encoding='utf-8')
+        #self.sanity_patterns = sn.assert_found(r':-) GROMACS - gmx mdrun, 2019.4 (-:', 'rfm_gromacs_check_job.err', encoding='utf-8')
+        self.sanity_patterns = sn.assert_found(r'\s+:-\) GROMACS - gmx mdrun, 2019.4 \(-:', self.stderr, encoding='utf-8')
         
         # perf_pattern is a method to capture the performance metric from the output file self.stdout (or any other filename with relative path)
         self.perf_patterns = {       
-                    'ns_day': sn.extractsingle(r'^Performance\s+(?P<ns_day>\S+)', 'rfm_gromacs_check_job.err', 'ns_day', float)
+                    'ns_day': sn.extractsingle(r'^Performance:\s+(?P<ns_day>\S+)', 'rfm_gromacs_check_job.err', 'ns_day', float)
                                }
         
         # the captured metric in perf_patterns needs to be compared with a reference 
