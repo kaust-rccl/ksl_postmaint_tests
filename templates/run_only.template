@@ -1,0 +1,84 @@
+import os
+
+# Import reframe pacakge
+import reframe as rfm
+# Import sanity methods from reframe
+import reframe.utility.sanity as sn
+
+# @rfm.simple_test is a class decorator. It is registering a test type as a simple
+# unparameterized test. 
+# rfm.RunOnlyRegressionTest is a class inherited to instantiate our test class "ring_check" 
+# as a Run a pre-compiled executable. Thus path to source code and method of compiling will be required.
+@rfm.simple_test
+class namd_check(rfm.RunOnlyRegressionTest):
+    def __init__(self,**kwargs):
+        # Description of test. Should be short but telling
+        self.descr = 'NAMD 2.13 CUDA version benchmark apoa1'
+        
+        # list of systems which this test is relevant to. The elements of this list should 
+        # exist in the site configuration of reframe
+        # you can specify a relevant partition by using ":" delimiter, else the test will run on all 
+        # partitions listed in the the site configuration
+        self.valid_systems = ['ibex:batch']
+        
+        # valid_prog_environs is a list of programing environments this test should run in. 
+        # these programming environments must exist in the site configuration of reframe.
+        # This test will be executed in gnu and intel programming environments which will load the 
+        # appropriate compilers respectively.
+        self.valid_prog_environs = ['intel_cuda']
+        
+        # note that resourcesdir is definted as $PWD/resourcesdir if RESORUCES_DIR variable has not been set
+        # sourcesdir is a string which points to where the input files for this test is to be found.
+        self.sourcesdir=os.path.join(self.current_system.resourcesdir,'namd')
+        
+        # name of the resulting executable. This will be appended to the resulting srun command line.
+        self.executable='namd2'
+        # arguments if the executable "namd2" takes as a list. This is optional
+        self.executable_opts = '+p8 +devices 0,1,2,3,4,5,6,7 +idlepoll +setcpuaffinity apoa1.namd'.split()
+        
+        
+        # Job script attributes
+
+        # you can define your job configuration here: 
+        #(Check https://reframe-hpc.readthedocs.io/en/latest/reference.html for all possible options)
+        self.time_limit = (0,10,0)  #is a tuple in the format (H,M,S)
+        self.num_tasks = 1
+        self.num_tasks_per_node = 1
+        self,num_gpus_per_node=8
+        self.num_cpus_per_task=8
+        
+        # List of modules, if any, to be loaded in the jobscript
+        self.modules=['namd/2.13/cuda10-verbs-smp-icc17']
+
+        # method pre_run adds any commands you wish to run before srun in your jobscript. 
+        self.pre_run = ['module list']
+     
+               
+        # sanity_patterns is a method to introduce a check on the output file self.stdout (which is slurm-jobid.out).
+        # sanity check is a way to know that the simulation has started in a normal fashion. 
+        # see list of possible sanity function here https://reframe-hpc.readthedocs.io/en/latest/sanity_functions_reference.html
+        self.sanity_patterns = sn.assert_eq(sn.count(sn.extractall(r'TIMING: (?P<step_num>\S+)  CPU:', self.stdout, 'step_num')),25)
+        
+        # perf_pattern is a method to capture the performance metric from the output file self.stdout (or any other filename with relative path)
+        self.perf_patterns = {       
+                    'days_ns': sn.avg(sn.extractall('Info: Benchmark time: \S+ CPUs \S+ ''s/step (?P<days_ns>\S+) days/ns \S+ MB memory', self.stdout, 'days_ns', float))
+                               }
+        
+        # the captured metric in perf_patterns needs to be compared with a reference 
+        # value for reporting status of the test
+        # For this the reference value with a range +/- percent is expected. 
+        # For example (0.027,-0.005,0.005) implies that the performance quantity should 
+        # be 0.37 with tolerance of -10% or +10%
+        self.reference = {
+                            'ibex' : {      'days_ns': (0.037, -0.1, 0.1)
+                                            },
+                            }
+        
+        
+        # tags are useful to filter tests when not all but specific the tests are suppose to run
+        self.tags = {'namd','acceptance'}
+
+        
+        # initials or email of the maintainer    
+        self.maintainers = ['MS']
+

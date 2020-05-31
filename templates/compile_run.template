@@ -1,0 +1,94 @@
+import os
+
+# Import reframe pacakge
+import reframe as rfm
+# Import sanity methods from reframe
+import reframe.utility.sanity as sn
+
+# @rfm.simple_test is a class decorator. It is registering a test type as a simple
+# unparameterized test. 
+# rfm.RegressionTest is a class inherited to instantiate our test class "ring_check" 
+# as a Compile and Run test. Thus path to source code and method of compiling will be required.
+@rfm.simple_test
+class ring_check(rfm.RegressionTest):
+    def __init__(self,**kwargs):
+        # Description of test. Should be short but telling
+        self.descr = 'Ring of MPI tasks in Cart Comm'
+        
+        # list of systems which this test is relevant to. The elements of this list should 
+        # exist in the system configuration of reframe
+        self.valid_systems = ['ibex']
+        
+        # valid_prog_environs is a list of programing environments this test should run in. 
+        # these programming environments must exist in the system configuration of reframe.
+        # This test will be executed in gnu and intel programming environments which will load the 
+        # appropriate compilers respectively.
+        self.valid_prog_environs = ['gnu','intel']
+        
+        # sourcesdir is a string which points to where the source for this test is to be found.
+        # note that resourcesdir is definted as $PWD/resourcesdir if RESORUCES_DIR variable has not been set
+        self.sourcesdir=os.path.join(self.current_system.resourcesdir,'ring')
+        
+        # name of the resulting executable. This will be appended to the resulting srun command line.
+        self.executable='ring'
+        # arguments if the executable "ring" takes. This is optional
+        self.executable_opts = ['1024', '10']
+        
+        # if you have a Makedfile that compiles the source, then set the build_system attribute of
+        # this class as "Make". Other options "SingleSource"
+        self.build_system = 'Make'
+        # If single source is opted, compiler and compiler flags can also be set. For example
+        # self.build_system = 'SingleSource'
+        # self.build_system.cc = 'mpicc'
+        # self.build_system.cflags = ['-fopenmp','-fPIC','-mavx2']
+        
+        
+        
+        # Job script attributes
+
+        # you can define your job configuration here: 
+        #(Check https://reframe-hpc.readthedocs.io/en/latest/reference.html for all possible options)
+        self.time_limit = (0,10,0)  #is a tuple in the format (H,M,S)
+        self.num_tasks = 4
+        self.num_tasks_per_node = 4 
+        #self.num_tasks_per_socket = 2
+        #self,num_gpus_per_node=4
+        self.num_cpus_per_task=1
+        
+        # List of modules, if any, to be loaded in the jobscript
+        self.modules=['lapack/3.8.0']
+
+        # method pre_run adds any commands you wish to run before srun in your jobscript. 
+        self.pre_run = ['date','hostname']
+     
+        # method post_run adds any commands you wish to run after completion of srun jobstep 
+        self.post_run = ['echo \"These commands will run after srun finishes\"']
+        
+        # sanity_patterns is a method to introduce a check on the output file self.stdout (which is slurm-jobid.out).
+        # sanity check is a way to know that the simulation has started in a normal fashion. 
+        # see list of possible sanity function here https://reframe-hpc.readthedocs.io/en/latest/sanity_functions_reference.html
+        self.sanity_patterns = sn.assert_found(
+            r'MPI ring test with Cartesian communicator', self.stdout)
+        
+        # perf_pattern is a method to capture the performance metric from the output file self.stdout (or any other filename with relative path)
+        self.perf_patterns = {perf_metric : 
+                sn.extractsingle(r'Answer;\s+(?P<sum>\S+) Gflop/s', self.stdout, 'sum', int)}
+        
+        # the captured metric in perf_patterns needs to be compared with a reference 
+        # value for reporting status of the test
+        # For this the reference value with a range +/- percent is expected. 
+        # For example (0.5,0.1,0.2) implies that the performance quantity should 
+        # be 0.5 with tolerance of -10% or +20%
+        self.reference = {
+                            'ibex' : {      'perf_metric': (6,None,None)
+                                            },
+                            }
+        
+        
+        # tags are useful to filter tests when not all but specific the tests are suppose to run
+        self.tags = {'ring','acceptance'}
+
+        
+        # initials or email of the maintainer    
+        self.maintainers = ['MS']
+

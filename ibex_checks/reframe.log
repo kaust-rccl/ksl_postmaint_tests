@@ -1,0 +1,67 @@
+[2020-05-07T16:14:46] debug: reframe: executing OS command: modulecmd -V
+[2020-05-07T16:14:46] debug: reframe: executing OS command: modulecmd python
+[2020-05-07T16:14:46] warning: reframe: [33m/ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe: reframe: path `ibex_checks' does not exist. Skipping...[0m
+[2020-05-07T16:14:46] debug: reframe: Command-line configuration:
+    account=None
+    checkpath=['ibex_checks']
+    colorize=True
+    config_file=/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/settings.py
+    cpu_only=False
+    exclude_names=[]
+    exclude_nodes=None
+    exec_policy=serial
+    flex_alloc_nodes=None
+    flex_alloc_tasks=None
+    force_local=False
+    gpu_only=False
+    ignore_check_conflicts=False
+    job_options=[]
+    keep_stage_files=False
+    list=True
+    list_detailed=False
+    max_retries=0
+    mode=None
+    module_map_file=None
+    module_mappings=[]
+    names=[]
+    nodelist=None
+    non_default_craype=False
+    output=None
+    partition=None
+    perflogdir=None
+    performance_report=False
+    prefix=None
+    prgenv=['.*']
+    purge_env=False
+    recursive=False
+    reservation=None
+    run=False
+    save_log_files=False
+    show_config=False
+    show_config_env=None
+    skip_performance_check=False
+    skip_prgenv_check=False
+    skip_sanity_check=False
+    skip_system_check=False
+    stage=None
+    strict=False
+    system=ibex
+    tags=['gromacs_2019']
+    timestamp=None
+    unload_modules=[]
+    user_modules=[]
+    verbose=0
+[2020-05-07T16:14:46] info: reframe: Command line: /ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe --system ibex -c ibex_checks -t gromacs_2019 -l
+[2020-05-07T16:14:46] info: reframe: Reframe version: 2.21
+[2020-05-07T16:14:46] info: reframe: Launched by user: ismailiy
+[2020-05-07T16:14:46] info: reframe: Launched on host: cn509-02-r
+[2020-05-07T16:14:46] info: reframe: Reframe paths
+[2020-05-07T16:14:46] info: reframe: =============
+[2020-05-07T16:14:46] info: reframe:     Check prefix      : 
+[2020-05-07T16:14:46] info: reframe:     Check search path : ''
+[2020-05-07T16:14:46] info: reframe:     Stage dir prefix     : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/stage/
+[2020-05-07T16:14:46] info: reframe:     Output dir prefix    : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/output/
+[2020-05-07T16:14:46] info: reframe:     Perf. logging prefix : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/perflogs
+[2020-05-07T16:14:46] info: reframe: List of matched checks
+[2020-05-07T16:14:46] info: reframe: ======================
+[2020-05-07T16:14:46] info: reframe: Found 0 check(s).

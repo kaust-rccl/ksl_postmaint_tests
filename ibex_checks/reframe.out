@@ -1,0 +1,15 @@
+[33m/ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe: reframe: path `ibex_checks' does not exist. Skipping...[0m
+Command line: /ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe --system ibex -c ibex_checks -t gromacs_2019 -l
+Reframe version: 2.21
+Launched by user: ismailiy
+Launched on host: cn509-02-r
+Reframe paths
+=============
+    Check prefix      : 
+    Check search path : ''
+    Stage dir prefix     : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/stage/
+    Output dir prefix    : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/output/
+    Perf. logging prefix : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/perflogs
+List of matched checks
+======================
+Found 0 check(s).
