@@ -1,0 +1,79 @@
+Command line: /ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe --system ibex -c ibex_checks -t gromacs -r
+Reframe version: 2.21
+Launched by user: ismailiy
+Launched on host: cn509-02-r
+Reframe paths
+=============
+    Check prefix      : 
+    Check search path : 'ibex_checks'
+    Stage dir prefix     : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/stage/
+    Output dir prefix    : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/output/
+    Perf. logging prefix : /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/perflogs
+[33m/ibex/scratch/projects/swtools/software/apps/reframe-2.21/bin/reframe: skipping test due to errors: singularity_checks: use `-v' for more information
+  FILE: /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/ibex_checks/singularity.py:29[0m
+[==========] Running 1 check(s)
+[==========] Started on Mon May 11 02:59:14 2020 
+
+[----------] started processing gromacs_check (GROMACS 2019 Run Only tests)
+[ [32mRUN     [0m ] gromacs_check on ibex:batch using intel
+[ [31m    FAIL[0m ] gromacs_check on ibex:batch using intel
+[----------] finished processing gromacs_check (GROMACS 2019 Run Only tests)
+
+[ [31m FAILED [0m ] Ran 1 test case(s) from 1 check(s) (1 failure(s))
+[==========] Finished on Mon May 11 03:07:05 2020 
+
+==============================================================================
+SUMMARY OF FAILURES
+------------------------------------------------------------------------------
+FAILURE INFO for gromacs_check 
+  * System partition: ibex:batch
+  * Environment: intel
+  * Stage directory: /ibex/scratch/ismailiy/reframe/ismailiy_reframe/ksl_postmaint_tests/stage/ibex/batch/intel/gromacs_check
+  * Node list: cn509-11-r
+  * Job type: batch job (id=10573965)
+  * Maintainers: []
+  * Failing phase: sanity
+  * Reason: unexpected error: unbalanced parenthesis at position 2
+Traceback (most recent call last):
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 758, in count
+    return builtins.len(iterable)
+TypeError: object of type 'generator' has no len()
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/frontend/executors/__init__.py", line 163, in _safe_call
+    return fn(*args, **kwargs)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/pipeline.py", line 96, in _fn
+    func(obj, *args, **kwargs)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/pipeline.py", line 1230, in sanity
+    self.check_sanity()
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/pipeline.py", line 1249, in check_sanity
+    success = sn.evaluate(self.sanity_patterns)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 727, in evaluate
+    return expr.evaluate()
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/deferrable.py", line 53, in evaluate
+    ret = self._fn(*fn_args, **fn_kwargs)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 449, in assert_found
+    evaluate(assert_true(num_matches))
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 727, in evaluate
+    return expr.evaluate()
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/deferrable.py", line 46, in evaluate
+    arg.evaluate() if isinstance(arg, type(self)) else arg)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/core/deferrable.py", line 53, in evaluate
+    ret = self._fn(*fn_args, **fn_kwargs)
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 762, in count
+    for ret, _ in builtins.enumerate(iterable, start=1):
+  File "/ibex/scratch/projects/swtools/software/apps/reframe-2.21/reframe/utility/sanity.py", line 566, in finditer
+    yield from re.finditer(patt, fp.read(), re.MULTILINE)
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/re.py", line 230, in finditer
+    return _compile(pattern, flags).finditer(string)
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/re.py", line 286, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "/sw/csi/python/3.7.0/el7.6_gnu6.4.0/lib/python3.7/sre_parse.py", line 944, in parse
+    raise source.error("unbalanced parenthesis")
+re.error: unbalanced parenthesis at position 2
+
+------------------------------------------------------------------------------
