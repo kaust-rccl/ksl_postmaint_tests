@@ -7,7 +7,7 @@ import os
 class singularity_checks(rfm.RunOnlyRegressionTest):
     def __init__(self):
         self.descr = 'Run commands inside a container'
-        self.valid_systems = ['ibex:batch']
+        self.valid_systems = ['ibex:batch_nompi']
         self.valid_prog_environs = ['gnu']
 
         self.sourcesdir=os.path.join(self.current_system.resourcesdir,'singularity')
