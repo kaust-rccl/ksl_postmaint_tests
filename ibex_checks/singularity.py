@@ -26,7 +26,7 @@ class singularity_checks(rfm.RunOnlyRegressionTest):
 #            'perf': sn.extractsingle(r'^WR\w+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\S+\s+(?P<latency>\S+)',
 #                                     self.stdout, 'GFlops', float)
             'perf': sn.extractsingle(r'^WR\w+\s+(?P<latency>\S+)',
-                                     self.stdout, 'GFlops', string)
+                                     self.stdout, 'GFlops', str)
         }
         self.reference = {
             'ibex' : {
