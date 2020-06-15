@@ -41,7 +41,7 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
           self.num_tasks_per_node=40
 
         # List of modules, if any, to be loaded in the jobscript
-        self.modules=['gromacs/2019.4/openmpi-2.1.1-intel-2018-sp']
+        self.modules=['gromacs/2019.4/openmpi-2.1.1-intel-2018-sp-avx512']
         # method pre_run adds any commands you wish to run before srun in your jobscript. 
         self.pre_run = ['export OMP_NUM_THREADS=1']
                
@@ -63,10 +63,10 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
         # be 0.37 with tolerance of -10% or +10%
         self.reference = {
                             'ibex' : {    
-                               'small': (28, -0.15, 0.15),
-                               'medium': (49, -0.15, 0.15),
-                               'large': (98, -0.15, 0.15),
-                               'multinode': (216, -0.15, 0.15),
+                               'small': (55, -0.15, 0.15),
+                               'medium': (90, -0.15, 0.15),
+                               'large': (140, -0.15, 0.15),
+                               'multinode': (300, -0.15, 0.15),
                  
                                      },
                             }
