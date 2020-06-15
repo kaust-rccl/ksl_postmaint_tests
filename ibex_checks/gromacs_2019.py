@@ -63,10 +63,10 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
         # be 0.37 with tolerance of -10% or +10%
         self.reference = {
                             'ibex' : {    
-                               'small': (28, -0.1, 0.1),
-                               'medium': (49, -0.1, 0.1),
-                               'large': (98, -0.1, 0.1),
-                               'multinode': (216, -0.1, 0.1),
+                               'small': (28, -0.15, 0.15),
+                               'medium': (49, -0.15, 0.15),
+                               'large': (98, -0.15, 0.15),
+                               'multinode': (216, -0.15, 0.15),
                  
                                      },
                             }
