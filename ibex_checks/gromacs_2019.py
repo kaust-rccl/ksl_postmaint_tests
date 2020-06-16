@@ -37,8 +37,8 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
           self.num_tasks=40
           self.num_tasks_per_node=40
         else:
-          self.num_tasks=128
-          self.num_tasks_per_node=40
+          self.num_tasks=8
+          self.num_tasks_per_node=4
 
         # List of modules, if any, to be loaded in the jobscript
         self.modules=['gromacs/2019.4/openmpi-2.1.1-intel-2018-sp-avx512']
@@ -66,7 +66,7 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
                                'small': (55, -0.15, 0.15),
                                'medium': (90, -0.15, 0.15),
                                'large': (140, -0.15, 0.15),
-                               'multinode': (300, -0.15, 0.15),
+                               'multinode': (45, -0.15, 0.15),
                  
                                      },
                             }
