@@ -9,7 +9,7 @@ import reframe.utility.sanity as sn
 class gromacs_check(rfm.RunOnlyRegressionTest):
     def __init__(self,variant):
         # Description of test. Should be short but telling
-        self.descr = 'GROMACS 2019 SP Run Only tests'
+        self.descr = 'GROMACS 2020 SP Run Only tests'
         self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['intel']
         
@@ -37,11 +37,11 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
           self.num_tasks=40
           self.num_tasks_per_node=40
         else:
-          self.num_tasks=8
+          self.num_tasks=16
           self.num_tasks_per_node=4
 
         # List of modules, if any, to be loaded in the jobscript
-        self.modules=['gromacs/2019.4/openmpi-2.1.1-intel-2018-sp-avx512']
+        self.modules=['gromacs/2020.4/openmpi-4.0.3-intel-2020-sp','gcc/8.2.0']
         # method pre_run adds any commands you wish to run before srun in your jobscript. 
         self.pre_run = ['export OMP_NUM_THREADS=1']
                
@@ -49,7 +49,7 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
         # sanity check is a way to know that the simulation has started in a normal fashion. 
         # see list of possible sanity function here https://reframe-hpc.readthedocs.io/en/latest/sanity_functions_reference.html
         #self.sanity_patterns = sn.assert_found(r':-) GROMACS - gmx mdrun, 2019.4 (-:', 'rfm_gromacs_check_job.err', encoding='utf-8')
-        self.sanity_patterns = sn.assert_found(r'\s+:-\) GROMACS - gmx mdrun, 2019.4 \(-:', self.stderr, encoding='utf-8')
+        self.sanity_patterns = sn.assert_found(r'\s+:-\) GROMACS - gmx mdrun, 2020.4 \(-:', self.stderr, encoding='utf-8')
         
         # perf_pattern is a method to capture the performance metric from the output file self.stdout (or any other filename with relative path)
         self.perf_patterns = {       
@@ -63,10 +63,10 @@ class gromacs_check(rfm.RunOnlyRegressionTest):
         # be 0.37 with tolerance of -10% or +10%
         self.reference = {
                             'ibex' : {    
-                               'small': (55, -0.15, 0.15),
-                               'medium': (90, -0.15, 0.15),
+                               'small': (35, -0.15, 0.15),
+                               'medium': (74, -0.15, 0.15),
                                'large': (140, -0.15, 0.15),
-                               'multinode': (45, -0.15, 0.15),
+                               'multinode': (70, -0.15, 0.15),
                  
                                      },
                             }

@@ -13,7 +13,7 @@ class slurm_check(rfm.RunOnlyRegressionTest):
         self.num_tasks=1
         if variant == "slurmctld":
             self.executable='scontrol ping'
-            self.sanity_patterns =sn.assert_found(r'slurm209-02 is UP',self.stdout)
+            self.sanity_patterns =sn.assert_found(r'slurm-01 is UP',self.stdout)
         elif variant == "squeue":
             self.executable='squeue -u ismailiy'	
             self.sanity_patterns =sn.assert_found(r'NODELIST',self.stdout)
