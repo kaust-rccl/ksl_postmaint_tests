@@ -32,7 +32,7 @@ self.time_limit = '30m'
 self.time_limit = '2h'
 ```
 - The prebuild_cmd, postbuild_cmd, pre_run and post_run attributes have been removed
--```sh
+```sh
 self.prerun_cmds = ['hostname','module list']
 ```
 
