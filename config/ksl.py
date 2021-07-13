@@ -129,7 +129,7 @@ site_configuration = {
 
         {
             'name':'gpustack_cuda',
-            'modules': ['gpustack','cuda/10.1.243'],
+            'modules': ['gpustack','cuda/11.2.2'],
             'cc': 'nvcc',
             'cxx':'nvcc',
             'ftn': ''
