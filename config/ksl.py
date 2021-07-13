@@ -1,11 +1,5 @@
-# Copyright 2016-2021 Swiss National Supercomputing Centre (CSCS/ETH Zurich)
-# ReFrame Project Developers. See the top-level LICENSE file for details.
-#
-# SPDX-License-Identifier: BSD-3-Clause
-
 #
 #
-
 site_configuration = {
     'systems': [
         {
@@ -43,12 +37,50 @@ site_configuration = {
                             'options': ['--constraint={value}']
                             },
                             {
-                             'name': 'gres',
+                             'name': 'gpu',
                              'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
                             }
+
+ 
 
                                  ],
                 },
+                {
+                    'name': 'batch_mpi',
+                    'scheduler': 'slurm',
+                    'launcher': 'mpirun',
+                    'access':  ['--partition=batch'],
+                    'environs': ['cpustack_builtin','cpustack_gnu','cpustack_openmpi','cpustack_intel','cpustack_intelmpi','gpustack_builtin','gpustack_cuda','gpustack_gnu','gpustack_openmpi','gpustack_intel','gpustack_intelmpi'],
+
+                    'descr': 'Mixed nodes',
+                    'max_jobs': 32,
+                    'resources':[
+                            {
+                            'name': 'memory',
+                            'options': ['--mem={size}']
+                            },
+                            {
+                            'name': 'constraint',
+                            'options': ['--constraint={value}']
+                            },
+                            {
+                             'name': 'gpu',
+                             'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
+                            }
+
+
+
+                                 ],
+                },
+
                 
                 {
                     'name': 'debug',
@@ -69,9 +101,14 @@ site_configuration = {
                             'options': ['--constraint={value}']
                             },
                             {
-                             'name': 'gres',
+                             'name': 'gpu',
                              'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
                             }
+
                                 ],
                  }
                 
