@@ -1,4 +1,21 @@
 ## Reframe 3.6.0 on Ibex 
 
 ReFrame is a high-level framework for writing regression tests for HPC systems.written in Python3.x and is authored and maintained by CSCS. 
-We are prototyping ReFrame on IBEX to use it as a post-maintenance testing suit for all relevant personals to run on IBEX as themselves. 
+We are prototyping ReFrame on IBEX to use it as a post-maintenance testing suit for all relevant personals to run on IBEX as themselves.
+
+Reframe v3.6.0 with python 3.8.1 is installed on csi app stack , can be accessed via the following module
+```sh
+module load reframe/3.6.0
+```
+To list the tests 
+```sh
+reframe -c ibex_tests_v3 -l 
+```
+To run The tests
+```sh
+reframe -c ibex_tests_v3 -Jreservation=maintenance -r 
+```
+To run the tests under Maintaince 
+```sh
+reframe -c ibex_tests_v3 -Jreservation=<reservation_name> -r 
+```
