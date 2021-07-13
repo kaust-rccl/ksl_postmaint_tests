@@ -11,11 +11,11 @@ To list the tests
 ```sh
 reframe -c ibex_tests_v3 -l 
 ```
-To run The tests
+To run The  all tests
 ```sh
 reframe -c ibex_tests_v3 -r 
 ```
-To specify specific Tests 
+To run specific Tests 
 ```sh
 reframe -c ibex_tests_v3 -n osu  -r 
 ```
