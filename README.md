@@ -27,5 +27,13 @@ reframe -c ibex_tests_v3 -Jreservation=<reservation_name> -r
 
 - Deprecate the use of the @parameterized_test decorator 
 - The old syntax of defining timelimit using a (h, m, s) tuple is deprecated.
+```sh
+self.time_limit = '30m'
+self.time_limit = '2h'
+```
 - The prebuild_cmd, postbuild_cmd, pre_run and post_run attributes have been removed
+-```sh
+self.prerun_cmds = ['hostname','module list']
+```
+
 
