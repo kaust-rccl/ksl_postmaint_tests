@@ -1,0 +1,45 @@
+import os
+import reframe as rfm
+import reframe.utility.sanity as sn
+
+@rfm.simple_test
+class osu_test(rfm.RunOnlyRegressionTest):
+      variant= parameter(['latency', 'bandwidth','bibandwidth'])
+      maintainers = ['passant.hafez@kaust.edu.sa']
+      descr = 'running OSU BM'
+      tags = {'osu'}
+      sourcesdir= None
+      valid_prog_environs = ['cpustack_gnu']
+      valid_systems = ['ibex:batch']
+      modules = ['openmpi/4.0.3','/ibex/scratch/projects/swtools/modulefiles/osu-microbenchmarks/5.6.2']
+      time_limit = "10m"
+      num_tasks = 2
+      num_tasks_per_node = 1
+      reference = {
+                        'ibex' : {
+                                'latency' : (390.0,None,0.1,None),
+                                'bandwidth' : (12000.0,-0.1,None,None),
+                                'bibandwidth' : (24000.0,-0.1,None,None),
+                                 }
+                        }
+
+
+      @rfm.run_after('init')
+      def setting_parameters(self):
+        if self.variant == "latency":
+           self.executable='mpirun -np $SLURM_NTASKS osu_latency'
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Latency Test v5.6.2', self.stdout)
+           self.perf_patterns = {
+                                self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBlat>\S+)',self.stdout, 'FourGBlat', float)}
+
+        
+        elif self.variant == "bandwidth":
+           self.executable='mpirun -np $SLURM_NTASKS osu_bw'
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bandwidth Test v5.6.2', self.stdout)
+           self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbw>\S+)',self.stdout, 'FourGBbw', float)}
+
+        elif self.variant == "bibandwidth":
+           self.executable='mpirun -np $SLURM_NTASKS osu_bibw'
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bi-Directional Bandwidth Test v5.6.2', self.stdout)
+           self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbibw>\S+)',self.stdout, 'FourGBbibw', float)}
+
