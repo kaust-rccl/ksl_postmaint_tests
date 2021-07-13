@@ -25,14 +25,14 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 
         # Description of test. Should be short but telling
         self.descr = 'GROMACS 2020 SP Run Only tests'
-        self.valid_systems = ['ibex:batch']
+        self.valid_systems = ['ibex:batch_mpi']
         self.valid_prog_environs = ['cpustack_builtin']
         
         # sourcesdir is a string which points to where the input files for this test is to be found.
         self.sourcesdir='../src/gromacs'
         
         # name of the resulting executable. This will be appended to the resulting srun command line.
-        self.executable='mpirun -np $SLURM_NTASKS gmx_mpi'
+        self.executable='gmx_mpi'
         # arguments if the executable "namd2" takes as a list. This is optional
         self.executable_opts="mdrun -deffnm md_0_1".split() 
         
