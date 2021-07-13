@@ -23,3 +23,9 @@ To run the tests under Maintaince
 ```sh
 reframe -c ibex_tests_v3 -Jreservation=<reservation_name> -r 
 ```
+## New features and enhancements in v 3.6.0
+
+- Deprecate the use of the @parameterized_test decorator 
+- The old syntax of defining timelimit using a (h, m, s) tuple is deprecated.
+- The prebuild_cmd, postbuild_cmd, pre_run and post_run attributes have been removed
+
