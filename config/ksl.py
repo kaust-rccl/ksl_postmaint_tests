@@ -1,5 +1,11 @@
+# Copyright 2016-2021 Swiss National Supercomputing Centre (CSCS/ETH Zurich)
+# ReFrame Project Developers. See the top-level LICENSE file for details.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 #
 #
+
 site_configuration = {
     'systems': [
         {
@@ -34,10 +40,10 @@ site_configuration = {
                             },
                             {
                             'name': 'constraint',
-                            'options': ['--constraint={value}']
+                            'options': ['--constraint={type}']
                             },
                             {
-                             'name': 'gpu',
+                             'name': '_rfm_gpu',
                              'options': ['--gres=gpu:{num_gpus_per_node}']
                             },
                             {
@@ -65,10 +71,10 @@ site_configuration = {
                             },
                             {
                             'name': 'constraint',
-                            'options': ['--constraint={value}']
+                            'options': ['--constraint={type}']
                             },
                             {
-                             'name': 'gpu',
+                             'name': '_rfm_gpu',
                              'options': ['--gres=gpu:{num_gpus_per_node}']
                             },
                             {
@@ -98,10 +104,10 @@ site_configuration = {
                             },
                             {
                             'name': 'constraint',
-                            'options': ['--constraint={value}']
+                            'options': ['--constraint={type}']
                             },
                             {
-                             'name': 'gpu',
+                             'name': '_rfm_gpu',
                              'options': ['--gres=gpu:{num_gpus_per_node}']
                             },
                             {
