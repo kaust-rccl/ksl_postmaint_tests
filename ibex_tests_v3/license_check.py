@@ -4,20 +4,17 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class license_check(rfm.RegressionTest):
-    def __init__(self,**kwargs):
-        super().__init__()
-        self.valid_systems = ['ibex:login','ibex:batch_nompi']
+      @rfm.run_after('init')
+      def setting_variables(self):
+        self.valid_systems = ['ibex:login','ibex:batch']
         self.descr = 'License check test by compiling a code using intel'
-        self.valid_prog_environs = ['intel']
-        self.modules=['intel/2019']
-        # note that resourcesdir is definted as $PWD/resourcesdir if RESORUCES_DIR variable has not been set
-        self.sourcesdir=os.path.join(self.current_system.resourcesdir,'license')
+        self.valid_prog_environs = ['cpustack_intel']
+        self.sourcesdir='../src/license'
         self.build_system='Make'
         self.executable='./a.out'
 
         # Job script attributes
-        self.modules=['intel/2019']
-        self.time_limit = (0,10,0)  #is a tuple in the format (H,M,S)
+        self.time_limit = '10m' #is a tuple in the format (H,M,S)
         self.num_tasks = 1
         self.num_cpus_per_task=1
         

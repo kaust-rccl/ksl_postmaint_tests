@@ -4,20 +4,21 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class namd_check(rfm.RunOnlyRegressionTest):
-    def __init__(self,**kwargs):
+      @rfm.run_after('init')
+      def setting_variables(self):
 
         self.descr = 'NAMD 2.13 CUDA version benchmark apoa1'
         
-        self.valid_systems = ['ibex:batch'] 
+        self.valid_systems = ['ibex:batch_mpi'] 
    
-        self.valid_prog_environs = ['intel_cuda']
+        self.valid_prog_environs = ['gpustack_builtin']
         
-        self.sourcesdir=os.path.join(self.current_system.resourcesdir,'namd')
+        self.sourcesdir='../src/namd'
         
         
         self.modules=['namd']
         #/2.13/cuda10-verbs-smp-icc17
-        self.pre_run = ['module list','which namd2','hostname','echo $MODULEPATH']
+        self.prerun_cmds = ['module list','which namd2','hostname','echo $MODULEPATH']
         #['export SLURM_CPU_BIND_TYPE=sockets','export SLURM_CPU_BIND_VERBOSE=verbose']
  
         self.executable='namd2'
@@ -26,12 +27,12 @@ class namd_check(rfm.RunOnlyRegressionTest):
         
         # Job script attributes
 
-        self.time_limit = (1,0,0)
+        self.time_limit = '1h'
         self.num_tasks = 1
         self.num_tasks_per_node = 1
         self.num_gpus_per_node=8
         self.num_cpus_per_task=8
-        
+        self.extra_resources = {'constraint': {'type': 'v100'}}
 
      
         self.sanity_patterns = sn.assert_eq(sn.count(sn.extractall(r'TIMING: (?P<step_num>\S+)  CPU:', self.stdout, 'step_num')),25)
@@ -42,7 +43,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
         
   
         self.reference = {
-                            'ibex' : {      'days_ns': (0.037, None, 0.1)
+                            'ibex' : {      'days_ns': (0.037, None, 0.1,None)
                                             },
                             }
         
@@ -52,6 +53,6 @@ class namd_check(rfm.RunOnlyRegressionTest):
         # initials or email of the maintainer    
         self.maintainers = ['MS']
 
-    def setup(self,partition,environ,**job_opts):
-        super().setup(partition,environ,**job_opts)
-        self.job.options = [ '--gres=gpu:%s:%s' % ('v100',self.num_gpus_per_node)]
+   # def setup(self,partition,environ,**job_opts):
+       # super().setup(partition,environ,**job_opts)
+        #self.job.options = [ '--gres=gpu:%s:%s' % ('v100',self.num_gpus_per_node)]
