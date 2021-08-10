@@ -4,6 +4,7 @@ import os
 
 @rfm.simple_test
 class singularity_checks(rfm.RunOnlyRegressionTest):
+
       @rfm.run_after('init')
       def setting_variables(self):
         self.descr = 'Run commands inside a container'
