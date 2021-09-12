@@ -21,7 +21,7 @@ class pytorch(rfm.RunOnlyRegressionTest):
           self.extra_resources = {'constraint': {'type': 'v100,gpu_ai'}}
           self.extra_resources = {'memory': {'size': '700G'}}
       
-          self.time_limit= '12h'
+          self.time_limit= '2h'
           self.prerun_cmds= ['module purge','module load gpustack','module load dl','module load cuda/10.2.89',
                              'module load pytorch/1.5.1 torchvision horovod/0.19.2',
                              'module swap openmpi-gpu openmpi/4.0.3-cuda10.2',
