@@ -15,7 +15,7 @@ class Cuda_perf_checks(rfm.RegressionTest):
         self.valid_prog_environs = ['gpustack_cuda']
         self.sourcesdir= '../src/cuda/perf_check'
         self.time_limit = '10m'
-        self.extra_resources = {'gpu': {'num_gpus_per_node': '1'}}
+        self.num_gpus_per_node=1
 
         # Resource and runtime settings
        
@@ -28,6 +28,16 @@ class Cuda_perf_checks(rfm.RegressionTest):
         # In the run phase invoke the executable name as below
         self.executable='./a.out'
         self.executable_opts = ['4096','1000']
+        if self.variant == 'v100':
+           self.extra_resources = {'constraint': {'type': 'v100'}}
+        elif self.variant == 'p100':
+           self.extra_resources = {'constraint': {'type': 'p100'}}
+        elif self.variant == 'rtx2080ti':
+           self.extra_resources = {'constraint': {'type': 'rtx2080ti'}}
+
+
+
+
         #Validation
         self.sanity_patterns = sn.assert_found (r'time for single matrix vector multiplication' , self.stdout)
         # Performance check
@@ -44,4 +54,3 @@ class Cuda_perf_checks(rfm.RegressionTest):
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
         
-
