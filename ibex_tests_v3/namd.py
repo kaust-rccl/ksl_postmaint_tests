@@ -9,7 +9,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
 
         self.descr = 'NAMD 2.13 CUDA version benchmark apoa1'
         
-        self.valid_systems = ['ibex:batch_mpi'] 
+        self.valid_systems = ['ibex:batch'] 
    
         self.valid_prog_environs = ['gpustack_builtin']
         
@@ -22,7 +22,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
         #['export SLURM_CPU_BIND_TYPE=sockets','export SLURM_CPU_BIND_VERBOSE=verbose']
  
         self.executable='namd2'
-        self.executable_opts = '+p8 +devices 0,1,2,3,4,5,6,7 +idlepoll +setcpuaffinity apoa1.namd'.split()
+        self.executable_opts = '+p8 +devices 0,1,2,3,4,5,6,7 +idlepoll  apoa1.namd'.split()
         
         
         # Job script attributes
@@ -47,7 +47,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
                                             },
                             }
         
-        self.tags = {'namd','acceptance'}
+        self.tags = {'gpu','acceptance'}
 
         
         # initials or email of the maintainer    

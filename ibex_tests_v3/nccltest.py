@@ -11,7 +11,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            ## TEST BASIC INFO
       maintainers = ['rana.selim@kaust.edu.sa']
       descr = 'running nccl tests'
-      tags = {'nccl'}
+      tags = {'gpu'}
 
            ## SETTING TEST ENV
       sourcesdir= None
@@ -34,7 +34,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.num_tasks=1
            self.extra_resources = {'memory': {'size': '700G'}}          
            self.executable='all_reduce_perf -g 8 -o all -c 1 -f 2 -d all'
-           self.num_cpus_per_task=48
+           self.num_cpus_per_task=46
 
 
 
@@ -46,9 +46,9 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.time_limit = '2h'
            self.extra_resources = {'constraint': {'type': 'v100'}}
 
-           self.num_cpus_per_task=48
+           self.num_cpus_per_task=46
 
-           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores numactl --physcpubind=0,12,24,36 all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
+           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores  numactl --physcpubind=0,12,24,36 all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
            self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list']
 
       

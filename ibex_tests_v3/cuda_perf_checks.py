@@ -50,7 +50,7 @@ class Cuda_perf_checks(rfm.RegressionTest):
                                             'rtx2080ti': (6.6,-0.1,None,None)
                                             },
                             }
-        self.tags = {'cuda',self.variant,'acceptance'}
+        self.tags = {'gpu',self.variant,'acceptance'}
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
         

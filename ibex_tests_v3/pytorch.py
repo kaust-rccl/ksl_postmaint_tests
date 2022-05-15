@@ -9,7 +9,7 @@ class pytorch(rfm.RunOnlyRegressionTest):
            ## TEST BASIC INFO
           self.maintainers = ['rana.selim@kaust.edu.sa']
           self.descr = 'running pytorch test'
-          self.tags = {'pytorch'}
+          self.tags = {'gpu'}
     
                ## SETTING TEST ENV
           self.sourcesdir= '../src/pytorch'
