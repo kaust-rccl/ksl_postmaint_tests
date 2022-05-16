@@ -4,7 +4,7 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class Cuda_device_checks(rfm.RegressionTest):
-      variant= parameter(['v100', 'p100','rtx2080ti'])
+      variant= parameter(['v100_4','v100_8', 'p100','rtx2080ti'])
 
       @rfm.run_after('init')
       def setting_variables(self):
@@ -15,7 +15,10 @@ class Cuda_device_checks(rfm.RegressionTest):
         self.valid_prog_environs = ['gpustack_cuda']
         self.sourcesdir= '../src/cuda/device_check'
         self.time_limit = '10m'
-        self.num_gpus_per_node=1
+        if self.variant == 'v100_8' or self.variant == 'rtx2080ti' :
+           self.num_gpus_per_node=8
+        else:
+           self.num_gpus_per_node=4
 
         # Resource and runtime settings
        
@@ -27,8 +30,7 @@ class Cuda_device_checks(rfm.RegressionTest):
         self.build_system='Make'
         # In the run phase invoke the executable name as below
         self.executable='./a.out'
-        self.executable_opts = ['4096','1000']
-        if self.variant == 'v100':
+        if self.variant == 'v100_4' or self.variant == 'v100_8':
            self.extra_resources = {'constraint': {'type': 'v100'}}
         elif self.variant == 'p100':
            self.extra_resources = {'constraint': {'type': 'p100'}}
@@ -39,18 +41,19 @@ class Cuda_device_checks(rfm.RegressionTest):
 
 
         #Validation
-        self.sanity_patterns = sn.assert_found (r'DevCount' , self.stdout)
+        self.sanity_patterns = sn.assert_found (r'Devcount' , self.stdout)
         # Performance check
          
         self.perf_patterns = {self.variant : 
-                sn.extractsingle(r'DevCount\s+(?P<devices>\S+)', self.stdout, 'devices', int)}
+                sn.extractsingle(r'Devcount\s+(?P<devices>\S+)', self.stdout, 'devices', int)}
         self.reference = {
-                            'ibex' : {      'p100': (4),
-                                            'v100': (8),
-                                            'rtx2080ti': (8)
+                            'ibex' : {      'p100': (4,None,None,None),
+                                            'v100_4': (4,None,None,None),
+                                            'v100_8': (8,None,None,None),
+                                            'rtx2080ti': (8,None,None,None)
                                             },
                             }
-        self.tags = {'gpu',self.variant,'acceptance'}
+        self.tags = {'gpu',self.variant,'acceptance','device_query'}
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
         
