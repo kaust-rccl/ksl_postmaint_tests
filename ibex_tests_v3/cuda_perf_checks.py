@@ -4,7 +4,7 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class Cuda_perf_checks(rfm.RegressionTest):
-      variant= parameter(['v100', 'p100','rtx2080ti'])
+      variant= parameter(['v100_4','v100_8', 'p100','rtx2080ti','a100_4','a100_8'])
 
       @rfm.run_after('init')
       def setting_variables(self):
@@ -28,12 +28,18 @@ class Cuda_perf_checks(rfm.RegressionTest):
         # In the run phase invoke the executable name as below
         self.executable='./a.out'
         self.executable_opts = ['4096','1000']
-        if self.variant == 'v100':
-           self.extra_resources = {'constraint': {'type': 'v100'}}
+        if self.variant == 'v100_4':
+           self.extra_resources = {'constraint': {'type': 'v100,cpu_intel_gold_6142'}}
+        elif self.variant == 'v100_8':
+           self.extra_resources = {'constraint': {'type': 'v100,gpu_ai'}}
         elif self.variant == 'p100':
            self.extra_resources = {'constraint': {'type': 'p100'}}
         elif self.variant == 'rtx2080ti':
            self.extra_resources = {'constraint': {'type': 'rtx2080ti'}}
+        elif self.variant == 'a100_4':
+           self.extra_resources = {'constraint': {'type': 'a100,4gpus'}}
+        elif self.variant == 'a100_8':
+           self.extra_resources = {'constraint': {'type': 'a100,8gpus'}}
 
 
 
@@ -46,11 +52,14 @@ class Cuda_perf_checks(rfm.RegressionTest):
                 sn.extractsingle(r'Performance:\s+(?P<Gflops>\S+) Gflop/s', self.stdout, 'Gflops', float)}
         self.reference = {
                             'ibex' : {      'p100': (6.6,-0.1,None,None),
-                                            'v100': (60.0,-0.1,None,None),
-                                            'rtx2080ti': (6.6,-0.1,None,None)
-                                            },
+                                            'v100_4': (53,-0.1,None,None),
+                                            'v100_8': (53,-0.1,None,None),
+                                            'rtx2080ti': (6.6,-0.1,None,None),
+                                            'a100_4': (38,-0.1,None,None),
+                                            'a100_8': (38,-0.1,None,None)
+    },
                             }
         self.tags = {'gpu',self.variant,'acceptance'}
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        
+       
