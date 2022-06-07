@@ -17,7 +17,7 @@ class singularity_checks(rfm.RunOnlyRegressionTest):
         self.num_tasks=4
         self.num_tasks_per_node=4
         
-        self.prerun_cmds = ['module purge','module load singularity/3.5','module load mpich','XDG_RUNTIME_DIR=${PWD} singularity pull docker://mshaikh/hpl_mpich314:latest; export SINGULARITYENV_LD_LIBRARY_PATH=/software/lib:$LD_LIBRARY_PATH;export SINGULARITYENV_PATH=/software/bin:$_PATH']
+        self.prerun_cmds = ['module purge','module load default-appstack','module load singularity/3.5','module load mpich','XDG_RUNTIME_DIR=${PWD} singularity pull docker://mshaikh/hpl_mpich314:latest; export SINGULARITYENV_LD_LIBRARY_PATH=/software/lib:$LD_LIBRARY_PATH;export SINGULARITYENV_PATH=/software/bin:$_PATH']
 
         self.executable = 'singularity exec hpl_mpich314_latest.sif /hpl/bin/ubuntu/xhpl'
         
