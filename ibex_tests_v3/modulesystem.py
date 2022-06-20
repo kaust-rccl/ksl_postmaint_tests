@@ -4,14 +4,15 @@ import reframe.utility.sanity as sn
 import os
 
 @rfm.simple_test
-class fs_check(rfm.RunOnlyRegressionTest):
+class modulesystem(rfm.RunOnlyRegressionTest):
 
       variant= parameter(['avail','load','purge'])
       valid_systems = ['ibex:login','ibex:batch']
-      valid_prog_environs = ['builtin']
+      valid_prog_environs = ['cpustack_builtin']
       sourcesdir=None
       num_tasks=1
       time_limit='3m'
+      tags={'module'}
 
       @rfm.run_after('init')
       def setting_variables(self):
@@ -26,7 +27,7 @@ class fs_check(rfm.RunOnlyRegressionTest):
             self.prerun_cmds = ['module load git','module purge']
             self.executable='module list'
             self.sanity_patterns =sn.assert_found(r'No Modulefiles Currently Loaded.',self.stderr)
-
+      
 
 
 

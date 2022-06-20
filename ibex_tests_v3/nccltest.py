@@ -62,13 +62,20 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            #self.num_gpus_per_node=8
 
 
-           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores  all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
+       
+        elif self.variant == 'a100_8_multinode':
 
+           self.num_tasks=2
+           self.time_limit = '2h'
+           self.extra_resources = {'constraint': {'type': 'a100'}}
+           self.num_cpus_per_task=46
+           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores    all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
            self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list']
           # self.num_gpus_per_node=8
 
+       
 
-        self.tags = {'gpu',self.variant,'acceptance'}
+        self.tags = {'gpu',self.variant,'acceptance','nccl'}
 
                 
     

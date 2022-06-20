@@ -24,7 +24,7 @@ class slurm_check(rfm.RunOnlyRegressionTest):
             self.sanity_patterns =sn.assert_found(r'JobID    JobName  Partition    Account  AllocCPUS      State ExitCode',self.stdout)
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        self.tags = {'slurm_check'}
+        self.tags = {'slurm','acceptance'}
 
 
 
