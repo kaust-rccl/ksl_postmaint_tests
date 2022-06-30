@@ -7,7 +7,7 @@ class openfoam_test(rfm.RunOnlyRegressionTest):
       variant= parameter(['openfoam_runtime'])
       maintainers = ['passant.hafez@kaust.edu.sa']
       descr = 'running OpenFOAM case'
-      tags = {'openfoam','of'}
+      tags = {'openfoam','of','cpu'}
       sourcesdir = '../src/openfoam'
       valid_systems = ['ibex:batch']
 #      valid_prog_environs = ['gpustack_openmpi']

@@ -7,7 +7,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
       variant= parameter(['gpu_multi_bw'])
       maintainers = ['passant.hafez@kaust.edu.sa']
       descr = 'running OSU BM on GPUs'
-      tags = {'osu_gpu','osu-gpu','osu','bandwidth','bw'}
+      tags = {'osu','gpu','bw','bandwidth','acceptance'}
       sourcesdir= None
       valid_systems = ['ibex:batch']
 #      valid_prog_environs = ['gpustack_openmpi']
@@ -42,4 +42,3 @@ class osu_test(rfm.RunOnlyRegressionTest):
                               '--ntasks=4',
                               '--constraint=v100,gpu_ai',
                               '--account=ibex-cs']
-

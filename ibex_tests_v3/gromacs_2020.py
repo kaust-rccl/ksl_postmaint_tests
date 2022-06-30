@@ -86,7 +86,7 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 #                                     }
                        #     }
 #tags are useful to filter tests when not all but specific the tests are suppose to run
-        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance'}
+        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
         
         # initials or email of the maintainer    
         #self.maintainers = ['MS']

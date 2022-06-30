@@ -59,7 +59,7 @@ class Cuda_perf_checks(rfm.RegressionTest):
                                             'a100_8': (38,-0.1,None,None)
     },
                             }
-        self.tags = {'gpu',self.variant,'acceptance','cuda'}
+        self.tags = {'gpu',self.variant,'acceptance','cuda','perf_checks'}
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
        

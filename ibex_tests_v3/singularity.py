@@ -35,4 +35,4 @@ class singularity_checks(rfm.RunOnlyRegressionTest):
                     },
             }        
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        self.tags = {'singularity'}
+        self.tags = {'singularity','cpu'}

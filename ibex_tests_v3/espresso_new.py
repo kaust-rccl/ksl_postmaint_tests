@@ -10,7 +10,7 @@ class espresso(rfm.RunOnlyRegressionTest):
       def setting_variables(self):
 
         self.maintainers = ['amr.radwan@kaust.edu.sa']
-        self.tags = {'espresso'}
+        self.tags = {'espresso','cpu'}
         self.valid_systems = ['ibex:batch_mpi']
         self.sourcesdir = '../src/espresso'
 
