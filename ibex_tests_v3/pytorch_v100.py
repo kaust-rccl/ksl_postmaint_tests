@@ -4,12 +4,14 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class pytorch(rfm.RunOnlyRegressionTest):
+      variant= parameter(['v100_8_multinode'])
+
       @rfm.run_after('init')
       def setting_variables(self):
            ## TEST BASIC INFO
           self.maintainers = ['rana.selim@kaust.edu.sa']
           self.descr = 'running pytorch test'
-          self.tags = {'pytorch','v100','gpu'}
+          self.tags = {'pytorch',self.variant,'gpu'}
     
                ## SETTING TEST ENV
           self.sourcesdir= '../src/pytorch'
