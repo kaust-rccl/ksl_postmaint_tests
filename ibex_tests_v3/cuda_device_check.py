@@ -53,7 +53,7 @@ class Cuda_device_checks(rfm.RegressionTest):
                                             'rtx2080ti': (8,None,None,None)
                                             },
                             }
-        self.tags = {'gpu',self.variant,'acceptance','device_query'}
+        self.tags = {'gpu',self.variant,'acceptance','device_query','cuda'}
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
         

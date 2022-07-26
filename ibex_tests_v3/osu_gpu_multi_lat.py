@@ -7,7 +7,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
       variant= parameter(['gpu_multi_lat'])
       maintainers = ['passant.hafez@kaust.edu.sa']
       descr = 'running OSU BM on GPUs'
-      tags = {'osu_gpu','osu-gpu','osu','latency','lat'}
+      tags = {'osu','gpu','latency','lat','acceptance'}
       sourcesdir= None
       valid_systems = ['ibex:batch']
 #      valid_prog_environs = ['gpustack_openmpi']

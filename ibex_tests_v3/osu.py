@@ -7,7 +7,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
       variant= parameter(['latency', 'bandwidth','bibandwidth'])
       maintainers = ['passant.hafez@kaust.edu.sa']
       descr = 'running OSU BM'
-      tags = {'osu'}
+      tags = {'osu','cpu','acceptance'}
       sourcesdir= None
       valid_prog_environs = ['cpustack_gnu']
       valid_systems = ['ibex:batch_mpi']
