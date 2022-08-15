@@ -14,7 +14,7 @@ class pytorch(rfm.RunOnlyRegressionTest):
           self.tags = {'pytorch',self.variant,'gpu'}
     
                ## SETTING TEST ENV
-          self.sourcesdir= '../src/pytorch'
+          self.sourcesdir= '../src/pytorch/v100'
           self.valid_prog_environs = ['gpustack_builtin']
           self.valid_systems = ['ibex:batch']
           #self.modules = ['']
@@ -39,8 +39,8 @@ class pytorch(rfm.RunOnlyRegressionTest):
           self.job.options = ['--gpus=16',
                               '--gpus-per-node=4',
                               #'--account=ibex-cs'
-                              '--output=rfm_pytorch_job.err',  
-                              '--error=rfm_pytorch_job.out']
+                              '--output=rfm_pytorch_v100_8_multinode_job.err',  
+                              '--error=rfm_pytorch_v100_8_multinode_job.out']
 
 
       @rfm.run_before('sanity')

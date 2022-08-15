@@ -10,10 +10,10 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
       variant= parameter(['small', 'medium','large','multinode'])
       reference = {
                      'ibex' : {
-                       'small': (35, -0.15, 0.15,None),
-                       'medium': (74, -0.15, 0.15,None),
-                       'large': (140, -0.15, 0.15,None),
-                       'multinode': (70, -0.15, 0.15,None)
+                       'small': (35, -0.15, None,None),
+                       'medium': (74, -0.15, None,None),
+                       'large': (140, -0.15, None,None),
+                       'multinode': (70, -0.15, None,None)
 
                                      }
                             }

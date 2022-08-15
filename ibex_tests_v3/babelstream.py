@@ -5,7 +5,7 @@ import reframe.utility.sanity as sn
 @rfm.simple_test
 class babelstream_tests(rfm.RunOnlyRegressionTest):
 
-      variant= parameter(['a100_4_singlenode','v100_4_singlenode'])
+      variant= parameter(['a100_4_singlenode'])
 
 
            ## TEST BASIC INFO
@@ -53,6 +53,4 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
       @rfm.run_before('performance')
       def set_perf_patterns(self):
           self.perf_patterns = {self.variant : sn.extractsingle(r'^[T]\w+[(]\w+[)]\s(?P<Traid>\d*\.\d+)', self.stdout, 'Traid' , float)}
-
-
 

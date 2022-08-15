@@ -29,14 +29,14 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
       def setting_variables(self):
         self.path='HPL.out'
         if self.variant == 'a100_4_singlenode': 
-           self.time_limit = '2h'
+           self.time_limit = '1h'
            self.num_tasks=4
            self.num_gpus_per_node=4
            self.extra_resources = {'memory': {'size': '450G'},'constraint': {'type': 'a100'},'nodes': {'num_of_nodes': '1'}}
-           self.executable='srun -u -n ${SLURM_NTASKS} -c ${CPUS} --cpu-bind=map_cpu:48-55,32-39,16-23,2-9 singularity run --nv $IMAGE hpl.sh --cpu-affinity +48-55:32-39:16-23:2-9 --cpu-cores-per-rank ${CPUS} --gpu-affinity 3:2:1:0 --dat ./HPL.dat.a100.G4N1'
-           self.num_cpus_per_task=14
+           self.executable='srun -u -n ${SLURM_NTASKS} -c ${SLURM_CPUS_PER_TASK} --cpu-bind=map_cpu:32-39:48-55:2-9:16-23 singularity run --nv $IMAGE hpl.sh --cpu-affinity 32-39:48-55:2-9:16-23 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3 --dat ./HPL.dat.a100.G4N1'
+           self.num_cpus_per_task=15
            
-           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','module load openmpi/4.0.3-cuda11.2.2','export IMAGE=./hpl_sing.sif','export CPUS=8','export OMPI_MCA_btl_openib_warn_no_device_params_found=0']
+           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=8','export OMPI_MCA_btl_openib_warn_no_device_params_found=0']
 
            self.sourcesdir='../src/hpl/'
            self.tags = {'hpl','gpu',self.variant,'acceptance'}

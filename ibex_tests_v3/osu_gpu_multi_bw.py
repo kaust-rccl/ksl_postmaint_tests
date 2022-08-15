@@ -17,9 +17,9 @@ class osu_test(rfm.RunOnlyRegressionTest):
 
       reference = {
                         'ibex' : {
-                                'bw_1B' :(10.81,-0.15,None,None),
-                                'bw_8K' :(44658,-0.12,None,None),
-                                'bw_4M' : (85924,-0.03,None,None)
+                                'bw_1B' :(2.9,-0.15,None,None),
+                                'bw_8K' :(10742,-0.12,None,None),
+                                'bw_4M' : (21302,-0.03,None,None)
                                  }
                   }
 
