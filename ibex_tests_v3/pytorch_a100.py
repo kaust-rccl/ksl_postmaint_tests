@@ -17,9 +17,6 @@ class pytorch(rfm.RunOnlyRegressionTest):
           self.valid_systems = ['ibex:batch']
           self.time_limit= '3h'
 
-          self.num_tasks= 16
-          self.num_cpus_per_task=6
-          self.extra_resources = {'constraint': {'type': 'v100,gpu_ai'},'memory': {'size': '700G'}}
       
           self.prerun_cmds= ['module purge','module load gpustack','module load cuda/11.2.2','module load dl',
                              'module load pytorch/1.9.0 torchvision  horovod/0.22.1_torch',
