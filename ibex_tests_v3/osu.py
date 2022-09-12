@@ -11,7 +11,8 @@ class osu_test(rfm.RunOnlyRegressionTest):
       sourcesdir= None
       valid_prog_environs = ['cpustack_gnu']
       valid_systems = ['ibex:batch_mpi']
-      modules = ['openmpi/4.0.3','/ibex/scratch/projects/swtools/modulefiles/osu-microbenchmarks/5.6.2']
+      #modules = ['openmpi/4.0.3','/ibex/scratch/projects/swtools/modulefiles/osu-microbenchmarks/5.7.1']
+      modules = ['openmpi/4.0.3']
       time_limit = "10m"
       num_tasks = 2
       num_tasks_per_node = 1
@@ -28,18 +29,18 @@ class osu_test(rfm.RunOnlyRegressionTest):
       def setting_parameters(self):
         if self.variant == "latency":
            self.executable='osu_latency'
-           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Latency Test v5.6.2', self.stdout)
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Latency Test v5.7.1', self.stdout)
            self.perf_patterns = {
                                 self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBlat>\S+)',self.stdout, 'FourGBlat', float)}
 
         
         elif self.variant == "bandwidth":
            self.executable='osu_bw'
-           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bandwidth Test v5.6.2', self.stdout)
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bandwidth Test v5.7.1', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbw>\S+)',self.stdout, 'FourGBbw', float)}
 
         elif self.variant == "bibandwidth":
            self.executable= 'osu_bibw'
-           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bi-Directional Bandwidth Test v5.6.2', self.stdout)
+           self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bi-Directional Bandwidth Test v5.7.1', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbibw>\S+)',self.stdout, 'FourGBbibw', float)}
 
