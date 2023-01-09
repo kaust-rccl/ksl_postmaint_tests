@@ -22,7 +22,7 @@ class pytorch(rfm.RunOnlyRegressionTest):
                              'module load pytorch/1.9.0 torchvision  horovod/0.22.1_torch',
                              'export OMPI_MCA_btl_openib_warn_no_device_params_found=0',
                              'export UCX_MEMTYPE_CACHE=n','export UCX_TLS=tcp',
-                             'export DATA_DIR="/local/reference/CV/ILSVR/classification-localization/data/jpeg"',
+                             'export DATA_DIR="/ibex/ai/reference/CV/ILSVR/classification-localization/data/jpeg/"',
                              'export main_exe="./train_resnet50.py"','batch_size=256',
                              'epochs=5', 'export workers=${SLURM_CPUS_PER_TASK}','module list',
 'export cmd="python3 ${main_exe} --epochs ${epochs} --batch-size ${batch_size} --num_workers=$workers --root-dir=${DATA_DIR} --train-dir ${DATA_DIR}/train --val-dir ${DATA_DIR}/val ${NODE_LOCAL_STORAGE}"']
@@ -71,7 +71,7 @@ class pytorch(rfm.RunOnlyRegressionTest):
       reference = {
                         'ibex' : {
                                 'a100_8_singlenode' : (1100,None,+10,None),
-                                'a100_4_singlenode' : (2600,None,+10,None),
+                                'a100_4_singlenode' : (2200,None,+10,None),
                                 'a100_8_4GPUS_singlenode' : (2100,None,+10,None),
 
 
