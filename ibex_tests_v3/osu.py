@@ -6,7 +6,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
       variant= parameter(['latency', 'bandwidth','bibandwidth'])
       maintainers = ['mohsin.shaikh@kaust.edu.sa']
       descr = 'running OSU BM'
-      tags = {'osu','acceptance'}
+      #tags = {'osu','acceptance'}
       sourcesdir= None
       time_limit = "10m"
 
@@ -19,7 +19,7 @@ class osu_gpu(osu_test):
       valid_prog_environs = ['gpustack_builtin']
       valid_systems = ['ibex:batch']
       modules = ['openmpi/4.0.3-cuda11.2.2']
-      tags |= {'gpu'}
+      tags = {'gpu','osu','acceptance'}
       num_tasks = 2
       num_tasks_per_node = 1
       
@@ -58,9 +58,9 @@ class osu_gpu(osu_test):
 
       reference = {
                         'ibex' : {
-                                'latency' : (390.0,None,0.1,None),
-                                'bandwidth' : (12000.0,-0.1,None,None),
-                                'bibandwidth' : (24000.0,-0.1,None,None),
+                                'latency' : (160.0,None,0.1,None),
+                                'bandwidth' : (305000.0,-0.1,None,None),
+                                'bibandwidth' : (270000.0,-0.1,None,None),
                                  }
                         }
 
@@ -68,15 +68,17 @@ class osu_gpu(osu_test):
 class osu_cpu(osu_test):
       valid_prog_environs = ['cpustack_gnu']
       valid_systems = ['ibex:batch_mpi']
+      num_tasks = 2
+      num_tasks_per_node = 1
       modules = ['openmpi/4.0.3']
-      tags |= {'cpu'}
+      tags = {'cpu','osu','acceptance'}
       @rfm.run_after('init')
       def setting_parameters(self):
         if self.variant == "latency":
            self.executable='osu_latency'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI Latency Test v5.7.1', self.stdout)
            self.perf_patterns = {
-                                self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBlat>\S+)',self.stdout, 'FourGBlat', float)}
+                                self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBlat>\S+)',self.stdout, 'FourGBlat' , float)}
 
 
         elif self.variant == "bandwidth":
@@ -91,7 +93,7 @@ class osu_cpu(osu_test):
 
       reference = {
                         'ibex' : {
-                                'latency' : (390.0,None,0.1,None),
+                                'latency' : (390.0,None,0.1,'FourGBlat'),
                                 'bandwidth' : (12000.0,-0.1,None,None),
                                 'bibandwidth' : (24000.0,-0.1,None,None),
                                  }

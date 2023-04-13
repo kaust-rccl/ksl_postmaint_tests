@@ -22,7 +22,7 @@ class fs_check(rfm.RunOnlyRegressionTest):
             self.sanity_patterns =sn.assert_found(r'/ibex/scratch',self.stdout)
         
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        self.tags = {'filesystem','acceptance'}
+        self.tags = {'filesystem','acceptance','cpu'}
 
 
 

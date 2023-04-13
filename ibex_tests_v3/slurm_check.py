@@ -21,10 +21,10 @@ class slurm_check(rfm.RunOnlyRegressionTest):
             self.sanity_patterns =sn.assert_found(r'NODELIST',self.stdout)
         elif self.variant == "sacct":
             self.executable='sacct'
-            self.sanity_patterns =sn.assert_found(r'JobID    JobName  Partition    Account  AllocCPUS      State ExitCode',self.stdout)
+            self.sanity_patterns =sn.assert_found(r'JobID           JobName  Partition    Account  AllocCPUS      State ExitCode',self.stdout)
 
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        self.tags = {'slurm','acceptance'}
+        self.tags = {'slurm','acceptance','cpu'}
 
 
 
