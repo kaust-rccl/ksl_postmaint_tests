@@ -44,7 +44,7 @@ class pytorch_a100_gpu(pytorch_test):
                              'export DATA_DIR="/ibex/ai/reference/CV/ILSVR/classification-localization/data/jpeg/"',
                              'export main_exe="./train_resnet50.py"','batch_size=256',
                              'epochs=5', 'export workers=${SLURM_CPUS_PER_TASK}','module list',
-                             'export cmd="python3 ${main_exe} --epochs ${epochs} --batch-size ${batch_size} --num_workers=$workers --root-dir=${DATA_DIR} --train-dir ${DATA_DIR}/train --val-dir ${DATA_DIR}/val ${NODE_LOCAL_STORAGE}"']
+                             'export cmd="python3 ${main_exe} --epochs ${epochs} --batch-size ${batch_size} --num_workers=$workers --root-dir=${DATA_DIR} --train-dir ${DATA_DIR}/train --val-dir ${DATA_DIR}/val ${NODE_LOCAL_STORAGE}"','./env.sh']
           
           self.executable= 'time -p srun -u -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} ${cmd} --log-dir=log.${SLURM_JOBID} --warmup-epochs=0.0'
           
@@ -99,7 +99,7 @@ class pytorch_v100_gpu(pytorch_test):
                              'export DATA_DIR="/ibex/ai/reference/CV/ILSVR/classification-localization/data/jpeg/"',
                              'export main_exe="./train_resnet50.py"','batch_size=256',
                              'epochs=5', 'export workers=${SLURM_CPUS_PER_TASK}','module list',
-                             'export cmd="python3 ${main_exe} --epochs ${epochs} --batch-size ${batch_size} --num_workers=$workers --root-dir=${DATA_DIR} --train-dir ${DATA_DIR}/train --val-dir ${DATA_DIR}/val ${NODE_LOCAL_STORAGE}"']
+                             'export cmd="python3 ${main_exe} --epochs ${epochs} --batch-size ${batch_size} --num_workers=$workers --root-dir=${DATA_DIR} --train-dir ${DATA_DIR}/train --val-dir ${DATA_DIR}/val ${NODE_LOCAL_STORAGE}"','./env.sh']
 
         self.executable= 'time -p srun -u -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} ${cmd} --log-dir=log.${SLURM_JOBID} --warmup-epochs=0.0'  
         

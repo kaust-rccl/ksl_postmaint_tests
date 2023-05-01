@@ -12,7 +12,8 @@ class fs_check(rfm.RunOnlyRegressionTest):
         self.descr = 'Filesystem mount check on longin and compute nodes'
         self.valid_systems = ['ibex:login','ibex:batch']
         self.valid_prog_environs = ['cpustack_builtin']
-        self.sourcesdir=None
+        self.sourcesdir='../src/env'
+        self.prerun_cmds = ['./env.sh']
         self.executable='mount'
         self.num_tasks=1
         self.time_limit='10m'
