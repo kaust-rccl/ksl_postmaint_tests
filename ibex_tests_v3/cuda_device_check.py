@@ -29,6 +29,7 @@ class Cuda_device_checks(rfm.RegressionTest):
         # Build source using makefile provided in the resourcesdir
         self.build_system='Make'
         # In the run phase invoke the executable name as below
+        self.prerun_cmds = ['./env.sh']
         self.executable='./a.out'
         if self.variant == 'v100_4' or self.variant == 'v100_8':
            self.extra_resources = {'constraint': {'type': 'v100'}}

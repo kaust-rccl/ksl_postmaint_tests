@@ -12,7 +12,7 @@ class modulesystem(rfm.RunOnlyRegressionTest):
       sourcesdir=None
       num_tasks=1
       time_limit='3m'
-      tags={'module','acceptance'}
+      tags={'module','acceptance','cpu'}
 
       @rfm.run_after('init')
       def setting_variables(self):

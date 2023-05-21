@@ -13,7 +13,7 @@ class espresso(rfm.RunOnlyRegressionTest):
         self.tags = {'espresso','cpu'}
         self.valid_systems = ['ibex:batch_mpi']
         self.sourcesdir = '../src/espresso'
-
+        self.prerun_cmds = ['./env.sh']
         self.valid_prog_environs = ['cpustack_builtin']
         self.modules=['quantumespresso/6.4.1/openmpi3.0.0-intel17']
         self.executable = 'pw.x'

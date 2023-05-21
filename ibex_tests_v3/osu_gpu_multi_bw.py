@@ -8,7 +8,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
       maintainers = ['passant.hafez@kaust.edu.sa']
       descr = 'running OSU BM on GPUs'
       tags = {'osu','gpu','bw','bandwidth','acceptance'}
-      sourcesdir= None
+      sourcesdir= '../src/env'
       valid_systems = ['ibex:batch']
 #      valid_prog_environs = ['gpustack_openmpi']
       valid_prog_environs = ['gpustack_builtin']
@@ -26,6 +26,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
 
       @rfm.run_after('init')
       def setting_parameters(self):
+           self.prerun_cmds = ['./env.sh']
            self.executable = 'srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} $OSU_DIR/../get_local_rank $OSU_DIR/pt2pt/osu_mbw_mr -d cuda D D'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI Multiple Bandwidth / Message Rate Test v5.6.3', self.stdout)
            self.perf_patterns = {

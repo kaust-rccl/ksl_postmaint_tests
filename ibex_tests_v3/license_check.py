@@ -21,6 +21,6 @@ class license_check(rfm.RegressionTest):
         self.sanity_patterns = sn.assert_found(r'70', self.stdout)
         
         # tags are useful to filter tests when not all but specific the tests are suppose to run
-        self.tags = {'license_check'}
+        self.tags = {'license_check','cpu'}
 
 
