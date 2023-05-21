@@ -27,6 +27,7 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
       @rfm.run_after('init')
       def setting_variables(self):
         self.time_limit = '20m'
+        self.prerun_cmds = ['./env.sh']
         self.executable='srun ./run_script_ksl_cs_storm.sh'
         self.sourcesdir='../src/babelstream'
         self.tags = {'babelstream','gpu',self.variant,'acceptance'}

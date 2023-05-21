@@ -22,8 +22,8 @@ class osu_gpu(osu_test):
       tags = {'gpu','osu','acceptance'}
       num_tasks = 2
       num_tasks_per_node = 1
-      
-
+      sourcesdir = '../src/env' 
+     
 
  
       @rfm.run_before('run')
@@ -40,19 +40,22 @@ class osu_gpu(osu_test):
             self.tags |= {'a100'}
             
         if self.variant == "latency":
-           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency D D'
+           self.prerun_cmds = ['./env.sh']
+           self.executable='nvidia-smi --query-gpu=gpu_name,gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency D D'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI-CUDA ', self.stdout)
            self.perf_patterns = {
                                 self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBlat>\S+)',self.stdout, 'FourGBlat', float)}
 
         
         elif self.variant == "bandwidth":
-           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw D D'
+           self.prerun_cmds = ['./env.sh']
+           self.executable='nvidia-smi --query-gpu=gpu_name,gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw D D'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI-CUDA ', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbw>\S+)',self.stdout, 'FourGBbw', float)}
 
         elif self.variant == "bibandwidth":
-           self.executable= 'srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw D D'
+           self.prerun_cmds = ['./env.sh']
+           self.executable= 'nvidia-smi --query-gpu=gpu_name,gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw D D'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI-CUDA ', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbibw>\S+)',self.stdout, 'FourGBbibw', float)}
 
@@ -71,10 +74,12 @@ class osu_cpu(osu_test):
       num_tasks = 2
       num_tasks_per_node = 1
       modules = ['openmpi/4.0.3']
+      sourcesdir = '../src/env'
       tags = {'cpu','osu','acceptance'}
       @rfm.run_after('init')
       def setting_parameters(self):
         if self.variant == "latency":
+           self.prerun_cmds = ['./env.sh']
            self.executable='osu_latency'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI Latency Test v5.7.1', self.stdout)
            self.perf_patterns = {
@@ -82,11 +87,13 @@ class osu_cpu(osu_test):
 
 
         elif self.variant == "bandwidth":
+           self.prerun_cmds = ['./env.sh']
            self.executable='osu_bw'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bandwidth Test v5.7.1', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbw>\S+)',self.stdout, 'FourGBbw', float)}
 
         elif self.variant == "bibandwidth":
+           self.prerun_cmds = ['./env.sh']
            self.executable= 'osu_bibw'
            self.sanity_patterns = sn.assert_found(r'^# OSU MPI Bi-Directional Bandwidth Test v5.7.1', self.stdout)
            self.perf_patterns = {self.variant: sn.extractsingle(r'^4194304\s+(?P<FourGBbibw>\S+)',self.stdout, 'FourGBbibw', float)}

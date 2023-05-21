@@ -11,7 +11,7 @@ class ring_check(rfm.RegressionTest):
         self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['cpustack_openmpi','cpustack_intelmpi']
         self.sourcesdir='../src/ring'
-        
+        self.prerun_cmds = ['./env.sh'] 
         self.executable='./ring'
         self.executable_opts = ['1024', '10']
         self.build_system = 'Make'

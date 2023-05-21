@@ -15,7 +15,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
       tags = {'gpu','nccl'}
 
            ## SETTING TEST ENV
-      sourcesdir= None
+      sourcesdir= '../src/env'
       valid_prog_environs = ['gpustack_builtin']
       valid_systems = ['ibex:batch']
       modules = ['dl','cuda/10.2.89','openmpi/4.0.3-cuda10.2','nccl/2.7.3.1']
@@ -35,7 +35,8 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         if self.variant == 'v100_8_singlenode': 
            self.time_limit = '30m'
            self.num_tasks=1
-           self.extra_resources = {'memory': {'size': '700G'}}          
+           self.extra_resources = {'memory': {'size': '700G'}}     
+           self.prerun_cmds = ['./env.sh']     
            self.executable='all_reduce_perf -g 8 -o all -c 1 -f 2 -d all'
            self.num_cpus_per_task=46
            self.num_gpus_per_node=8
@@ -44,6 +45,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         elif self.variant == 'a100_8_singlenode':
            self.time_limit = '30m'
            self.num_tasks=1
+           self.prerun_cmds = ['./env.sh']
            self.executable='all_reduce_perf -g 8 -o all -c 1 -f 2 -d all'
            self.num_cpus_per_task=46
            self.num_gpus_per_node=8
@@ -57,6 +59,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.time_limit = '2h'
            self.extra_resources = {'constraint': {'type': 'v100'}}
            self.num_cpus_per_task=46
+           self.prerun_cmds = ['./env.sh']
            self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores    all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
            self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list']
            #self.num_gpus_per_node=8
@@ -70,7 +73,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.extra_resources = {'constraint': {'type': 'a100'}}
            self.num_cpus_per_task=46
            self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores    all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
-           self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list']
+           self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list','./env']
           # self.num_gpus_per_node=8
 
        

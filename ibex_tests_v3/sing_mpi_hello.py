@@ -13,8 +13,8 @@ class sing_mpi_hello(rfm.RunOnlyRegressionTest):
         self.valid_systems = ['ibex:batch','sing']
         self.valid_prog_environs = ['cpustack_gnu']
         #self.sourcesdir= os.path.join(self.current_system.resourcesdir,'singularity')
-        self.sourcesdir= None
-        self.prerun_cmds  = ['XDG_RUNTIME_DIR=${PWD} singularity pull docker://amrradwan/ompi-400-ubuntu-18'] 
+        self.sourcesdir= '../src/env'
+        self.prerun_cmds  = ['XDG_RUNTIME_DIR=${PWD} singularity pull docker://amrradwan/ompi-400-ubuntu-18','./env.sh'] 
         self.time_limit='10m'
         self.sanity_patterns = sn.assert_found(r'^Hello world', self.stdout)
         if self.variant == 'single':
