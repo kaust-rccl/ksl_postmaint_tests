@@ -30,7 +30,7 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
            self.time_limit = '1h'
            self.num_tasks=8
            self.executable='--bind-to none --nooversubscribe singularity run --nv $IMAGE hpl.sh --cpu-cores-per-rank ${CPUS} \
---cpu-affinity 2-5:6-9:10-13:14-17:24-27:28-31:32-37:38-41 \
+--cpu-affinity 5-8:9-12:13-16:17-20:24-27:27-30:31-34:34-37 \
 --gpu-affinity 0:1:2:3:4:5:6:7 --dat  ./HPL.dat.v100.G8N1'
            self.num_cpus_per_task=5
            self.extra_resources = {'memory': {'size': '450G'},'constraint': {'type': 'v100,gpu_ai'}}
@@ -47,7 +47,7 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
       @rfm.run_before('run')
       def set_job_options(self):
         if self.variant== 'v100_8_singlenode':
-           self.job.options = ['--gpus=8','--gpus-per-node=8']
+           self.job.options = ['--account=c2227','--gpus=8','--gpus-per-node=8']
 
 
 
