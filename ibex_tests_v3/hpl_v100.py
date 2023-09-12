@@ -12,7 +12,7 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
       descr = 'running hpl tests'
       path = variable(str)
            ## SETTING TEST ENV
-      sourcesdir= None
+      #sourcesdir= None
       valid_prog_environs = ['gpustack_builtin']
       valid_systems = ['ibex:batch_mpi']
       reference = {
@@ -35,7 +35,7 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
            self.num_cpus_per_task=5
            self.extra_resources = {'memory': {'size': '450G'},'constraint': {'type': 'v100,gpu_ai'}}
            
-           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','module load openmpi/4.0.3-cuda11.2.2','export IMAGE=./hpl_sing.sif','export CPUS=4','export HPL=./HPL.out', 'echo hostname > HPL.out']
+           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','module load openmpi/4.0.3-cuda11.2.2','export IMAGE=./hpl_sing.sif','export CPUS=4','export HPL=./HPL.out', 'echo hostname > HPL.out','./env.sh']
 
            self.sourcesdir='../src/hpl/'
         self.tags = {'hpl','gpu',self.variant,'acceptance'}

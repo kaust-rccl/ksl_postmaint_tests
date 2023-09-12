@@ -32,11 +32,13 @@ class hpl_tests(rfm.RunOnlyRegressionTest):
            self.time_limit = '1h'
            self.num_tasks=4
            self.num_gpus_per_node=4
-           self.extra_resources = {'memory': {'size': '450G'},'constraint': {'type': 'a100'},'nodes': {'num_of_nodes': '1'}}
-           self.executable='srun -u -n ${SLURM_NTASKS} -c ${SLURM_CPUS_PER_TASK} --cpu-bind=map_cpu:32-39:48-55:2-9:16-23 singularity run --nv $IMAGE hpl.sh --cpu-affinity 32-39:48-55:2-9:16-23 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3 --dat ./HPL.dat.a100.G4N1'
+           self.extra_resources = {'memory': {'size': '450G'},'constraint': {'type': 'a100,4gpus'},'nodes': {'num_of_nodes': '1'}}
+          #self.executable='srun -u -n ${SLURM_NTASKS} -c ${SLURM_CPUS_PER_TASK} --cpu-bind=map_cpu:32-39:48-55:2-9:16-23 singularity run --nv $IMAGE hpl.sh --cpu-affinity 32-39:48-55:2-9:16-23 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3 --dat ./HPL.dat.a100.G4N1'
+           self.executable='srun -u -n 4 -c 15 --cpu-bind=sockets,verbose singularity run --nv $IMAGE hpl.sh --cpu-cores-per-rank ${CPUS} --cpu-affinity 5-12:18-25:32-39:52-59 --gpu-affinity 2:3:0:1  --dat ./HPL.dat.a100.G4N1'
+
            self.num_cpus_per_task=15
            
-           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=8','export OMPI_MCA_btl_openib_warn_no_device_params_found=0']
+           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=8','export OMPI_MCA_btl_openib_warn_no_device_params_found=0','./env.sh']
 
            self.sourcesdir='../src/hpl/'
            self.tags = {'hpl','gpu',self.variant,'acceptance'}
