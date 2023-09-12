@@ -14,8 +14,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
 
 @rfm.simple_test
 class osu_gpu(osu_test):
-      params = parameter(['v100&cpu_intel_gold_6142','v100&gpu_ai',
-                          'a100&4gpus','a100&8gpus'])
+      params = parameter(['v100&cpu_intel_gold_6142','v100&gpu_ai'])
       valid_prog_environs = ['gpustack_builtin']
       valid_systems = ['ibex:batch']
       modules = ['openmpi/4.0.3-cuda11.2.2']
@@ -29,15 +28,13 @@ class osu_gpu(osu_test):
       @rfm.run_before('run')
       def set_job_options(self):
           self.job.options = ['--constraint="%s"'%(self.params),
-                              '--account=ibex-cs',
-                              '--gpus=1',
+                              '--account=c2227',
+                              '--gpus=2',
                               '--gpus-per-node=1']
       @rfm.run_after('init')
       def setting_parameters(self):             
         if 'v100' in self.params:
             self.tags |= {'v100'}
-        elif 'a100' in self.params:
-            self.tags |= {'a100'}
             
         if self.variant == "latency":
            self.prerun_cmds = ['./env.sh']

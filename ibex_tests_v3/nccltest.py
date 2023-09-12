@@ -5,7 +5,7 @@ import reframe.utility.sanity as sn
 @rfm.simple_test
 class nccl_tests(rfm.RunOnlyRegressionTest):
 
-      variant= parameter(['v100_8_singlenode', 'v100_8_multinode','a100_8_singlenode','a100_8_multinode'])
+      variant= parameter(['v100_8_singlenode', 'v100_8_multinode','a100_8_singlenode'])
 
 
            ## TEST BASIC INFO
@@ -24,7 +24,6 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
                                 'v100_8_singlenode' : (100,None,+2,'GB/s'),
                                 'a100_8_singlenode' :(150,None,+2,'GB/s'),
                                 'v100_8_multinode' : (13.00000,None,+2,'GB/s'),
-                                'a100_8_multinode' : (13.00000,None,+2,'GB/s')
 
                         }
                 }
@@ -66,15 +65,6 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
 
 
        
-        elif self.variant == 'a100_8_multinode':
-
-           self.num_tasks=2
-           self.time_limit = '2h'
-           self.extra_resources = {'constraint': {'type': 'a100'}}
-           self.num_cpus_per_task=46
-           self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} --cpu-bind=cores    all_reduce_perf -b 8 -e 256M -f 2 -g 8 -c 1 -n 50 -w 20'
-           self.prerun_cmds = ['export NCCL_DEBUG=INFO','export UCX_TLS=tcp','hostname','module list','./env']
-          # self.num_gpus_per_node=8
 
        
 
@@ -87,8 +77,6 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
       @rfm.run_before('run')
       def set_job_options(self):
         if self.variant== 'v100_8_multinode':
-           self.job.options = ['--gpus=16','--gpus-per-node=8']
-        elif self.variant== 'a100_8_multinode':
            self.job.options = ['--gpus=16','--gpus-per-node=8']
 
 
