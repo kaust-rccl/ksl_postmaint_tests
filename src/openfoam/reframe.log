@@ -1,0 +1,107 @@
+[2023-06-01T14:15:40] debug: reframe: Initializing runtime
+[2023-06-01T14:15:40] debug: reframe: Initializing system partition 'login'
+[2023-06-01T14:15:40] debug: reframe: Initializing system partition 'batch'
+[2023-06-01T14:15:40] debug: reframe: Initializing system partition 'batch_mpi'
+[2023-06-01T14:15:40] debug: reframe: Initializing system partition 'debug'
+[2023-06-01T14:15:40] debug: reframe: Initializing system 'ibex'
+[2023-06-01T14:15:40] debug: reframe: Initializing modules system 'tmod4'
+[2023-06-01T14:15:40] debug: reframe: detecting topology info for ibex:login
+[2023-06-01T14:15:40] debug: reframe: > found topology file '/home/selimrm/.reframe/topology/ibex-login/processor.json'; loading...
+[2023-06-01T14:15:40] debug: reframe: > device auto-detection is not supported
+[2023-06-01T14:15:40] debug: reframe: detecting topology info for ibex:batch
+[2023-06-01T14:15:40] debug: reframe: > no topology file found; auto-detecting...
+[2023-06-01T14:15:40] debug: reframe: > device auto-detection is not supported
+[2023-06-01T14:15:40] debug: reframe: detecting topology info for ibex:batch_mpi
+[2023-06-01T14:15:40] debug: reframe: > no topology file found; auto-detecting...
+[2023-06-01T14:15:40] debug: reframe: > device auto-detection is not supported
+[2023-06-01T14:15:40] debug: reframe: detecting topology info for ibex:debug
+[2023-06-01T14:15:40] debug: reframe: > no topology file found; auto-detecting...
+[2023-06-01T14:15:40] debug: reframe: > device auto-detection is not supported
+[2023-06-01T14:15:40] debug: reframe: [ReFrame Environment]
+  RFM_AUTODETECT_FQDN=<not set>
+  RFM_AUTODETECT_METHOD=<not set>
+  RFM_AUTODETECT_XTHOSTNAME=<not set>
+  RFM_CHECK_SEARCH_PATH=<not set>
+  RFM_CHECK_SEARCH_RECURSIVE=<not set>
+  RFM_CLEAN_STAGEDIR=<not set>
+  RFM_COLORIZE=<not set>
+  RFM_COMPRESS_REPORT=<not set>
+  RFM_CONFIG_FILES=/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1/config/ksl.py
+  RFM_CONFIG_PATH=<not set>
+  RFM_DUMP_PIPELINE_PROGRESS=<not set>
+  RFM_GIT_TIMEOUT=<not set>
+  RFM_HTTPJSON_URL=<not set>
+  RFM_IGNORE_REQNODENOTAVAIL=<not set>
+  RFM_INSTALL_PREFIX=/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1
+  RFM_KEEP_STAGE_FILES=<not set>
+  RFM_MODULE_MAPPINGS=<not set>
+  RFM_MODULE_MAP_FILE=<not set>
+  RFM_NON_DEFAULT_CRAYPE=<not set>
+  RFM_OUTPUT_DIR=<not set>
+  RFM_PERFLOG_DIR=<not set>
+  RFM_PERF_INFO_LEVEL=<not set>
+  RFM_PIPELINE_TIMEOUT=<not set>
+  RFM_PREFIX=<not set>
+  RFM_PURGE_ENVIRONMENT=<not set>
+  RFM_REMOTE_DETECT=<not set>
+  RFM_REMOTE_WORKDIR=<not set>
+  RFM_REPORT_FILE=<not set>
+  RFM_REPORT_JUNIT=<not set>
+  RFM_RESOLVE_MODULE_CONFLICTS=<not set>
+  RFM_SAVE_LOG_FILES=<not set>
+  RFM_STAGE_DIR=<not set>
+  RFM_SYSLOG_ADDRESS=<not set>
+  RFM_SYSTEM=<not set>
+  RFM_TIMESTAMP_DIRS=<not set>
+  RFM_TRAP_JOB_ERRORS=<not set>
+  RFM_UNLOAD_MODULES=<not set>
+  RFM_USER_MODULES=<not set>
+  RFM_USE_LOGIN_SHELL=<not set>
+  RFM_VERBOSE=<not set>
+[2023-06-01T14:15:40] info: reframe: [ReFrame Setup]
+[2023-06-01T14:15:40] info: reframe:   version:           4.1.1
+[2023-06-01T14:15:40] info: reframe:   command:           '/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1/bin/reframe -c rl9_tests_v4/ -n /e7fbf48b -r --performance-report'
+[2023-06-01T14:15:40] info: reframe:   launched by:       selimrm@login701-12-6
+[2023-06-01T14:15:40] info: reframe:   working directory: '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam'
+[2023-06-01T14:15:40] info: reframe:   settings files:    '<builtin>', '/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1/config/ksl.py'
+[2023-06-01T14:15:40] info: reframe:   check search path: '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/rl9_tests_v4'
+[2023-06-01T14:15:40] info: reframe:   stage directory:   '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/stage'
+[2023-06-01T14:15:40] info: reframe:   output directory:  '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/output'
+[2023-06-01T14:15:40] info: reframe:   log files:         '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.out', '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.log'
+[2023-06-01T14:15:40] info: reframe: 
+[2023-06-01T14:15:40] debug: reframe: Looking for tests in '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/rl9_tests_v4'
+[2023-06-01T14:15:40] warning: reframe: [33mWARNING: check path '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/rl9_tests_v4' does not exist[0m
+[2023-06-01T14:15:40] verbose: reframe: Loaded 0 test(s)
+[2023-06-01T14:15:40] verbose: reframe: Generated 0 test case(s)
+[2023-06-01T14:15:40] verbose: reframe: Filtering test cases(s) by name: 0 remaining
+[2023-06-01T14:15:40] verbose: reframe: Filtering test cases(s) by tags: 0 remaining
+[2023-06-01T14:15:40] verbose: reframe: Filtering test cases(s) by other attributes: 0 remaining
+[2023-06-01T14:15:40] debug: reframe: Building and validating the full test DAG
+[2023-06-01T14:15:40] debug: reframe: Full test DAG:
+[2023-06-01T14:15:40] debug: reframe:   <empty>
+[2023-06-01T14:15:40] verbose: reframe: Final number of test cases: 0
+[2023-06-01T14:15:40] debug: reframe: Loading environment for current system
+[2023-06-01T14:15:40] debug: reframe: (Un)using module paths from command line
+[2023-06-01T14:15:40] debug: reframe: Loading user modules from command line
+[2023-06-01T14:15:40] info: reframe: [==========] Running 0 check(s)
+[2023-06-01T14:15:40] info: reframe: [==========] Started on Thu Jun  1 14:15:40 2023 
+[2023-06-01T14:15:40] info: reframe: 
+[2023-06-01T14:15:40] info: reframe: [----------] start processing checks
+[2023-06-01T14:15:40] info: reframe: [----------] all spawned checks have finished
+
+[2023-06-01T14:15:40] info: reframe: [ [32m PASSED [0m ] Ran 0/0 test case(s) from 0 check(s) (0 failure(s), 0 skipped)
+[2023-06-01T14:15:40] info: reframe: [==========] Finished on Thu Jun  1 14:15:40 2023 
+[2023-06-01T14:15:40] info: reframe: 
+[2023-06-01T14:15:40] info: reframe: Run report saved in '/home/selimrm/.reframe/reports/run-report-76.json'
+[2023-06-01T14:15:40] info: reframe: Log file(s) saved in '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.out', '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.log'
+[2023-06-01T14:15:40] debug: reframe: >>> profiler report [start] <<<
+[2023-06-01T14:15:40] debug: reframe: main: 0.125897 s
+[2023-06-01T14:15:40] debug: reframe:     test processing: 0.020333 s
+[2023-06-01T14:15:40] debug: reframe:         RegressionCheckLoader.load_all: 0.001239 s
+[2023-06-01T14:15:40] debug: reframe:         generate_testcases: 0.000003 s
+[2023-06-01T14:15:40] debug: reframe:         main.<locals>._sort_testcases: 0.000012 s
+[2023-06-01T14:15:40] debug: reframe:         build_deps: 0.000006 s
+[2023-06-01T14:15:40] debug: reframe:         validate_deps: 0.000003 s
+[2023-06-01T14:15:40] debug: reframe:         toposort: 0.000013 s
+[2023-06-01T14:15:40] debug: reframe:         Runner.runall: 0.006794 s
+[2023-06-01T14:15:40] debug: reframe: >>> profiler report [ end ] <<<

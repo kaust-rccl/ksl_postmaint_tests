@@ -1,0 +1,23 @@
+[ReFrame Setup]
+  version:           4.1.1
+  command:           '/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1/bin/reframe -c rl9_tests_v4/ -n /e7fbf48b -r --performance-report'
+  launched by:       selimrm@login701-12-6
+  working directory: '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam'
+  settings files:    '<builtin>', '/sw/rl9c/reframe/4.1.1/rl9_binary/reframe-4.1.1/config/ksl.py'
+  check search path: '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/rl9_tests_v4'
+  stage directory:   '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/stage'
+  output directory:  '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/output'
+  log files:         '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.out', '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.log'
+
+[33mWARNING: check path '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/rl9_tests_v4' does not exist[0m
+[==========] Running 0 check(s)
+[==========] Started on Thu Jun  1 14:15:40 2023 
+
+[----------] start processing checks
+[----------] all spawned checks have finished
+
+[ [32m PASSED [0m ] Ran 0/0 test case(s) from 0 check(s) (0 failure(s), 0 skipped)
+[==========] Finished on Thu Jun  1 14:15:40 2023 
+
+Run report saved in '/home/selimrm/.reframe/reports/run-report-76.json'
+Log file(s) saved in '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.out', '/home/selimrm/reframe_4.0.3_testing/ksl_postmaint_tests/src/openfoam/reframe.log'
