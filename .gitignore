@@ -1,0 +1,6 @@
+reframe.log
+reframe.out
+output/
+stage/
+perflogs/
+rl9-tests-v4/__pycache__/
