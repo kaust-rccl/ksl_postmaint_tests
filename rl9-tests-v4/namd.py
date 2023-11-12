@@ -20,7 +20,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
         
         self.modules=['namd']
         #/2.13/cuda10-verbs-smp-icc17
-        self.prerun_cmds = ['module list','which namd2','hostname','echo $MODULEPATH']
+        self.prerun_cmds = ['module list','which namd2','hostname','echo $MODULEPATH','./env.sh']
         #['export SLURM_CPU_BIND_TYPE=sockets','export SLURM_CPU_BIND_VERBOSE=verbose']
  
         self.executable='namd2'
