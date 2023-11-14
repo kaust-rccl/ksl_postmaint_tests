@@ -85,11 +85,11 @@ class hpl_gpu(hpl_test):
 
       reference = {
                         'ibex' : {
-                               'p100' : (47000,-0.05,None,'Gflops'),
+                               'p100' : (1350,-0.05,None,'Gflops'),
                                'v100_8' : (35600,-0.05,None,'Gflops'),
-                               'v100_4' : (52000,-0.05,None,'Gflops'),
-                               'a100_4' : (47000,-0.05,None,'Gflops'),
-                               'a100_8' : (47000,-0.05,None,'Gflops'),
+                               'v100_4' : (16500,-0.05,None,'Gflops'),
+                               'a100_4' : (56000,-0.05,None,'Gflops'),
+                               'a100_8' : (13500,-0.05,None,'Gflops'),
 
 
 
@@ -103,10 +103,11 @@ class hpl_gpu(hpl_test):
            self.num_tasks=4
            self.executable='srun -u -n ${SLURM_NTASKS} -c ${CPUS} --cpu-bind=none singularity run --nv $IMAGE hpl.sh --cpu-affinity +0-15:0-15:18-33:18-33 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3 --dat ./HPL.dat.p100'
            self.num_cpus_per_task=8
+           self.num_gpus_per_node=4
            self.extra_resources = {'memory': {'size': '240G'},'constraint': {'type': 'p100'}}
 
-           self.prerun_cmds = ['module purge','module load gpustack','module load singularity','module load openmpi/4.0.3-cuda11.2.2','export IMAGE=./hpl_sing.sif','export CPUS=8','export HPL=./HPL.out', 'echo hostname > HPL.out','./env.sh']
-
+           self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=8','export HPL=./HPL.out', 'echo hostname > HPL.out','./env.sh']
+           self.tags |= {'p100'}
 
         elif self.variant == 'v100_8': 
            self.num_tasks=8
@@ -133,13 +134,14 @@ class hpl_gpu(hpl_test):
 
      
         elif self.variant == 'a100_8':
-           self.num_tasks=4
+           self.num_tasks=8
            self.num_gpus_per_node=8
-           self.extra_resources = {'memory': {'size': '0'},'constraint': {'type': 'a100,8gpus'},'nodes': {'num_of_nodes': '1'}}
-           self.executable='run -u -n ${SLURM_NTASKS} -c ${CPUS} --cpu-bind=none singularity run --nv $IMAGE hpl.sh --cpu-affinity +32-63:32-63:0-31:0-31:96-127:96-127:64-95:64-95 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3:4:5:6:7 --dat ./HPL.dat.a100_8'
-           self.num_cpus_per_task=16
+           self.extra_resources = {'memory': {'size': '850'},'constraint': {'type': 'a100,8gpus'},'nodes': {'num_of_nodes': '1'}}
+           self.executable='run -u -n ${SLURM_NTASKS} -c ${CPUS} --cpu-bind=none singularity run --nv $IMAGE hpl.sh --cpu-affinity +32-63:32-63:0-31:0-31:96-127:96-127:64-95:64-95 --cpu-cores-per-rank ${CPUS} --gpu-affinity 0:1:2:3:4:5:6:7 --dat ./HPL.dat'
+           self.num_cpus_per_task=15
 
-           self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=8','export OMPI_MCA_btl_openib_warn_no_device_params_found=0','./env.sh']
+           self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=7','export OMPI_MCA_btl_openib_warn_no_device_params_found=0','./env.sh']
+           self.tags |= {'a100_8'}
 
         elif self.variant == 'a100_4':
            self.num_tasks=4
@@ -151,13 +153,13 @@ class hpl_gpu(hpl_test):
            self.tags |= {'a100_4'}
 
 
-           self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','module load openmpi/4.1.4/intel2022.3_cuda11.8','export IMAGE=./hpl_sing.sif','export CPUS=4','export OMPI_MCA_btl_openib_warn_no_device_params_found=0','./env.sh']
+           self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=4','export OMPI_MCA_btl_openib_warn_no_device_params_found=0','./env.sh']
 
       @run_before('run')
       def set_job_options(self):
-        if self.variant== 'v100_8':
+        if self.variant== 'v100_8'or self.variant== 'a100_8':
            self.job.options = ['--partition=batch','--gpus=8','--gpus-per-node=8']
-        elif self.variant== 'a100_4' or self.variant=='v100_4' :
+        elif self.variant== 'a100_4' or self.variant=='v100_4' or self.variant=='p100' :
            self.job.options = ['--partition=batch']
 
 

@@ -87,7 +87,103 @@ site_configuration = {
                                  ],
                 },
 
+                {
+                    'name': 'gpu',
+                    'scheduler': 'slurm',
+                    'launcher': 'local',
+                    'access':  ['--partition=gpu'],
+                    'environs': ['cpustack_builtin','cpustack_gnu','cpustack_openmpi','cpustack_intel','cpustack_intelmpi','gpustack_builtin','gpustack_cuda','gpustack_gnu','gpustack_openmpi','gpustack_intel','gpustack_intelmpi'],
+
+                    'descr': 'Mixed nodes',
+                    'max_jobs': 32,
+                    'resources':[
+                            {
+                            'name': 'memory',
+                            'options': ['--mem={size}']
+                            },
+                            {
+                            'name': 'constraint',
+                            'options': ['--constraint={type}']
+                            },
+                            {
+                             'name': '_rfm_gpu',
+                             'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
+                            }
+
+
+
+                                 ],
+                },
                 
+                {
+                    'name': 'gpu24',
+                    'scheduler': 'slurm',
+                    'launcher': 'local',
+                    'access':  ['--partition=gpu24'],
+                    'environs': ['cpustack_builtin','cpustack_gnu','cpustack_openmpi','cpustack_intel','cpustack_intelmpi','gpustack_builtin','gpustack_cuda','gpustack_gnu','gpustack_openmpi','gpustack_intel','gpustack_intelmpi'],
+
+                    'descr': 'Mixed nodes',
+                    'max_jobs': 32,
+                    'resources':[
+                            {
+                            'name': 'memory',
+                            'options': ['--mem={size}']
+                            },
+                            {
+                            'name': 'constraint',
+                            'options': ['--constraint={type}']
+                            },
+                            {
+                             'name': '_rfm_gpu',
+                             'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
+                            }
+
+
+
+                                 ],
+                },
+                {
+                    'name': 'gpu_wide24',
+                    'scheduler': 'slurm',
+                    'launcher': 'local',
+                    'access':  ['--partition=gpu_wide24'],
+                    'environs': ['cpustack_builtin','cpustack_gnu','cpustack_openmpi','cpustack_intel','cpustack_intelmpi','gpustack_builtin','gpustack_cuda','gpustack_gnu','gpustack_openmpi','gpustack_intel','gpustack_intelmpi'],
+
+                    'descr': 'Mixed nodes',
+                    'max_jobs': 32,
+                    'resources':[
+                            {
+                            'name': 'memory',
+                            'options': ['--mem={size}']
+                            },
+                            {
+                            'name': 'constraint',
+                            'options': ['--constraint={type}']
+                            },
+                            {
+                             'name': '_rfm_gpu',
+                             'options': ['--gres=gpu:{num_gpus_per_node}']
+                            },
+                            {
+                             'name': 'nodes',
+                             'options': ['--nodes={num_of_nodes}']
+                            }
+
+
+
+                                 ],
+                },
+
+
+
                 {
                     'name': 'debug',
                     'scheduler': 'slurm',
@@ -117,6 +213,7 @@ site_configuration = {
 
                                 ],
                  }
+
                 
             ]
         },

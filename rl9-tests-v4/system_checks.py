@@ -3,7 +3,7 @@ import reframe as rfm
 import reframe.utility.sanity as sn
 import os
 class system_check(rfm.RunOnlyRegressionTest):
-      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev'])
+      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','os','kernal'])
       maintainers = ['rana.selim@kaust.edu.sa']
       descr = 'System sanity check on ibex nodes'
       tags = {'fs','acceptance'}
@@ -21,7 +21,7 @@ class system_cpu(system_check):
       sourcesdir=None
       executable='mount'
       time_limit='10m'
-      tags = {'system','acceptance','cpu','fs'}
+      tags = {'system','acceptance','cpu','fs','sys'}
 
       @run_after('init')
       def setting_parameters(self):
@@ -50,10 +50,18 @@ class system_cpu(system_check):
        elif  self.variant == "ibvdev":
          self.executable='ibv_devinfo -l'
          self.sanity_patterns =sn.assert_found(r'mlx5_0',self.stdout)
+       elif  self.variant == "os":
+         self.executable='cat /etc/redhat-release'
+         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.1',self.stdout)
+       elif  self.variant == "kernal":
+         self.executable='uname -r '
+         self.sanity_patterns =sn.assert_found(r'5.14.0-162.23.1.el9_1.x86_64',self.stdout)
+
+
 
 @rfm.simple_test
 class system_gpu(system_check):
-      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','nvidiasmi','devicequery'])
+      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','nvidiasmi','devicequery','os','kernal'])
 
       descr = 'System sanity check on gpu nodes'
       valid_systems = ['ibex:gpu','ibex:gpu24','ibex:gpu_wide24']
@@ -63,7 +71,7 @@ class system_gpu(system_check):
       sourcesdir=None
       executable='mount'
       time_limit='10m'
-      tags = {'fs','acceptance','gpu','system'}
+      tags = {'fs','acceptance','gpu','system','sys'}
 
       @run_after('init')
       def setting_parameters(self):
@@ -99,6 +107,12 @@ class system_gpu(system_check):
          self.executable='./deviceQuery'
          self.sourcesdir='../src/devicequery'
          self.sanity_patterns =sn.assert_found(r'Result = PASS',self.stdout)
+       elif  self.variant == "os":
+         self.executable='cat /etc/redhat-release'
+         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.1',self.stdout)
+       elif  self.variant == "kernal":
+         self.executable='uname -r '
+         self.sanity_patterns =sn.assert_found(r'5.14.0-162.23.1.el9_1.x86_64',self.stdout)
 
 
       @run_before('run')
