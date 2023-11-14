@@ -9,8 +9,8 @@ class sing_mpi_hello(rfm.RunOnlyRegressionTest):
       def setting_variables(self):
 
         self.maintainers = ['amr.radwan@kaust.edu.sa']
-        self.tags = {'sing_mpi_hello','cpu'}
-        self.valid_systems = ['ibex:batch','sing']
+        self.tags = {'sing_mpi_hello','cpu','singularity'}
+        self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['cpustack_gnu']
         #self.sourcesdir= os.path.join(self.current_system.resourcesdir,'singularity')
         self.sourcesdir= '../src/env'
