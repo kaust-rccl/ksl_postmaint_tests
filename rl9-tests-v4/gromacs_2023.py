@@ -58,7 +58,7 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 
         self.modules=['gromacs/2023/openmpi-4.1.4-intel-2022.3-sp','gcc/12.2.0']
 
-        self.prerun_cmds  = ['export OMP_NUM_THREADS=1']
+        self.prerun_cmds  = ['export OMP_NUM_THREADS=1','./env.sh']
                
         self.sanity_patterns = sn.assert_found(r'\s+:-\) GROMACS - gmx mdrun, 2023 \(-:', self.stderr, encoding='utf-8')
         self.perf_patterns = {       

@@ -25,6 +25,8 @@ class Cuda_perf_checks(rfm.RegressionTest):
 
         # Build source using makefile provided in the resourcesdir
         self.build_system='Make'
+        self.prerun_cmds = ['./env.sh']
+
         # In the run phase invoke the executable name as below
         self.executable='./a.out'
         self.executable_opts = ['4096','1000']

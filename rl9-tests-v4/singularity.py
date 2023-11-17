@@ -17,7 +17,7 @@ class singularity_checks(rfm.RunOnlyRegressionTest):
         self.num_tasks=4
         self.num_tasks_per_node=4
         
-        self.prerun_cmds = ['module purge','module load rl9-cpustack','module load singularity/3.9.7','module load mpich','XDG_RUNTIME_DIR=${PWD} singularity pull docker://mshaikh/hpl_mpich314:latest; export SINGULARITYENV_LD_LIBRARY_PATH=/software/lib:$LD_LIBRARY_PATH;export SINGULARITYENV_PATH=/software/bin:$_PATH']
+        self.prerun_cmds = ['module purge','module load rl9-cpustack','module load singularity/3.9.7','module load mpich','XDG_RUNTIME_DIR=${PWD} singularity pull docker://mshaikh/hpl_mpich314:latest; export SINGULARITYENV_LD_LIBRARY_PATH=/software/lib:$LD_LIBRARY_PATH;export SINGULARITYENV_PATH=/software/bin:$_PATH','./env.sh']
 
         self.executable = 'singularity exec hpl_mpich314_latest.sif /hpl/bin/ubuntu/xhpl'
         
@@ -38,4 +38,4 @@ class singularity_checks(rfm.RunOnlyRegressionTest):
                     },
             }        
         self.maintainers = ['mohsin.shaikh@kaust.edu.sa']
-        self.tags = {'hpl','cpu','acceptance','sing'}
+        self.tags = {'cpu','acceptance','singularity'}

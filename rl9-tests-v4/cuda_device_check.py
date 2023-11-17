@@ -4,7 +4,7 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class Cuda_device_checks(rfm.RegressionTest):
-      variant= parameter(['v100_4','v100_8', 'p100','rtx2080ti'])
+      variant= parameter(['v100_4','v100_8', 'p100','rtx2080ti','a100_4'])
 
       @run_after('init')
       def setting_variables(self):
@@ -29,6 +29,7 @@ class Cuda_device_checks(rfm.RegressionTest):
         # Build source using makefile provided in the resourcesdir
         self.build_system='Make'
         # In the run phase invoke the executable name as below
+        self.prerun_cmds = ['./env.sh']
         self.executable='./a.out'
         if self.variant == 'v100_4' or self.variant == 'v100_8':
            self.extra_resources = {'constraint': {'type': 'v100'}}
@@ -36,6 +37,9 @@ class Cuda_device_checks(rfm.RegressionTest):
            self.extra_resources = {'constraint': {'type': 'p100'}}
         elif self.variant == 'rtx2080ti':
            self.extra_resources = {'constraint': {'type': 'rtx2080ti'}}
+        elif self.variant == 'a100':
+           self.extra_resources = {'constraint': {'type': '4gpus,a100'}}
+
 
 
 
@@ -50,7 +54,9 @@ class Cuda_device_checks(rfm.RegressionTest):
                             'ibex' : {      'p100': (4,None,None,'devices'),
                                             'v100_4': (4,None,None,'devices'),
                                             'v100_8': (8,None,None,'devices'),
-                                            'rtx2080ti': (8,None,None,'devices')
+                                            'rtx2080ti': (8,None,None,'devices'),
+                                            'a100_4': (4,None,None,'devices')
+
                                             },
                             }
         self.tags = {'gpu',self.variant,'acceptance','device_query','cuda'}
