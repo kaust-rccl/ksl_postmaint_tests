@@ -1,10 +1,10 @@
 #!/bin/bash
 HOST=`/bin/uname -n 2> /dev/null`
 echo "Hostname"
-hostname 
+hostname
 
 echo "Slurm Version"
-sinfo -V 
+sinfo -V
 
 echo "Operating system version"
 cat /etc/redhat-release
@@ -19,7 +19,7 @@ echo "CPU and HT/SMT:"
 lscpu
 
 echo "RAM"
-free -m 
+free -m
 
 echo "Mellanox OFED"
 ofed_info -n
@@ -31,15 +31,15 @@ echo "Local storage:"
 lsblk
 df -h
 
-echo "GPFS:"
-rpm -q gpfs.base
+#echo "GPFS:"
+#rpm -q gpfs.base
 
 echo " Lustre:"
 cat /sys/fs/lustre/version
 echo "Weka"
 weka version
-echo "BeeGFS:"
-beegfs-ctl | grep -i version
+#echo "BeeGFS:"
+#beegfs-ctl | grep -i version
 
 if [[  $HOST == *gpu* ]]
  then
@@ -50,9 +50,3 @@ if [[  $HOST == *gpu* ]]
 fi
 echo "Job status:"
 scontrol show job $SLURM_JOB_ID
-
-
-
-
-
-
