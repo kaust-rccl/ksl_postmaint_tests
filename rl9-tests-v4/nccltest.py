@@ -35,7 +35,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         if self.variant == 'v100_4_singlenode': 
            self.time_limit = '30m'
            self.num_tasks=4
-           self.ntasks_per_node=4
+           self.num_tasks_per_node=4
            self.num_cpus_per_task=7
            self.num_gpus_per_node=4
            self.prerun_cmds = ['./env.sh']
@@ -45,7 +45,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         elif self.variant == 'v100_8_singlenode':
            self.time_limit = '30m'
            self.num_tasks=8
-           self.ntasks_per_node=8
+           self.num_tasks_per_node=8
            self.num_cpus_per_task=5
            self.num_gpus_per_node=8
            self.extra_resources = {'memory': {'size': '700G'}}
@@ -55,7 +55,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         elif self.variant == 'a100_8_singlenode':
            self.time_limit = '30m'
            self.num_tasks=8
-           self.ntasks_per_node=8
+           self.num_tasks_per_node=8
            self.num_cpus_per_task=15
            self.num_gpus_per_node=8
            self.prerun_cmds = ['./env.sh']
@@ -63,7 +63,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.extra_resources = {'constraint': {'type': 'a100'}}
         elif self.variant == 'v100_8_multinode':
            self.num_tasks=16
-           self.ntasks_per_node=8
+           self.num_tasks_per_node=8
            self.time_limit = '30m'
            self.extra_resources = {'constraint': {'type': 'v100,gpu_ai'}}
            self.num_cpus_per_task = 5
@@ -77,7 +77,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
         elif self.variant == 'a100_4_singlenode':
            self.time_limit = '30m'
            self.num_tasks=4
-           self.ntasks_per_node=4
+           self.num_tasks_per_node=4
            self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} all_reduce_perf -b 4G -e 4G -f 2 -g 1 -c 0 -n 50 -w 20'
            self.num_cpus_per_task=15
            self.num_gpus_per_node=4
@@ -85,7 +85,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.extra_resources = {'constraint': {'type': 'a100,4gpus'}}
         elif  self.variant == 'a100_4_multinode':
            self.num_tasks=8
-           self.ntasks_per_node=4
+           self.num_tasks_per_node=4
            self.num_cpus_per_task=15
            self.time_limit = '30m'
            self.extra_resources = {'constraint': {'type': 'a100,4gpus'}}
@@ -99,7 +99,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
 
         elif self.variant == 'a100_8_multinode':
            self.num_tasks=16
-           self.ntasks_per_node=8
+           self.num_tasks_per_node=8
            self.num_cpus_per_task=15
            self.time_limit = '30m'
            self.extra_resources = {'constraint': {'type': 'a100,8gpus'}}
