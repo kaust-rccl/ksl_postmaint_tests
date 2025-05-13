@@ -1,0 +1,7 @@
+Bootstrap: docker
+From: ubuntu:latest
+
+%post
+    chmod 777 /tmp
+    apt-get update
+    apt-get install -y python3
