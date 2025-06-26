@@ -1,52 +1,56 @@
 #!/bin/bash
+
 HOST=`/bin/uname -n 2> /dev/null`
-echo "Hostname"
+
+echo "Hostname:"
 hostname
 
-echo "Slurm Version"
+echo "SLURM:"
 sinfo -V
 
-echo "Operating system version"
+echo "OS:"
 cat /etc/redhat-release
+lsb_release -a
 
-echo "Kernel version:"
-uname -r
+echo "Kernel:"
+uname -a
 
-echo "LibC version:"
+echo "LibC:"
 rpm -q glibc
 
 echo "CPU and HT/SMT:"
 lscpu
 
-echo "RAM"
+echo "RAM:"
 free -m
 
-echo "Mellanox OFED"
+echo "OFED:"
 ofed_info -n
 
 echo "IB adapters and firmware:"
 ibstat
 
-echo "Local storage:"
+echo "File Systems:"
 lsblk
 df -h
 
-#echo "GPFS:"
-#rpm -q gpfs.base
-
-echo " Lustre:"
+echo "Lustre:"
 cat /sys/fs/lustre/version
-echo "Weka"
-weka version
-#echo "BeeGFS:"
-#beegfs-ctl | grep -i version
 
-if [[  $HOST == *gpu* ]]
- then
+echo "Weka:"
+weka version
+
+if [[  $HOST == *gpu* ]]; then
      echo "NVIDIA driver/kernel module:"
      nvidia-smi
-     echo "CUDA version"
+     echo "CUDA version:"
      echo $CUDA_VERSION
+     echo "VBIOS:"; nvidia-smi -a | grep VBIOS
 fi
+
 echo "Job status:"
 scontrol show job $SLURM_JOB_ID
+
+echo ""
+
+# The END #
