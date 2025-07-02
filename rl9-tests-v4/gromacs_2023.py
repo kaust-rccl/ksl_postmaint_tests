@@ -8,6 +8,8 @@ import reframe.utility.sanity as sn
 @rfm.simple_test
 class gromacs_tests(rfm.RunOnlyRegressionTest):
       variant= parameter(['small', 'medium','large','multinode'])
+      #tags are useful to filter tests when not all but specific the tests are suppose to run
+      self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
       reference = {
                      'ibex' : {
                        'small': (35, -0.15, None,'ns_day'),
@@ -41,15 +43,19 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 
         # you can define your job configuration here: 
         #(Check https://reframe-hpc.readthedocs.io/en/latest/reference.html for all possible options)
+        
 
         self.time_limit = "30m" #is a tuple in the format (H,M,S)
         if self.variant == "small":
+          self.tags.add('singlenode')
           self.num_tasks=8
           self.num_tasks_per_node=8
         elif self.variant == "medium":  
+          self.tags.add('singlenode')
           self.num_tasks=16
           self.num_tasks_per_node=16 
         elif self.variant == "large":
+          self.tags.add('singlenode')
           self.num_tasks=40
           self.num_tasks_per_node=40
         else:
@@ -65,7 +71,6 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
                    self.variant: sn.extractsingle(r'^Performance:\s+(?P<ns_day>\S+)', self.stderr, 'ns_day', float)
                                }
         
-#tags are useful to filter tests when not all but specific the tests are suppose to run
-        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
+
         
 

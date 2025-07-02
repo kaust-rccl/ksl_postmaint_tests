@@ -16,7 +16,7 @@ class hpl_test(rfm.RunOnlyRegressionTest):
 class hpl_cpu(hpl_test):
       variant = parameter(['intel','amd'])
       valid_systems = ['ibex:batch']
-      tags= { 'hpl','cpu'}
+      tags= { 'hpl','cpu','singlenode'}
       reference = {
                         'ibex' : {
                                'amd' : (2600,-0.06,None,'Gflops'),
@@ -76,7 +76,7 @@ class hpl_gpu(hpl_test):
       variant = parameter(['p100','v100_4','v100_8','a100_4','a100_8','rtx4090_singlegpu'])
       valid_systems = ['ibex:batch']
       valid_prog_environs = ['gpustack_builtin']
-      tags= { 'hpl','gpu'}
+      tags= { 'hpl','gpu'.'singlenode'}
       sourcesdir= '../src/hpl/gpu'
       time_limit='10m'
 

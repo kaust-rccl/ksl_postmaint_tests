@@ -31,7 +31,7 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
         self.prerun_cmds = ['./env.sh']
         self.executable='srun ./run_script_ksl_cs_storm.sh'
         self.sourcesdir='../src/babelstream'
-        self.tags = {'babelstream','gpu',self.variant,'acceptance'}
+        self.tags = {'babelstream','gpu',self.variant,'acceptance','singlenode'}
 
 
 

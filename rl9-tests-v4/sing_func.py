@@ -7,7 +7,7 @@ class sing_build(rfm.RunOnlyRegressionTest):
       @run_after('init')
       def setting_variables(self):
         self.maintainers = ['moamen.mohamed@kaust.edu.sa']
-        self.tags = {'sing_build','sing_func','cpu','singularity'}
+        self.tags = {'sing_build','sing_func','cpu','singularity','singlenode'}
         self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['cpustack_gnu']
         self.sourcesdir= '../src/singularity/func'

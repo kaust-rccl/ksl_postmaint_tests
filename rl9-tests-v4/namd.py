@@ -64,7 +64,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
                                 }
 
         
-        self.tags = {'namd','gpu',self.variant,'acceptance'}
+        self.tags = {'namd','gpu',self.variant,'acceptance','singlenode'}
 
         
         # initials or email of the maintainer    

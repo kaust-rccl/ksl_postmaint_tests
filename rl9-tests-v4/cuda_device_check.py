@@ -10,7 +10,7 @@ class Cuda_device_checks(rfm.RegressionTest):
       def setting_variables(self):
         self.descr = 'CUDA Device query'
         self.constraint = self.variant
-        self.tags = {'gpu',self.variant,'acceptance','device_query','cuda'}
+        self.tags = {'gpu',self.variant,'acceptance','device_query','cuda','singlenode'}
         # Environment settings
         self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['gpustack_cuda']
