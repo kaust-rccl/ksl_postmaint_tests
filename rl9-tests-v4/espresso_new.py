@@ -32,6 +32,7 @@ class espresso(rfm.RunOnlyRegressionTest):
         if self.variant == 'single':
             self.num_tasks = 32
             self.descr = 'Quantum Espresso CPU check on Single Node'
+            self.tags.add('singlenode')
             self.num_tasks_per_node = 32
             self.reference = {
                 'ibex:batch_mpi': {
