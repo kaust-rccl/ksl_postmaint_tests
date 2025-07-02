@@ -15,7 +15,7 @@ class slurm_drmaa(rfm.RunOnlyRegressionTest):
         self.executable='cat out_log_bcl2fastq_test.txt'
         self.sanity_patterns =sn.assert_found(r'Hello!',self.stdout)
         self.maintainers = ['ahmed.khatab@kaust.edu.sa']
-        self.tags = {'slurm','drmaa','acceptance','cpu'}
+        self.tags = {'slurm','drmaa','acceptance','cpu','singlenode'}
 
 
 
