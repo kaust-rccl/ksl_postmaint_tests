@@ -53,16 +53,19 @@ class pytorch_a100_gpu(pytorch_test):
           self.executable= 'time -p srun -u -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} ${cmd} --log-dir=log.${SLURM_JOBID} --warmup-epochs=0.0'
 
           if self.variant == 'a100_8_singlenode':
+             self.tags.add('singlenode')
              self.num_tasks= 8
              self.num_cpus_per_task=5
              self.extra_resources = {'constraint': {'type': 'a100,8gpus'},'memory': {'size': '400G'}}
              self.num_gpus_per_node=8
           elif self.variant == 'a100_4_singlenode':
+             self.tags.add('singlenode')
              self.num_tasks= 4
              self.num_cpus_per_task=5
              self.extra_resources = {'constraint': {'type': 'a100,4gpus'},'memory': {'size': '400G'}}
              self.num_gpus_per_node=4
           elif self.variant == 'a100_8_4GPUS_singlenode':
+             self.tags.add('singlenode')
              self.num_tasks= 4
              self.num_cpus_per_task=5
              self.extra_resources = {'constraint': {'type': 'a100,8gpus'},'memory': {'size': '400G'}}
@@ -127,6 +130,7 @@ class pytorch_v100_gpu(pytorch_test):
         self.executable= 'time -p srun -u -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} ${cmd} --log-dir=log.${SLURM_JOBID} --warmup-epochs=0.0'
 
         if self.variant == 'v100_8_singlenode':
+           self.tags.add('singlenode')
            self.num_tasks=8
            self.num_cpus_per_task=5
 
@@ -183,6 +187,7 @@ class pytorch_rtx4090_gpu(pytorch_test):
         self.executable= 'time -p srun -u -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} ${cmd} --log-dir=log.${SLURM_JOBID} --warmup-epochs=0.0'
 
         if self.variant == 'rtx4090_singlegpu':
+           self.tags.add('singlenode')
            self.num_tasks=1
            self.num_cpus_per_task=5
 
