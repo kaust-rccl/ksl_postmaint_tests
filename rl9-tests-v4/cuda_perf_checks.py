@@ -10,7 +10,7 @@ class Cuda_perf_checks(rfm.RegressionTest):
       def setting_variables(self):
         self.descr = 'CUDA Perf test'
         self.constraint = self.variant
-        self.tags = {'gpu',self.variant,'acceptance','cuda','perf_checks'}
+        self.tags = {'gpu',self.variant,'acceptance','cuda','perf_checks','singlenode'}
         # Environment settings
         self.valid_systems = ['ibex:batch']
         self.valid_prog_environs = ['gpustack_cuda']
