@@ -44,12 +44,15 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 
         self.time_limit = "30m" #is a tuple in the format (H,M,S)
         if self.variant == "small":
+          self.tags.add('singlenode')
           self.num_tasks=8
           self.num_tasks_per_node=8
         elif self.variant == "medium":  
+          self.tags.add('singlenode')
           self.num_tasks=16
           self.num_tasks_per_node=16 
         elif self.variant == "large":
+          self.tags.add('singlenode')
           self.num_tasks=40
           self.num_tasks_per_node=40
         else:
