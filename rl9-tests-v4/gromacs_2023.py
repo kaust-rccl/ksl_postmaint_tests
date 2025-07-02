@@ -41,6 +41,8 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
 
         # you can define your job configuration here: 
         #(Check https://reframe-hpc.readthedocs.io/en/latest/reference.html for all possible options)
+        #tags are useful to filter tests when not all but specific the tests are suppose to run
+        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
 
         self.time_limit = "30m" #is a tuple in the format (H,M,S)
         if self.variant == "small":
@@ -68,7 +70,6 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
                    self.variant: sn.extractsingle(r'^Performance:\s+(?P<ns_day>\S+)', self.stderr, 'ns_day', float)
                                }
         
-#tags are useful to filter tests when not all but specific the tests are suppose to run
-        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
+
         
 
