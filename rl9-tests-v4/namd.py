@@ -4,7 +4,7 @@ import reframe.utility.sanity as sn
 
 @rfm.simple_test
 class namd_check(rfm.RunOnlyRegressionTest):
-      variant= parameter(['v100_8', 'a100_8', 'rtx4090_singlegpu', 'singlenode'])
+      variant= parameter(['v100_8', 'a100_8', 'rtx4090_singlegpu'])
 
       @run_after('init')
       def setting_variables(self):
@@ -64,7 +64,7 @@ class namd_check(rfm.RunOnlyRegressionTest):
                                 }
 
         
-        self.tags = {'namd','gpu',self.variant,'acceptance'}
+        self.tags = {'namd','gpu',self.variant,'acceptance','singlenode'}
 
         
         # initials or email of the maintainer    
