@@ -32,7 +32,9 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
           ## RUN AND VALIDATE
       @run_after('init')
       def setting_variables(self):
+        self.tags = {'gpu',self.variant,'acceptance','nccl'}
         if self.variant == 'v100_4_singlenode': 
+           self.tags.add('singlenode')
            self.time_limit = '30m'
            self.num_tasks=4
            self.num_tasks_per_node=4
@@ -43,6 +45,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} all_reduce_perf -b 4G -e 4G -f 2 -g 1 -c 0 -n 50 -w 20'
            self.extra_resources = {'constraint': {'type': 'v100,cpu_intel_gold_6142'}}
         elif self.variant == 'v100_8_singlenode':
+           self.tags.add('singlenode')
            self.time_limit = '30m'
            self.num_tasks=8
            self.num_tasks_per_node=8
@@ -53,6 +56,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
            self.executable='srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} -c ${SLURM_CPUS_PER_TASK} all_reduce_perf -b 4G -e 4G -f 2 -g 1 -c 0 -n 50 -w 20 '
            self.extra_resources = {'constraint': {'type': 'v100'}}
         elif self.variant == 'a100_8_singlenode':
+           self.tags.add('singlenode')
            self.time_limit = '30m'
            self.num_tasks=8
            self.num_tasks_per_node=8
@@ -75,6 +79,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
                                'export NCCL_IB_HCA=mlx5',
                                'echo ${SLURM_NODELIST}','module list']
         elif self.variant == 'a100_4_singlenode':
+           self.tags.add('singlenode')
            self.time_limit = '30m'
            self.num_tasks=4
            self.num_tasks_per_node=4
@@ -109,7 +114,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
                                'export NCCL_NET_GDR_LEVEL=4',
                                'export NCCL_IB_HCA=mlx5',
                                'echo ${SLURM_NODELIST}','module list']
-        self.tags = {'gpu',self.variant,'acceptance','nccl'}
+        
 
       @run_before('run')
       def set_job_options(self):
