@@ -21,7 +21,7 @@ class system_cpu(system_check):
       sourcesdir=None
       executable='mount'
       time_limit='10m'
-      tags = {'system','acceptance','cpu','fs','sys'}
+      tags = {'system','acceptance','cpu','fs','sys','singlenode'}
 
       @run_after('init')
       def setting_parameters(self):
@@ -71,7 +71,7 @@ class system_gpu(system_check):
       sourcesdir=None
       executable='mount'
       time_limit='10m'
-      tags = {'fs','acceptance','gpu','system','sys'}
+      tags = {'fs','acceptance','gpu','system','sys','singlenode'}
 
       @run_after('init')
       def setting_parameters(self):
