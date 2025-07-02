@@ -19,6 +19,7 @@ class sing_mpi_hello(rfm.RunOnlyRegressionTest):
         self.sanity_patterns = sn.assert_found(r'^Hello world', self.stdout)
         if self.variant == 'single':
             self.descr = 'Singularity MPI Hello on Single Node'
+            self.tags.add('singlenode')
             self.modules=['singularity/3.9.7']
             self.num_tasks = 4
             self.num_tasks_per_node = 4
