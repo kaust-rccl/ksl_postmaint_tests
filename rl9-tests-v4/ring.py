@@ -30,4 +30,4 @@ class ring_check(rfm.RegressionTest):
 
 
         self.maintainers = ['MS']
-        self.tags = {'ring','cpu'}
+        self.tags = {'ring','cpu','singlenode'}
