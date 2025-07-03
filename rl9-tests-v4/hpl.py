@@ -76,7 +76,7 @@ class hpl_gpu(hpl_test):
       variant = parameter(['p100','v100_4','v100_8','a100_4','a100_8','rtx4090_singlegpu'])
       valid_systems = ['ibex:batch']
       valid_prog_environs = ['gpustack_builtin']
-      tags= { 'hpl','gpu'.'singlenode'}
+      tags= { 'hpl','gpu','singlenode'}
       sourcesdir= '../src/hpl/gpu'
       time_limit='10m'
 
