@@ -9,7 +9,6 @@ import reframe.utility.sanity as sn
 class gromacs_tests(rfm.RunOnlyRegressionTest):
       variant= parameter(['small', 'medium','large','multinode'])
       #tags are useful to filter tests when not all but specific the tests are suppose to run
-      self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
       reference = {
                      'ibex' : {
                        'small': (35, -0.15, None,'ns_day'),
@@ -30,6 +29,7 @@ class gromacs_tests(rfm.RunOnlyRegressionTest):
         self.descr = 'GROMACS 2023 SP Run Only tests'
         self.valid_systems = ['ibex:batch_mpi']
         self.valid_prog_environs = ['cpustack_builtin']
+        self.tags = {'gromacs','gromacs_'+self.variant,'acceptance','cpu'}
         
         # sourcesdir is a string which points to where the input files for this test is to be found.
         self.sourcesdir='../src/gromacs'
