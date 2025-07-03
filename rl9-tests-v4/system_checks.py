@@ -27,8 +27,6 @@ class system_cpu(system_check):
       def setting_parameters(self):
        if self.variant == "homefs":
          self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
-       elif self.variant == "scratchfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/scratch',self.stdout)
        elif  self.variant == "aifs":  
          self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
        elif  self.variant == "userfs":
@@ -37,10 +35,6 @@ class system_cpu(system_check):
          self.sanity_patterns =sn.assert_found(r'/ibex/project',self.stdout)
        elif  self.variant == "localfs":
          self.sanity_patterns =sn.assert_found(r'/local',self.stdout)
-       elif  self.variant == "lustrefs":
-         self.sanity_patterns =sn.assert_found(r'/lustre',self.stdout)
-       elif  self.variant == "lustrefs2":
-         self.sanity_patterns =sn.assert_found(r'/lustre2',self.stdout)
        elif  self.variant == "modulepath":
          self.executable='echo $MODULEPATH'
          self.sanity_patterns =sn.assert_found(r'/sw/rl9c/modulefiles/applications:/sw/rl9c/modulefiles/compilers:/sw/rl9c/modulefiles/libs:/sw/services_rl9/modulefiles',self.stdout)
@@ -77,8 +71,6 @@ class system_gpu(system_check):
       def setting_parameters(self):
        if self.variant == "homefs":
          self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
-       elif self.variant == "scratchfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/scratch',self.stdout)
        elif  self.variant == "aifs":
          self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
        elif  self.variant == "userfs":
@@ -87,10 +79,6 @@ class system_gpu(system_check):
          self.sanity_patterns =sn.assert_found(r'/ibex/project',self.stdout)
        elif  self.variant == "localfs":
          self.sanity_patterns =sn.assert_found(r'/local',self.stdout)
-       elif  self.variant == "lustrefs":
-         self.sanity_patterns =sn.assert_found(r'/lustre',self.stdout)
-       elif  self.variant == "lustrefs2":
-         self.sanity_patterns =sn.assert_found(r'/lustre2',self.stdout)
        elif  self.variant == "modulepath":
          self.executable='echo $MODULEPATH'
          self.sanity_patterns =sn.assert_found(r'/sw/rl9g/modulefiles/libs:/sw/rl9g/modulefiles/compilers:/sw/rl9g/modulefiles/applications:/sw/services_rl9/modulefiles',self.stdout)
