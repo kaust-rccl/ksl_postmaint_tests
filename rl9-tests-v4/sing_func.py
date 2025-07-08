@@ -33,6 +33,7 @@ class sing_pull(rfm.RunOnlyRegressionTest):
         self.modules=['singularity/3.9.7']
         self.num_tasks = 4
         self.num_tasks_per_node = 4
+        self.prerun_cmds  = ['export SINGULARITY_DISABLE_CACHE=1']
         self.executable = 'singularity pull docker://python'
 
 @rfm.simple_test

@@ -45,7 +45,7 @@ class hpl_cpu(hpl_test):
         self.valid_prog_environs = ['cpustack_builtin']
         self.time_limit='10m'
         self.sourcesdir='../src/hpl/cpu/amd'
-        self.modules=['mpich/4.0.3/intel2022.3','openmpi/4.1.4/gnu11.2.1']
+        self.modules=['mpich/4.2.0/intel2022.3','openmpi/4.1.4/gnu11.2.1']
         self.num_tasks=128
         self.num_tasks_per_node=128
         self.num_cpus_per_task=1

@@ -3,7 +3,7 @@ import reframe as rfm
 import reframe.utility.sanity as sn
 import os
 class system_check(rfm.RunOnlyRegressionTest):
-      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','os','kernel'])
+      variant= parameter(['homefs','scratchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','os','kernel'])
       maintainers = ['rana.selim@kaust.edu.sa']
       descr = 'System sanity check on ibex nodes'
       tags = {'fs','acceptance'}
@@ -28,7 +28,7 @@ class system_cpu(system_check):
        if self.variant == "homefs":
          self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
        elif self.variant == "scratchfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/scratch',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'/ibex/user',self.stdout)
        elif  self.variant == "aifs":  
          self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
        elif  self.variant == "userfs":
@@ -52,16 +52,16 @@ class system_cpu(system_check):
          self.sanity_patterns =sn.assert_found(r'mlx5_0',self.stdout)
        elif  self.variant == "os":
          self.executable='cat /etc/redhat-release'
-         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.1',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.4',self.stdout)
        elif  self.variant == "kernel":
          self.executable='uname -r '
-         self.sanity_patterns =sn.assert_found(r'5.14.0-162.23.1.el9_1.x86_64',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'5.14.0-427.20.1.el9_4.0.1.x86_64',self.stdout)
 
 
 
 @rfm.simple_test
 class system_gpu(system_check):
-      variant= parameter(['homefs','scartchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','nvidiasmi','devicequery','os','kernel','peermemserivce','modpeermem','modgdrdrv'])
+      variant= parameter(['homefs','scratchfs','aifs','userfs','projectfs','localfs','lustrefs','lustrefs2','modulepath','numanodes','ibvdev','nvidiasmi','devicequery','os','kernel','peermemserivce','modpeermem','modgdrdrv'])
 
       descr = 'System sanity check on gpu nodes'
       valid_systems = ['ibex:gpu','ibex:gpu24','ibex:gpu_wide24']
@@ -78,7 +78,7 @@ class system_gpu(system_check):
        if self.variant == "homefs":
          self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
        elif self.variant == "scratchfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/scratch',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'/ibex/user',self.stdout)
        elif  self.variant == "aifs":
          self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
        elif  self.variant == "userfs":
@@ -109,10 +109,10 @@ class system_gpu(system_check):
          self.sanity_patterns =sn.assert_found(r'Result = PASS',self.stdout)
        elif  self.variant == "os":
          self.executable='cat /etc/redhat-release'
-         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.1',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.4',self.stdout)
        elif  self.variant == "kernel":
          self.executable='uname -r '
-         self.sanity_patterns =sn.assert_found(r'5.14.0-162.23.1.el9_1.x86_64',self.stdout)
+         self.sanity_patterns =sn.assert_found(r'5.14.0-427.20.1.el9_4.0.1.x86_64',self.stdout)
        elif  self.variant == "peermemserivce":
          self.executable='systemctl status nv_peer_mem'
          self.sanity_patterns =sn.assert_found(r'loaded (/etc/rc.d/init.d/nv_peer_mem; generated)',self.stdout)
