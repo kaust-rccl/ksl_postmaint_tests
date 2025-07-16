@@ -47,6 +47,7 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
            self.num_cpus_per_task=26
            self.executable='srun ./run_script_ksl_cs_storm_4090.sh'
            self.tags.add('rtx4090')
+           self.tags.discard('acceptance')
 
     
 
