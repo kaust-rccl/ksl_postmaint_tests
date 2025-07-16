@@ -130,6 +130,11 @@ class osu_cpu(osu_test):
       modules = ['openmpi/4.1.4/gnu11.2.1']
       sourcesdir = '../src/env'
       tags = {'cpu','osu','acceptance'}
+
+      @run_before('run')
+      def set_job_options(self):
+          self.job.options = ['--exclusive']
+
       @run_after('init')
       def setting_parameters(self):
         self.tags |= {self.variant}
