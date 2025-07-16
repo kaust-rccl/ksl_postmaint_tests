@@ -45,6 +45,7 @@ class Cuda_device_checks(rfm.RegressionTest):
         elif self.variant == 'rtx4090_singlegpu':
            self.extra_resources = {'constraint': {'type': 'gpu_rtx4090'}}
            self.tags.add('rtx4090')
+           self.tags.discard('acceptance')
 
 
 
