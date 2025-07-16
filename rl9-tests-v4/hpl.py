@@ -16,7 +16,7 @@ class hpl_test(rfm.RunOnlyRegressionTest):
 class hpl_cpu(hpl_test):
       variant = parameter(['intel','amd'])
       valid_systems = ['ibex:batch']
-      tags= { 'hpl','cpu','singlenode'}
+      tags= { 'hpl','cpu','singlenode','acceptance'}
       reference = {
                         'ibex' : {
                                'amd' : (2600,-0.06,None,'Gflops'),
@@ -76,7 +76,7 @@ class hpl_gpu(hpl_test):
       variant = parameter(['p100','v100_4','v100_8','a100_4','a100_8','rtx4090_singlegpu'])
       valid_systems = ['ibex:batch']
       valid_prog_environs = ['gpustack_builtin']
-      tags= { 'hpl','gpu','singlenode'}
+      tags= { 'hpl','gpu','singlenode','acceptance'}
       sourcesdir= '../src/hpl/gpu'
       time_limit='10m'
 
@@ -119,6 +119,7 @@ class hpl_gpu(hpl_test):
 
            self.prerun_cmds = ['module purge','module load rl9-gpustack','module load singularity','export IMAGE=./hpl_sing.sif','export CPUS=6','export HPL=./HPL.out', 'echo hostname > HPL.out','./env.sh']
            self.tags |= {'rtx4090'}
+           self.tags.discard('acceptance')
 
         elif self.variant == 'v100_8': 
            self.num_tasks=8
