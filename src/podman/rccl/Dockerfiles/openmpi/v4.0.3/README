@@ -1,0 +1,7 @@
+Before running the docker build, please download the following Mellanox driver which is expected for the OpenMPI Dockerfile
+
+MLNX_OFED_LINUX-5.0-2.1.8.0-ubuntu18.04-x86_64.tgz
+
+The above will require you to create an account and login.
+
+

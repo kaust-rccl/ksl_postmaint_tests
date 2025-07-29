@@ -1,0 +1,54 @@
+FROM krccl/mpich_base:332_gcc10
+
+RUN apt-get update \
+&&  apt-get install -y \
+    curl make vim apt-utils \
+    libnuma-dev libnl-3-200
+
+ENV TENSORFLOW_VERSION=2.16.1
+ENV PYTORCH_VERSION=2.2.0
+ENV TORCHVISION_VERSION=0.17.0
+ENV HOROVOD_VERSION=0.28.1
+
+# Python 3.11 is supported by Ubuntu Jammy
+ARG python=3.11
+ENV PYTHON_VERSION=${python}
+
+# Set default shell to /bin/bash
+SHELL ["/bin/bash", "-cu"]
+
+RUN apt-get install -y  \
+        cmake \
+        git \
+        ca-certificates \
+        python${PYTHON_VERSION} \
+        python${PYTHON_VERSION}-dev \
+        python${PYTHON_VERSION}-distutils \
+        libjpeg-dev \
+        libpng-dev 
+
+RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python
+
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
+
+# Install TensorFlow, Keras, PyTorch and MXNet
+RUN pip install future typing packaging
+RUN pip install tensorflow==${TENSORFLOW_VERSION} \
+                keras \
+                h5py
+
+#Install Pytorch
+RUN pip install torch==${PYTORCH_VERSION} torchvision==${TORCHVISION_VERSION} torchaudio -f https://download.pytorch.org/whl/torch_stable.html
+
+WORKDIR /opt
+# Install Horovod, temporarily using CUDA stubs
+RUN git clone --recursive https://github.com/horovod/horovod horovod-${HOROVOD_VERSION} \
+&&  cd horovod-${HOROVOD_VERSION} && git fetch --tags --all \
+&&  git checkout v${HOROVOD_VERSION} && git submodule sync  \
+&&  git submodule update --init --recursive
+
+WORKDIR /opt/horovod-${HOROVOD_VERSION}
+RUN sed -i 's/set(CMAKE_CXX_STANDARD 14)/set(CMAKE_CXX_STANDARD 17)/g' CMakeLists.txt
+RUN CC=mpicc CXX=mpicxx CFLAGS=-fpermissive CXXFLAGS=-fpermissive HOROVOD_WITH_MPI=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 HOROVOD_WITHOUT_GLOO=1 MAX_JOBS=1 python setup.py install 

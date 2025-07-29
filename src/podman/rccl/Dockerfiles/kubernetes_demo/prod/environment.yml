@@ -1,0 +1,21 @@
+name: demo
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - pip
+  - cudatoolkit=11.1
+  - numpy
+  - pytorch=1.9.1
+  - torchvision
+  - pip:
+    - ipykernel
+    - jupyter
+    - jupyter-server
+    - ipyparallel
+  
+
+

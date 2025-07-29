@@ -1,0 +1,28 @@
+FROM ubuntu:21.04
+RUN apt-get update
+RUN apt-get install -y git
+RUN apt-get install -y wget vim htop
+# Install Conda
+WORKDIR /software
+ARG CONDA_HOME=/software/miniconda
+ARG TMP_DIR=/tmp
+WORKDIR ${TMP_DIR}
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+RUN bash Miniconda3-latest-Linux-x86_64.sh -b -f -p ${CONDA_HOME}
+ENV PATH=$PATH:${CONDA_HOME}/condabin:${CONDA_HOME}/bin
+COPY environment.yml environment.yml
+# Install Conda environment 
+RUN conda env create -f environment.yml
+RUN rm -rf ${TMP_DIR}/*
+SHELL ["/bin/bash","-c"]
+RUN conda init
+RUN echo 'conda activate demo' >> ~/etc/container.d/
+ENV PATH=$PATH:${CONDA_HOME}/envs/demo/bin
+ENV NB_PREFIX=
+# set locale configs
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+ && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+EXPOSE 8888
