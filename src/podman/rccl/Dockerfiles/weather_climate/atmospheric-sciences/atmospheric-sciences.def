@@ -1,0 +1,7 @@
+Bootstrap: docker
+From: krccl/atmospheric-sciences:0.1.0
+
+%runscript
+    . /software/etc/profile.d/conda.sh
+    conda activate atmospheric-sciences
+    exec "$@"

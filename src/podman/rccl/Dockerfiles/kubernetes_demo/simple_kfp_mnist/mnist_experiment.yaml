@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+spec:
+  template:
+    metadata:
+        annotations:
+            sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+        - name: training-container
+          image: docker.io/mshaikh/pytorch_cu116:v1.12
+          command:
+            - "python3"
+            - "/opt/workload/mnist.py"
+            - "--batch-size=64"
+            - "--no-cuda"
+            - "--epochs=1"
+            - "--lr=${trialParameters.learningRate}"
+            - "--momentum=${trialParameters.momentum}"
+      restartPolicy: Never

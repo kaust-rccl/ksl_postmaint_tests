@@ -1,0 +1,10 @@
+TO Run:
+
+> docker run -ti -d -p 8888:8888 --name demo demo jupyter notebook --no-browser --ip=0.0.0.0 --port=8888 --NotebookApp.token='' --NotebookApp.password=''
+
+
+Then connect from your browser to http://localhost:8888
+
+
+Note: The container has EXPOSE 8888 in the image so the container's private port will always be 8888. You can map it to any available of your Host's port from the -p option of "docker run"
+

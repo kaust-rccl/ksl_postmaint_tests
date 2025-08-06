@@ -1,0 +1,4 @@
+The dockerfile contains recipe for 
+Ubuntu 18.04 + GCC-7 + GFortran-7 + MPICH3.1.4 + Anaconda + MPI4Py linked to the MPICH3.1.4
+
+This works on Magnus and is ABI compatible with Cray MPICH.

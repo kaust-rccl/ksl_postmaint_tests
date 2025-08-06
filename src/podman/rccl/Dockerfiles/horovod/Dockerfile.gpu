@@ -1,0 +1,96 @@
+FROM nvcr.io/nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:jonathonf/gcc-6.4 && apt-get update
+
+RUN apt-get install -y \
+    curl make vim apt-utils \
+    libnuma-dev libnl-3-200
+
+RUN apt-get install -y gcc-6 g++-6 gfortran-6
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 80 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gcov gcov /usr/bin/gcov-6
+
+WORKDIR /opt
+COPY MLNX_OFED_LINUX-5.0-2.1.8.0-ubuntu18.04-x86_64.tgz /opt
+RUN tar xvf MLNX_OFED_LINUX-5.0-2.1.8.0-ubuntu18.04-x86_64.tgz
+RUN echo "deb file:/opt/MLNX_OFED_LINUX-5.0-2.1.8.0-ubuntu18.04-x86_64/DEBS/UPSTREAM_LIBS ./" > /etc/apt/sources.list.d/mlnx_ofed.list 
+RUN curl -L http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox | apt-key add -
+RUN apt-get update
+
+RUN apt-get install -y mlnx-ofed-basic-user-only
+RUN rm -rf /opt/MLNX_OFED_LINUX*
+
+#Building OpenMPI 
+
+WORKDIR /opt
+RUN curl -o /opt/openmpi-4.0.3.tar https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.3.tar.gz
+RUN tar xvf /opt/openmpi-4.0.3.tar 
+WORKDIR /opt/openmpi-4.0.3
+RUN ./configure --prefix=/usr/local --with-verbs --with-cuda=/usr/local/cuda
+RUN make -j 8 VERBOSE=1
+RUN make install
+WORKDIR /
+RUN rm -rf /opt/openmpi-4.0.3.tar /opt/openmpi-4.0.3
+RUN ldconfig 
+ENV LD_LIBRARY_PATH /usr/local/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+ENV PATH /usr/local/bin:$PATH
+
+
+# TensorFlow version is tightly coupled to CUDA and cuDNN so it should be selected carefully
+ENV TENSORFLOW_VERSION=2.2.0
+ENV PYTORCH_VERSION=1.6.0
+ENV TORCHVISION_VERSION=0.7.0
+ENV NCCL_VERSION=2.7.8-1+cuda10.1
+ENV MXNET_VERSION=1.6.0.post0
+
+# Python 3.7 is supported by Ubuntu Bionic out of the box
+ARG python=3.7
+ENV PYTHON_VERSION=${python}
+
+# Set default shell to /bin/bash
+SHELL ["/bin/bash", "-cu"]
+
+RUN apt-get install -y --allow-change-held-packages --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        ca-certificates \
+        python${PYTHON_VERSION} \
+        python${PYTHON_VERSION}-dev \
+        python${PYTHON_VERSION}-distutils \
+        libnccl2=${NCCL_VERSION} \
+        libnccl-dev=${NCCL_VERSION} \
+        libjpeg-dev \
+        libpng-dev 
+
+RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python
+
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
+
+# Install TensorFlow, Keras, PyTorch and MXNet
+RUN pip install future typing packaging
+RUN pip install tensorflow==${TENSORFLOW_VERSION} \
+                keras \
+                h5py
+
+#Install Pytorch
+RUN pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+#RUN PYTAGS=$(python -c "from packaging import tags; tag = list(tags.sys_tags())[0]; print(f'{tag.interpreter}-{tag.abi}')") && \
+#    pip install https://download.pytorch.org/whl/cu101/torch-${PYTORCH_VERSION}%2Bcu101-${PYTAGS}-linux_x86_64.whl \
+#        https://download.pytorch.org/whl/cu101/torchvision-${TORCHVISION_VERSION}%2Bcu101-${PYTAGS}-linux_x86_64.whl
+
+#Installing MXNet
+RUN pip install mxnet-cu101==${MXNET_VERSION}
+
+WORKDIR /opt
+# Install Horovod, temporarily using CUDA stubs
+RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib/stubs && \
+    git clone --recursive https://github.com/horovod/horovod horovod-0.19.2 && \
+    cd horovod-0.19.2 && git fetch --tags --all && \
+    git checkout v0.19.2 && git submodule sync && \
+    git submodule update --init --recursive
+
+WORKDIR /opt/horovod-0.19.2
+RUN CC=mpicc CXX=mpicxx HOROVOD_WITH_MPI=1 HOROVOD_CUDA_HOME=/usr/local/cuda HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_GPU_BROADCAST=NCCL HOROVOD_GPU_ALLGATHER=MPI HOROVOD_ALLOW_MIXED_GPU_IMPL=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_MXNET=1 HOROVOD_WITH_GLOO=1 python setup.py install

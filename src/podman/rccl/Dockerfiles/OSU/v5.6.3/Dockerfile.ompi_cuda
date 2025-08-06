@@ -1,0 +1,14 @@
+#FROM krccl/openmpi_cuda102_base:403
+FROM ompi_cuda101
+
+#Building OSU microbenchmarks 5.6.3
+RUN curl -o /tmp/osu-micro-benchmarks-5.6.3.tar.gz http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-5.6.3.tar.gz
+RUN tar xvf /tmp/osu-micro-benchmarks-5.6.3.tar.gz -C /tmp
+WORKDIR /tmp/osu-micro-benchmarks-5.6.3
+RUN CC=mpicc CXX=mpicxx ./configure --prefix=/usr/local --with-cuda=/usr/local/cuda
+RUN make -j 8 VERBOSE=1
+RUN make install
+WORKDIR /
+RUN rm -rf /tmp/osu-micro-benchmarks-5.6.3.tar.gz /tmp/osu-micro-benchmarks-5.6.3
+
+
