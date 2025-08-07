@@ -311,6 +311,12 @@ site_configuration = {
                  
     ],
 
+    'storage': [
+            {
+            'enable': True
+
+                }
+            ],
             
     'logging': [
         {
