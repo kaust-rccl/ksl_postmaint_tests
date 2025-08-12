@@ -1,12 +1,12 @@
-## Reframe 4.4.1 on RL9
+## Reframe 4.8.1 on RL9
 
 ReFrame is a high-level framework for writing regression tests for HPC systems written in Python3.x and is authored and maintained by CSCS. 
 We are prototyping ReFrame on IBEX to use it as a post-maintenance testing suit to run on IBEX.
 This repositary contains tests for RL9. 
 
-Reframe v4.4.1 with python 3.11.0 is installed can be accessed via the following module
+Reframe v4.8.1 with python 3.11.0 is installed can be accessed via the following module
 ```sh
-module load reframe/4.4.1
+module load reframe/4.8.1
 ```
 To list the tests 
 ```sh
