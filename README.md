@@ -20,4 +20,13 @@ To run the tests under Maintaince
 ```sh
 reframe -c rl9-tests-v4  -Jreservation=<reservation_name> -r 
 ```
-
+To list the users for all the stored session
+```sh
+cd tools
+./list_user_per_session <path to reframe reports dir>
+```
+To include old JSON files into reframe db
+```sh
+cd tools
+python reframe_db_insert_old_json.py <path to json files> <path to target database>
+```
