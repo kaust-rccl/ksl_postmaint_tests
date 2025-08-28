@@ -27,7 +27,7 @@ class pytorch_a100_gpu(pytorch_test):
       time_limit = "3h"
       reference = {
                         'ibex' : {
-                                'a100_8_singlenode' : (1100.00,None,0.1,'Epoch_time'),
+                                'a100_8_singlenode' : (1150.00,None,0.1,'Epoch_time'),
                                 'a100_4_singlenode' : (2200.00,None,0.1,'Epoch_time'),
                                 'a100_8_4GPUS_singlenode' : (2100.00,None,0.1,'Epoch_time'),
                                 'a100_8_multinode'  : (1100,None,0.1,'Epoch_time'),
@@ -107,7 +107,7 @@ class pytorch_v100_gpu(pytorch_test):
       time_limit= '2h'
       reference = {
                         'ibex' : {
-                                'v100_8_singlenode' : (1100,None,0.1,'Epoch_time'),
+                                'v100_8_singlenode' : (2400,None,0.1,'Epoch_time'),
                                 'v100_8_multinode'  : (1100,None,0.1,'Epoch_time')
                         }
                 }

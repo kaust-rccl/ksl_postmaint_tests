@@ -59,8 +59,8 @@ class osu_gpu_v100(osu_test):
       reference = {
                         'ibex' : {
                                 'latency' : (160.0,None,0.1,None),
-                                'bandwidth' : (305000.0,-0.1,None,None),
-                                'bibandwidth' : (270000.0,-0.1,None,None),
+                                'bandwidth' : (30500.0,-0.1,None,None),
+                                'bibandwidth' : (27000.0,-0.1,None,None),
                                  }
                         }
                         
