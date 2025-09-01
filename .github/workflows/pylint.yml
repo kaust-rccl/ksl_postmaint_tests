@@ -21,5 +21,7 @@ jobs:
         pip install reframe-hpc
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=E $(git ls-files '*.py')
+        pylint --disable=C0114 $(git ls-files '*.py')
+
+#C0114 missing-module-docstring
         
