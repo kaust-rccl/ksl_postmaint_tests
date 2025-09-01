@@ -21,5 +21,5 @@ jobs:
         pip install reframe-hpc
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=E $(git ls-files '*.py') || true
+        pylint --disable=E $(git ls-files '*.py')
         
