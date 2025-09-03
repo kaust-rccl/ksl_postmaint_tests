@@ -22,7 +22,8 @@ jobs:
         pip install torch torchvision
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=C0114 $(git ls-files '*.py')
+        pylint --disable=C0114,R0902 $(git ls-files '*.py')
 
 #C0114 missing-module-docstring
+#R0902 too-many-instance-attributes
         
