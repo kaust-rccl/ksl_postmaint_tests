@@ -19,6 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint[spelling]
         pip install reframe-hpc
+        pip install torch torchvision
     - name: Analysing the code with pylint
       run: |
         pylint --disable=C0114 $(git ls-files '*.py')
