@@ -1,0 +1,9 @@
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+  "C0114",  # missing-module-docstring
+  "R0902",  # too-many-instance-attributes
+  "C0103",  # Class name doesn't conform to PascalCase
+  "E0602",  # Undefined variable
+  "C0209",  # Formatting a regular string which could be an f-string
+  "W0611",  # Unused import
+]
