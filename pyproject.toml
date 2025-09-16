@@ -5,5 +5,4 @@ disable = [
   "C0103",  # Class name doesn't conform to PascalCase
   "E0602",  # Undefined variable
   "C0209",  # Formatting a regular string which could be an f-string
-  "W0611",  # Unused import
 ]
