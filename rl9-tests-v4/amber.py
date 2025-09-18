@@ -1,9 +1,12 @@
-import os
 import reframe as rfm
 import reframe.utility.sanity as sn
 
 
 class Amber_test(rfm.RunOnlyRegressionTest):
+    """
+    Define base class for Amber test.
+    """
+
     maintainers = ["ahmed.khatab@kaust.edu.sa"]
     descr = "Run Amber checks"
     valid_systems = ["ibex:batch"]
@@ -15,10 +18,17 @@ class Amber_test(rfm.RunOnlyRegressionTest):
 
 @rfm.simple_test
 class amber_a100(Amber_test):
+    """
+    Define test variants for A100 GPUs.
+    """
+
     variant = parameter(["a100_1", "a100_2", "a100_4"])
 
     @run_after("init")
     def setting_variables(self):
+        """
+        Define job resources.
+        """
         self.tags = {"gpu", "acceptance", "amber", "a100", self.variant}
         if self.variant == "a100_1":
             self.num_tasks = 1
@@ -85,6 +95,9 @@ class amber_a100(Amber_test):
 
     @run_before("run")
     def set_job_options(self):
+        """
+        Define job options.
+        """
         if self.variant == "a100_1":
             self.job.options = [
                 "--constraint=a100",
@@ -112,10 +125,17 @@ class amber_a100(Amber_test):
 
 @rfm.simple_test
 class amber_v100(Amber_test):
+    """
+    Define test variants for V100 GPUs.
+    """
+
     variant = parameter(["v100_1", "v100_2", "v100_4"])
 
     @run_after("init")
     def setting_variables(self):
+        """
+        Define job resources.
+        """
         self.tags = {"gpu", "acceptance", "amber", "v100", self.variant}
         if self.variant == "v100_1":
             self.num_tasks = 1
@@ -183,6 +203,9 @@ class amber_v100(Amber_test):
 
     @run_before("run")
     def set_job_options(self):
+        """
+        Define job options.
+        """
         if self.variant == "v100_1":
             self.job.options = [
                 "--constraint=v100",
@@ -210,10 +233,17 @@ class amber_v100(Amber_test):
 
 @rfm.simple_test
 class amber_cpu(Amber_test):
+    """
+    Define test variants for CPUs.
+    """
+
     variant = parameter(["cpu"])
 
     @run_after("init")
     def setting_variables(self):
+        """
+        Define job resources.
+        """
         self.tags = {"gpu", "acceptance", "amber", self.variant}
         self.num_tasks = 64
         self.prerun_cmds = ["export OMP_NUM_THREADS=64"]
@@ -242,6 +272,9 @@ class amber_cpu(Amber_test):
 
     @run_before("run")
     def set_job_options(self):
+        """
+        Define job options.
+        """
         if self.variant == "cpu":
             self.job.options = [
                 "--constraint=a100",
