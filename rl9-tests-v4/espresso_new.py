@@ -1,50 +1,56 @@
-import os
-
 import reframe as rfm
 import reframe.utility.sanity as sn
 
+
 @rfm.simple_test
 class espresso(rfm.RunOnlyRegressionTest):
-      variant= parameter(['single', 'multi'])
-      @run_after('init')
-      def setting_variables(self):
+    """
+    Define base class for espresso test.
+    """
 
-        self.maintainers = ['amr.radwan@kaust.edu.sa']
-        self.tags = {'espresso','cpu'}
-        self.valid_systems = ['ibex:batch_mpi']
-        self.sourcesdir = '../src/espresso'
-        self.prerun_cmds = ['./env.sh']
-        self.valid_prog_environs = ['cpustack_builtin']
-        self.modules=['quantumespresso/7.3/intelmpi_intel2022.3']
-        self.executable = 'pw.x'
-        self.executable_opts = ['-in', 'qe.scf.in']
-        self.time_limit='10m'
-        energy = sn.extractsingle(r'!\s+total energy\s+=\s+(?P<energy>\S+) Ry',
-                                  self.stdout, 'energy', float)
-        self.sanity_patterns = sn.all([
-            sn.assert_found(r'convergence has been achieved', self.stdout),
-            sn.assert_reference(energy, -62.96497971)
-        ])
+    variant = parameter(["single", "multi"])
+
+    @run_after("init")
+    def setting_variables(self):
+        """
+        Define test variants for single and multi node.
+        """
+        self.maintainers = ["amr.radwan@kaust.edu.sa"]
+        self.tags = {"espresso", "cpu"}
+        self.valid_systems = ["ibex:batch_mpi"]
+        self.sourcesdir = "../src/espresso"
+        self.prerun_cmds = ["./env.sh"]
+        self.valid_prog_environs = ["cpustack_builtin"]
+        self.modules = ["quantumespresso/7.3/intelmpi_intel2022.3"]
+        self.executable = "pw.x"
+        self.executable_opts = ["-in", "qe.scf.in"]
+        self.time_limit = "10m"
+        energy = sn.extractsingle(
+            r"!\s+total energy\s+=\s+(?P<energy>\S+) Ry", self.stdout, "energy", float
+        )
+        self.sanity_patterns = sn.all(
+            [
+                sn.assert_found(r"convergence has been achieved", self.stdout),
+                sn.assert_reference(energy, -62.96497971),
+            ]
+        )
         self.perf_patterns = {
-            'time': sn.extractsingle(r'electrons    :\s+(?P<sec>\S+)s CPU ',
-                                     self.stdout, 'sec', float)
+            "time": sn.extractsingle(
+                r"electrons    :\s+(?P<sec>\S+)s CPU ", self.stdout, "sec", float
+            )
         }
-        if self.variant == 'single':
+        if self.variant == "single":
             self.num_tasks = 32
-            self.descr = 'Quantum Espresso CPU check on Single Node'
-            self.tags.add('singlenode')
+            self.descr = "Quantum Espresso CPU check on Single Node"
+            self.tags.add("singlenode")
             self.num_tasks_per_node = 32
             self.reference = {
-                'ibex:batch_mpi': {
-                    'time': (0.77, None, 0.05, 's'),
+                "ibex:batch_mpi": {
+                    "time": (0.77, None, 0.05, "s"),
                 }
             }
         else:
             self.num_tasks = 32
-            self.descr = 'Quantum Espresso CPU check on Multi Node'
+            self.descr = "Quantum Espresso CPU check on Multi Node"
             self.num_tasks_per_node = 16
-            self.reference = {
-                'ibex:batch_mpi': {
-                    'time': (0.9, None, 0.05, 's')
-                }
-            }
+            self.reference = {"ibex:batch_mpi": {"time": (0.9, None, 0.05, "s")}}
