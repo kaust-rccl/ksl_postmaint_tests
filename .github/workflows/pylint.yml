@@ -19,7 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint[spelling]
         pip install reframe-hpc
+        pip install torch torchvision
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=E $(git ls-files '*.py') || true
-        
+        pylint $(git ls-files 'rl9-tests-v4/*.py')
