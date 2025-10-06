@@ -6,4 +6,5 @@ disable = [
   "E0602",  # Undefined variable
   "C0209",  # Formatting a regular string which could be an f-string
   "W0201",  # attribute-defined-outside-init (SLURM related terms like constraint are falsely flagged)
+  "R0801",  # Similar lines in 2 files (Each test file is independent)
 ]

@@ -1,6 +1,3 @@
-"""
-Launches OSU benchmarks
-"""
 import reframe as rfm
 import reframe.utility.sanity as sn
 
@@ -9,6 +6,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
     """
     Define base class for OSU tests
     """
+
     variant = parameter(["latency", "bandwidth", "bibandwidth"])
     maintainers = ["mohsin.shaikh@kaust.edu.sa"]
     descr = "running OSU BM"
@@ -22,6 +20,7 @@ class osu_gpu_v100(osu_test):
     """
     Define test variants for V100 GPUs
     """
+
     params = parameter(["v100&cpu_intel_gold_6142", "v100&gpu_ai"])
     valid_prog_environs = ["gpustack_builtin"]
     valid_systems = ["ibex:batch"]
@@ -53,9 +52,11 @@ class osu_gpu_v100(osu_test):
 
         if self.variant == "latency":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Latency Test v5.9", self.stdout
             )
@@ -67,9 +68,11 @@ class osu_gpu_v100(osu_test):
 
         elif self.variant == "bandwidth":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Bandwidth Test v5.9", self.stdout
             )
@@ -81,9 +84,11 @@ class osu_gpu_v100(osu_test):
 
         elif self.variant == "bibandwidth":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Bi-Directional Bandwidth Test v5.9", self.stdout
             )
@@ -107,6 +112,7 @@ class osu_gpu(osu_test):
     """
     Define test variants for P100, GTX and RTX GPUs.
     """
+
     params = parameter(["p100", "rtx2080ti", "gtx1080ti"])
     valid_prog_environs = ["gpustack_builtin"]
     valid_systems = ["ibex:batch"]
@@ -142,9 +148,11 @@ class osu_gpu(osu_test):
 
         if self.variant == "latency":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_latency H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Latency Test v5.9", self.stdout
             )
@@ -156,9 +164,11 @@ class osu_gpu(osu_test):
 
         elif self.variant == "bandwidth":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bw H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Bandwidth Test v5.9", self.stdout
             )
@@ -170,9 +180,11 @@ class osu_gpu(osu_test):
 
         elif self.variant == "bibandwidth":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("nvidia-smi --query-gpu=gpu_name,"
-            "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
-            "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw H H")
+            self.executable = (
+                "nvidia-smi --query-gpu=gpu_name,"
+                "gpu_bus_id --format=csv;srun -n ${SLURM_NTASKS} "
+                "-N ${SLURM_NNODES} ${OSU_DIR}/get_local_rank osu_bibw H H"
+            )
             self.sanity_patterns = sn.assert_found(
                 r"^# OSU MPI Bi-Directional Bandwidth Test v5.9", self.stdout
             )
@@ -196,6 +208,7 @@ class osu_cpu(osu_test):
     """
     Define test variants for CPU nodes.
     """
+
     valid_prog_environs = ["cpustack_gnu"]
     valid_systems = ["ibex:batch_mpi"]
     num_tasks = 2

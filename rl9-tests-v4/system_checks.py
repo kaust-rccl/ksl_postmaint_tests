@@ -1,153 +1,144 @@
-# An example of system check where the mpi launcher is omitted in the jobscript.
 import reframe as rfm
 import reframe.utility.sanity as sn
-import os
+
+
 class system_check(rfm.RunOnlyRegressionTest):
-      variant= parameter(['homefs','aifs','userfs','projectfs','localfs','modulepath','numanodes','ibvdev','os','kernel'])
-      maintainers = ['rana.selim@kaust.edu.sa']
-      descr = 'System sanity check on ibex nodes'
-      tags = {'fs','acceptance'}
-      sourcesdir= None
-      time_limit = "10m"
+    """Define base class for system checks."""
+
+    variant = parameter(
+        [
+            "homefs",
+            "aifs",
+            "userfs",
+            "projectfs",
+            "localfs",
+            "modulepath",
+            "numanodes",
+            "ibvdev",
+            "os",
+            "kernel",
+        ]
+    )
+    maintainers = ["rana.selim@kaust.edu.sa"]
+    descr = "System sanity check on ibex nodes"
+    tags = {"fs", "acceptance"}
+    sourcesdir = None
+    time_limit = "10m"
+
 
 @rfm.simple_test
 class system_cpu(system_check):
-#      variant= parameter(['home','wekaio'])
-#      params = parameter(['cpu','gpu'])
-       
-     # descr = 'Filesystem mount check on longin and compute nodes'
-      valid_systems = ['ibex:login','ibex:batch']
-      valid_prog_environs = ['cpustack_builtin']
-      sourcesdir=None
-      executable='mount'
-      time_limit='10m'
-      tags = {'system','acceptance','cpu','fs','sys','singlenode'}
+    """Define system checks variants for CPUs."""
 
-      @run_after('init')
-      def setting_parameters(self):
-       if self.variant == "homefs":
-         self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
-       elif  self.variant == "aifs":  
-         self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
-       elif  self.variant == "userfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/user',self.stdout)
-       elif  self.variant == "projectfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/project',self.stdout)
-       elif  self.variant == "localfs":
-         self.sanity_patterns =sn.assert_found(r'/local',self.stdout)
-       elif  self.variant == "modulepath":
-         self.executable='echo $MODULEPATH'
-         self.sanity_patterns =sn.assert_found(r'/sw/rl9c/modulefiles/applications:/sw/rl9c/modulefiles/compilers:/sw/rl9c/modulefiles/libs:/sw/services_rl9/modulefiles',self.stdout)
-       elif  self.variant == "numanodes":
-         self.executable='numactl -H'
-         self.sanity_patterns =sn.assert_found(r'2 nodes',self.stdout)
-       elif  self.variant == "ibvdev":
-         self.executable='ibv_devinfo -l'
-         self.sanity_patterns =sn.assert_found(r'mlx5_0',self.stdout)
-       elif  self.variant == "os":
-         self.executable='cat /etc/redhat-release'
-         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.4 (Blue Onyx)',self.stdout)
-       elif  self.variant == "kernel":
-         self.executable='uname -r '
-         self.sanity_patterns =sn.assert_found(r'5.14.0-427.20.1.el9_4.0.1.x86_64',self.stdout)
+    valid_systems = ["ibex:login", "ibex:batch"]
+    valid_prog_environs = ["cpustack_builtin"]
+    sourcesdir = None
+    executable = "mount"
+    time_limit = "10m"
+    tags = {"system", "acceptance", "cpu", "fs", "sys", "singlenode"}
 
+    @run_after("init")
+    def setting_parameters(self):
+        """Define test variants sanity and executables."""
+        variant_map = {
+            "homefs": ("mount", r"/home/home"),
+            "aifs": ("mount", r"/ibex/ai"),
+            "userfs": ("mount", r"/ibex/user"),
+            "projectfs": ("mount", r"/ibex/project"),
+            "localfs": ("mount", r"/local"),
+            "modulepath": (
+                "echo $MODULEPATH",
+                (
+                    r"/sw/rl9c/modulefiles/applications:"
+                    r"/sw/rl9c/modulefiles/compilers:"
+                    r"/sw/rl9c/modulefiles/libs:"
+                    r"/sw/services_rl9/modulefiles"
+                ),
+            ),
+            "numanodes": ("numactl -H", r"2 nodes"),
+            "ibvdev": ("ibv_devinfo -l", r"mlx5_0"),
+            "os": ("cat /etc/redhat-release", r"Rocky Linux release 9.4 \(Blue Onyx\)"),
+            "kernel": ("uname -r ", r"5.14.0-427.20.1.el9_4.0.1.x86_64"),
+        }
+
+        cmd, pattern = variant_map[self.variant]
+        self.executable = cmd
+        self.sanity_patterns = sn.assert_found(pattern, self.stdout)
 
 
 @rfm.simple_test
 class system_gpu(system_check):
-      variant= parameter(['homefs','aifs','userfs','projectfs','localfs','modulepath','numanodes','ibvdev','nvidiasmi','devicequery','os','kernel','peermemserivce','modpeermem','modgdrdrv'])
+    """Define system checks variants for GPUs."""
 
-      descr = 'System sanity check on gpu nodes'
-      valid_systems = ['ibex:gpu','ibex:gpu24','ibex:gpu_wide24']
-      valid_prog_environs = ['gpustack_builtin']
-      num_gpus_per_node=1
-      num_tasks=1
-      sourcesdir=None
-      executable='mount'
-      time_limit='10m'
-      tags = {'fs','acceptance','gpu','system','sys','singlenode'}
+    variant = parameter(
+        [
+            "homefs",
+            "aifs",
+            "userfs",
+            "projectfs",
+            "localfs",
+            "modulepath",
+            "numanodes",
+            "ibvdev",
+            "nvidiasmi",
+            "devicequery",
+            "os",
+            "kernel",
+            "peermemserivce",
+            "modpeermem",
+            "modgdrdrv",
+        ]
+    )
 
-      @run_after('init')
-      def setting_parameters(self):
-       if self.variant == "homefs":
-         self.sanity_patterns =sn.assert_found(r'/home/home',self.stdout)
-       elif  self.variant == "aifs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/ai',self.stdout)
-       elif  self.variant == "userfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/user',self.stdout)
-       elif  self.variant == "projectfs":
-         self.sanity_patterns =sn.assert_found(r'/ibex/project',self.stdout)
-       elif  self.variant == "localfs":
-         self.sanity_patterns =sn.assert_found(r'/local',self.stdout)
-       elif  self.variant == "modulepath":
-         self.executable='echo $MODULEPATH'
-         self.sanity_patterns =sn.assert_found(r'/sw/rl9g/modulefiles/libs:/sw/rl9g/modulefiles/compilers:/sw/rl9g/modulefiles/applications:/sw/services_rl9/modulefiles',self.stdout)
-       elif  self.variant == "nvidiasmi":
-         self.executable='nvidia-smi'
-         self.sanity_patterns =sn.assert_found(r'NVIDIA-SMI',self.stdout)
-       elif  self.variant == "numanodes":
-         self.executable='numactl -H'
-         self.sanity_patterns =sn.assert_found(r' 2 nodes',self.stdout)
-       elif  self.variant == "ibvdev":
-         self.executable='ibv_devinfo -l'
-         self.sanity_patterns =sn.assert_found(r'mlx5_0',self.stdout)
-       elif  self.variant == 'devicequery':
-         self.executable='./deviceQuery'
-         self.sourcesdir='../src/devicequery'
-         self.sanity_patterns =sn.assert_found(r'Result = PASS',self.stdout)
-       elif  self.variant == "os":
-         self.executable='cat /etc/redhat-release'
-         self.sanity_patterns =sn.assert_found(r'Rocky Linux release 9.4 (Blue Onyx)',self.stdout)
-       elif  self.variant == "kernel":
-         self.executable='uname -r '
-         self.sanity_patterns =sn.assert_found(r'5.14.0-427.20.1.el9_4.0.1.x86_64',self.stdout)
-       elif  self.variant == "peermemserivce":
-         self.executable='systemctl status nv_peer_mem'
-         self.sanity_patterns =sn.assert_found(r'Loaded:\s+loaded\s+\(/etc/rc\.d/init\.d/nv_peer_mem; generated\)',self.stdout)
-       elif  self.variant == "modpeermem":
-         self.executable='lsmod | grep -o nv_peer_mem'
-         self.sanity_patterns =sn.assert_found(r'nv_peer_mem',self.stdout)
-       elif  self.variant == "modgdrdrv":
-         self.executable='lsmod | grep -o gdrdrv'
-         self.sanity_patterns =sn.assert_found(r'gdrdrv',self.stdout)
+    descr = "System sanity check on gpu nodes"
+    valid_systems = ["ibex:gpu", "ibex:gpu24", "ibex:gpu_wide24"]
+    valid_prog_environs = ["gpustack_builtin"]
+    num_gpus_per_node = 1
+    num_tasks = 1
+    sourcesdir = None
+    executable = "mount"
+    time_limit = "10m"
+    tags = {"fs", "acceptance", "gpu", "system", "sys", "singlenode"}
 
+    @run_after("init")
+    def setting_parameters(self):
+        """Define test variants sanity and executables."""
+        variant_map = {
+            "homefs": ("mount", r"/home/home"),
+            "aifs": ("mount", r"/ibex/ai"),
+            "userfs": ("mount", r"/ibex/user"),
+            "projectfs": ("mount", r"/ibex/project"),
+            "localfs": ("mount", r"/local"),
+            "modulepath": (
+                "echo $MODULEPATH",
+                (
+                    r"/sw/rl9g/modulefiles/libs:"
+                    r"/sw/rl9g/modulefiles/compilers:"
+                    r"/sw/rl9g/modulefiles/applications:"
+                    r"/sw/services_rl9/modulefiles"
+                ),
+            ),
+            "nvidiasmi": ("nvidia-smi", r"NVIDIA-SMI"),
+            "numanodes": ("numactl -H", r" 2 nodes"),
+            "ibvdev": ("ibv_devinfo -l", r"mlx5_0"),
+            "devicequery": ("./deviceQuery", r"Result = PASS"),
+            "os": ("cat /etc/redhat-release", r"Rocky Linux release 9.4 \(Blue Onyx\)"),
+            "kernel": ("uname -r ", r"5.14.0-427.20.1.el9_4.0.1.x86_64"),
+            "peermemserivce": (
+                "systemctl status nv_peer_mem",
+                r"Loaded:\s+loaded\s+\(/etc/rc\.d/init\.d/nv_peer_mem; generated\)",
+            ),
+            "modpeermem": ("lsmod | grep -o nv_peer_mem", r"nv_peer_mem"),
+            "modgdrdrv": ("lsmod | grep -o gdrdrv", r"gdrdrv"),
+        }
 
-      @run_before('run')
-      def set_job_options(self):
-         self.job.options = ['--partition=batch','--gpus=1','--gpus-per-node=1']
- 
-      #maintainers = ['rana.selim@kaust.edu.sa']
-      #tags = {'filesystem','acceptance','cpu','fs'}
+        cmd, pattern = variant_map[self.variant]
+        self.executable = cmd
+        if self.variant == "devicequery":
+            self.sourcesdir = "../src/devicequery"
+        self.sanity_patterns = sn.assert_found(pattern, self.stdout)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @run_before("run")
+    def set_job_options(self):
+        """Define extra test resources."""
+        self.job.options = ["--partition=batch", "--gpus=1", "--gpus-per-node=1"]

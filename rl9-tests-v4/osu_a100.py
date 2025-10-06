@@ -6,6 +6,7 @@ class osu_test(rfm.RunOnlyRegressionTest):
     """
     Define base test info.
     """
+
     variant = parameter(["latency", "bandwidth", "bibandwidth"])
     maintainers = ["rana.selim@kaust.edu.sa"]
     descr = "running OSU BM"
@@ -19,6 +20,7 @@ class osu_a100(osu_test):
     """
     Define OSU test variants for A100 GPUs.
     """
+
     params = parameter(["a100&4gpus", "a100&8gpus"])
 
     ## TEST BASIC INFO
@@ -98,9 +100,11 @@ class osu_a100(osu_test):
 
         elif self.variant == "bibandwidth":
             self.prerun_cmds = ["./env.sh"]
-            self.executable = ("srun -n 2 -N 2 --cpu-bind=cores  "
-            "$OSU_DIR/get_local_rank osu_bibw -m 4194304:4194304 "
-            "-d cuda -x 100 -i 100 D D")
+            self.executable = (
+                "srun -n 2 -N 2 --cpu-bind=cores  "
+                "$OSU_DIR/get_local_rank osu_bibw -m 4194304:4194304 "
+                "-d cuda -x 100 -i 100 D D"
+            )
             self.sanity_patterns = sn.assert_found(r"^# OSU MPI-CUDA ", self.stdout)
             self.perf_patterns = {
                 self.variant: sn.extractsingle(

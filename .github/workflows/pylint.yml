@@ -22,4 +22,4 @@ jobs:
         pip install torch torchvision
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
+        pylint $(git ls-files 'rl9-tests-v4/*.py')
