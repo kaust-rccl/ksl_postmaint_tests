@@ -4,3 +4,4 @@ output/
 stage/
 perflogs/
 rl9-tests-v4/__pycache__/
+dcgm/

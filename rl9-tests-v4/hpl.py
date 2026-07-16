@@ -108,7 +108,7 @@ class hpl_gpu(hpl_test):
     """
 
     variant = parameter(
-        ["p100", "v100_4", "v100_8", "a100_4", "a100_8", "rtx4090_singlegpu"]
+        ["p100", "v100_4", "v100_8", "a100_4", "a100_8", "rtx4090_singlegpu", "h200_4", "h200_8"]
     )
     valid_systems = ["ibex:batch"]
     valid_prog_environs = ["gpustack_builtin"]
@@ -124,6 +124,8 @@ class hpl_gpu(hpl_test):
             "a100_4": (56000, -0.05, None, "Gflops"),
             "a100_8": (92500, -0.05, None, "Gflops"),
             "rtx4090_singlegpu": (1220, -0.05, None, "Gflops"),
+            "h200_4": (151000, -0.05, None, "Gflops"),
+            "h200_8": (300100, -0.05, None, "Gflops"),
         }
     }
 
@@ -296,6 +298,75 @@ class hpl_gpu(hpl_test):
                 "export OMPI_MCA_btl_openib_warn_no_device_params_found=0",
                 "./env.sh",
             ]
+
+        elif self.variant == "h200_8":
+            self.num_tasks = 1
+            self.num_gpus_per_node = 8
+            self.num_cpus_per_task = 94
+            
+            self.extra_resources = {
+                "memory": {"size": "850G"},
+                "constraint": {"type": "h200,8gpus"},
+                "nodes": {"num_of_nodes": "1"},
+            }
+
+            self.executable = (
+                "singularity run --nv "
+                "-B .:/my-dat-files "
+                "$IMAGE "
+                "mpirun --oversubscribe --bind-to none -np 8 "
+                "/workspace/hpl.sh "
+                "--dat /my-dat-files/HPL.dat.h200.G8N1 "
+                "--cpu-affinity "
+                "0,3-9:10-16:17-23:24-47:48-55:56-63:64-71:72-95 "
+                "--mem-affinity "
+                "0:0:0:1:2:2:2:3 "
+                "--gpu-affinity "
+                "0:1:2:3:4:5:6:7 "
+            )
+
+            self.prerun_cmds = [
+                "module purge",
+                "module load rl9-gpustack",
+                "module load singularity",
+                "export IMAGE=./hpl_sing_h200.sif",
+                "export OMPI_MCA_hwloc_base_binding_policy=none",
+            ]
+
+            self.tags |= {"h200_8"}
+            
+        elif self.variant == "h200_4":
+            self.num_tasks = 1
+            self.num_gpus_per_node = 4
+            self.num_cpus_per_task = 94
+
+            self.extra_resources = {
+                "memory": {"size": "400G"},
+                "constraint": {"type": "h200,8gpus"},
+                "nodes": {"num_of_nodes": "1"},
+            }
+
+            self.prerun_cmds = [
+                "module purge",
+                "module load rl9-gpustack",
+                "module load singularity",
+                "export IMAGE=./hpl_sing_h200.sif",
+                "export OMPI_MCA_hwloc_base_binding_policy=none",
+            ]
+
+            self.executable = (
+                "singularity run --nv "
+                "-B .:/my-dat-files "
+                "$IMAGE "
+                "mpirun --oversubscribe --bind-to none -np 4 "
+                "/workspace/hpl.sh "
+                "--dat /my-dat-files/HPL.dat.h200.G4N1 "
+                "--cpu-affinity 0,3-9:10-16:17-23:24-47 "
+                "--mem-affinity 0:0:0:1 "
+                "--gpu-affinity 0:1:2:3 "
+            )
+
+            self.tags |= {"h200_4"}
 
     @run_before("run")
     def set_job_options(self):
