@@ -8,7 +8,7 @@ class Cuda_power_checks(rfm.RunOnlyRegressionTest):
     Define base class for GPU power limit test.
     """
 
-    variant = parameter(["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "a100_8"])
+    variant = parameter(["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "a100_8", "h200_4", "h200_8"])
 
     @run_after("init")
     def setting_variables(self):
@@ -30,7 +30,7 @@ class Cuda_power_checks(rfm.RunOnlyRegressionTest):
 
         self.valid_prog_environs = ["gpustack_cuda"]
         self.time_limit = "10m"
-        if self.variant in ("v100_8", "rtx2080ti", "a100_8"):
+        if self.variant in ("v100_8", "rtx2080ti", "a100_8", "h200_8"):
             self.num_gpus_per_node = 8
         else:
             self.num_gpus_per_node = 4
@@ -55,7 +55,8 @@ class Cuda_power_checks(rfm.RunOnlyRegressionTest):
             self.extra_resources = {"constraint": {"type": "4gpus,a100"}}
         elif self.variant == "a100_8":
             self.extra_resources = {"constraint": {"type": "a100"}}
-
+        elif self.variant in ("h200_4", "h200_8"):
+            self.extra_resources = {"constraint": {"type": "h200"}}
         # Validation
         self.sanity_patterns = sn.assert_found(r"Current Power Limit", self.stdout)
         # Performance check
@@ -75,6 +76,8 @@ class Cuda_power_checks(rfm.RunOnlyRegressionTest):
                 "rtx2080ti": (250.0, None, None, "watts"),
                 "a100_8": (400.0, None, None, "watts"),
                 "a100_4": (400.0, None, None, "watts"),
+                "h200_4": (700.0, None, None, "watts"),
+                "h200_8": (700.0, None, None, "watts"),
             },
         }
 
