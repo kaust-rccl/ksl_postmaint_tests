@@ -17,6 +17,8 @@ class Cuda_perf_checks(rfm.RegressionTest):
             "rtx4090_singlegpu",
             "a100_4",
             "a100_8",
+            "h200_4",
+            "h200_8",
         ]
     )
 
@@ -68,6 +70,8 @@ class Cuda_perf_checks(rfm.RegressionTest):
             self.extra_resources = {"constraint": {"type": "gpu_rtx4090"}}
             self.tags.add("rtx4090")
             self.tags.discard("acceptance")
+        elif self.variant in ("h200_4", "h200_8"):
+            self.extra_resources = {"constraint": {"type": "h200"}}
 
         # Validation
         self.sanity_patterns = sn.assert_found(
@@ -89,6 +93,8 @@ class Cuda_perf_checks(rfm.RegressionTest):
                 "rtx4090_singlegpu": (43, -0.1, None, "Gflops"),
                 "a100_4": (38, -0.1, None, "Gflops"),
                 "a100_8": (38, -0.1, None, "Gflops"),
+                "h200_4": (60, -0.1, None, "Gflops"),
+                "h200_8": (60, -0.1, None, "Gflops"),
             },
         }
 
