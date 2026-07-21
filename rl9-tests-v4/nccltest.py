@@ -15,6 +15,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
             "a100_4_multinode",
             "a100_8_singlenode",
             "a100_8_multinode",
+            "h200_8_singlenode"
         ]
     )
 
@@ -33,9 +34,11 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
             "v100_4_singlenode": (100, -0.1, None, "GB/s"),
             "a100_4_singlenode": (230, -0.1, None, "GB/s"),
             "a100_8_singlenode": (230, -0.1, None, "GB/s"),
+            "h200_8_singlenode": (480, -0.1, None, "GB/s"),
             "v100_8_multinode": (100, -0.1, None, "GB/s"),
             "a100_4_multinode": (40, -0.1, None, "GB/s"),
             "a100_8_multinode": (100.0, -0.1, None, "GB/s"),
+
         }
     }
 
@@ -163,6 +166,34 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
                     "echo ${SLURM_NODELIST}",
                     "module list",
                 ],
+            },
+            "h200_8_singlenode": {
+                "tags": {"singlenode"},
+                "time_limit": "30m",
+                "num_tasks": 8,
+                "num_tasks_per_node": 8,
+                "num_cpus_per_task": 8,
+                "num_gpus_per_node": 8,
+                "prerun_cmds": ["./env.sh"],
+                "extra_resources": {"constraint": {"type": "h200"}},
+                "executable": (
+                    "srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} "
+                    "-c ${SLURM_CPUS_PER_TASK} "
+                    "singularity exec --nv "
+                    "-B ./bin:/nccl_bin ${IMAGE} "
+                    "/nccl_bin/all_reduce_perf_h200 -b 4G -e 4G -f 2 -g 1 -c 0 -n 50 -w 20"
+                ),
+                "prerun_cmds": [
+                    "export NCCL_DEBUG=INFO",
+                    "export NCCL_IB_DISABLE=1",
+                    "export NCCL_P2P_LEVEL=NVL",
+                    "export IMAGE=./hpl_sing.sif",
+                    "echo ${SLURM_NODELIST}",
+                    "module list",
+                    "./env.sh",
+                ],
+                "modules": ["singularity"],
+                "sourcesdir": "../src/nccl",
             },
         }
 
