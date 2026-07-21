@@ -8,7 +8,7 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
     Define base class for babelstream test.
     """
 
-    variant = parameter(["a100_4_singlenode", "rtx4090_singlegpu", "h200_4_singlenode", "h200_8_singlenode"])
+    variant = parameter(["a100_4_singlenode", "rtx4090_singlegpu", "h200_8_singlenode"])
 
     ## TEST BASIC INFO
     maintainers = ["mohamed.elgharawy@kaust.edu.sa"]
@@ -22,7 +22,6 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
         "ibex": {
             "a100_4_singlenode": (7100000, -0.05, None, "MB/s"),
             "rtx4090_singlegpu": (3300000, -0.05, None, "MB/s"),
-            "h200_4_singlenode": (17520257, -0.05, None, "MB/s"),
             "h200_8_singlenode": (35040514, -0.05, None, "MB/s"),
         }
     }
@@ -58,15 +57,6 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
             self.executable = "srun ./run_script_ksl_cs_storm_4090.sh"
             self.tags.add("rtx4090")
             self.tags.discard("acceptance")
-        elif self.variant == "h200_4_singlenode":
-            self.extra_resources = {
-                "memory": {"size": "400G"},
-                "constraint": {"type": "h200"},
-                "nodes": {"num_of_nodes": "1"},
-            }
-            self.num_gpus_per_node = 4
-            self.num_cpus_per_task = 56
-            self.executable = "srun ./run_script_ksl_cs_storm_h200_4gpu.sh"
         elif self.variant == "h200_8_singlenode":
             self.extra_resources = {
                 "memory": {"size": "400G"},
@@ -75,7 +65,19 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
             }
             self.num_gpus_per_node = 8
             self.num_cpus_per_task = 56
-            self.executable = "srun ./run_script_ksl_cs_storm_h200_8gpu.sh"
+            self.executable = (
+                "srun -n ${SLURM_NTASKS} -N ${SLURM_NNODES} "
+                "-c ${SLURM_CPUS_PER_TASK} "
+                "singularity exec --nv  "
+                "${IMAGE} "
+                "./run_script_ksl_cs_storm_h200_8gpu.sh "
+            )
+            self.modules = ["singularity"]
+            self.sourcesdir = "../src/babelstream"
+            self.prerun_cmds = [
+                "export IMAGE=./hpl_sing.sif",
+                "./env.sh",
+            ]
 
     @run_before("sanity")
     def set_sanity_patterns(self):
