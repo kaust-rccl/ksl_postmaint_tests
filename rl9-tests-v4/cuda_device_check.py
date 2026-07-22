@@ -9,7 +9,7 @@ class Cuda_device_checks(rfm.RegressionTest):
     """
 
     variant = parameter(
-        ["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "rtx4090_singlegpu", "h200_4", "h200_8"]
+        ["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "rtx4090_singlegpu", "h200_8"]
     )
 
     @run_after("init")
@@ -59,7 +59,7 @@ class Cuda_device_checks(rfm.RegressionTest):
             self.extra_resources = {"constraint": {"type": "gpu_rtx4090"}}
             self.tags.add("rtx4090")
             self.tags.discard("acceptance")
-        elif self.variant in ("h200_4", "h200_8"):
+        elif self.variant == "h200_8":
             self.extra_resources = {"constraint": {"type": "h200"}}
 
         # Validation
@@ -79,7 +79,6 @@ class Cuda_device_checks(rfm.RegressionTest):
                 "rtx2080ti": (8, None, None, "devices"),
                 "rtx4090_singlegpu": (1, None, None, "devices"),
                 "a100_4": (4, None, None, "devices"),
-                "h200_4": (4, None, None, "devices"),
                 "h200_8": (8, None, None, "devices"),
             },
         }
