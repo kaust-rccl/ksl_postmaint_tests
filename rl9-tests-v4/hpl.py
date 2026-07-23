@@ -18,13 +18,14 @@ class hpl_cpu(hpl_test):
     Define test variants for CPUs.
     """
 
-    variant = parameter(["intel", "amd"])
+    variant = parameter(["intel", "amd", "intel_xeon8568"])
     valid_systems = ["ibex:batch"]
     tags = {"hpl", "cpu", "singlenode", "acceptance"}
     reference = {
         "ibex": {
             "amd": (2600, -0.06, None, "Gflops"),
             "intel": (1800, -0.06, None, "Gflops"),
+            "intel_xeon8568": (3900, -0.06, 0.01, "Gflops"),
         }
     }
 
@@ -67,6 +68,41 @@ class hpl_cpu(hpl_test):
                 "nodes": {"num_of_nodes": "1"},
             }
             self.tags |= {"amd"}
+        elif self.variant == "intel_xeon8568":
+            self.valid_systems = ["ibex:batch"]
+            self.valid_prog_environs = ["cpustack_builtin"]
+            self.time_limit = "10m"
+            self.sourcesdir = "../src/hpl/cpu/intel"
+
+            self.modules = ["singularity"]
+            self.num_tasks = 1
+            self.num_tasks_per_node = 1
+            self.num_cpus_per_task = 94
+            self.num_gpus_per_node = 1 # Current configuration of H200 node requires to allocate a single GPU
+            self.prerun_cmds = [
+                "export IMAGE=./intel_oneapi_hpckit_sing.sif",
+                "./env.sh",
+            ]
+            self.executable = (
+                "singularity exec -e "
+                "-B .:/my-dat-files "
+                "${IMAGE} "
+                '/bin/bash -c "'
+                "source /opt/intel/oneapi/setvars.sh --force && "
+                "export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK} && "
+                "export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK} && "
+                "export I_MPI_PIN=1 && "
+                "export I_MPI_PIN_DOMAIN=omp && "
+                "cd /my-dat-files && "
+                "mpirun -np ${SLURM_NTASKS} "
+                "/opt/intel/oneapi/mkl/latest/share/mkl/benchmarks/mp_linpack/xhpl_intel64_dynamic -f HPL.dat"
+                '"' 
+            )
+            self.extra_resources = {
+                "constraint": {"type": "intel"},
+                "nodes": {"num_of_nodes": "1"},
+            }
+            self.tags |= {"intel"}
 
     @run_before("sanity")
     def set_sanity_patterns(self):
