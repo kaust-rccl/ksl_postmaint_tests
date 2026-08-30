@@ -36,7 +36,90 @@ class pytorch_test(rfm.RunOnlyRegressionTest):
             )
         }
 
+@rfm.simple_test
+class pytorch_h200_gpu(pytorch_test):
+    """
+    Define base class for pytorch H200 GPUs tests.
+    """
 
+    variant = parameter(
+        [
+            "h200_8_singlenode",
+        ]
+    )
+    valid_systems = ["ibex:batch"]
+    time_limit = "3h"
+    reference = {
+        "ibex": {
+            "h200_8_singlenode": (1150.00, None, 0.1, "Epoch_time"),
+        }
+    }
+
+    @run_after("init")
+    def setting_variables(self):
+        """
+        Define test resources per variant.
+        """
+        self.tags |= {"h200", self.variant}
+        self.prerun_cmds = [
+            "module purge",
+            "module load rl9-gpustack",
+            "module use  /sw/rl9g/dl/modulefiles ",
+            "module load  /ibex/user/solimaay/support/scripts/horovod-0280-sm90/modules/0.28.0 ",
+            "export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
+            "export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
+            "export OPENBLAS_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
+            "export NCCL_DEBUG=INFO",
+            "export NCCL_ALGO=Tree",
+            "export NCCL_NET_GDR_LEVEL=4",
+            "export NCCL_IB_HCA=mlx5",
+            'export DATA_DIR="/ibex/ai/reference/CV/ILSVR/classification-localization/data/jpeg/"',
+            'export main_exe="./train_resnet50.py"',
+            "batch_size=256",
+            "epochs=5",
+            "export workers=${SLURM_CPUS_PER_TASK}",
+            "module list",
+            (
+                'export cmd="python3 ${main_exe} '
+                "--epochs ${epochs} "
+                "--batch-size ${batch_size} "
+                "--num_workers=$workers "
+                "--root-dir=${DATA_DIR} "
+                "--train-dir ${DATA_DIR}/train "
+                "--val-dir ${DATA_DIR}/val "
+                '${NODE_LOCAL_STORAGE}"'
+            ),
+        ]
+
+        self.executable = (
+            "time -p srun -u -n ${SLURM_NTASKS} "
+            "-N ${SLURM_NNODES} "
+            "-c ${SLURM_CPUS_PER_TASK} "
+            "${cmd} --log-dir=log.${SLURM_JOBID} "
+            "--warmup-epochs=0.0"
+        )
+
+        if self.variant == "h200_8_singlenode":
+            self.tags.add("singlenode")
+            self.num_tasks = 8
+            self.num_cpus_per_task = 5
+            self.extra_resources = {
+                "constraint": {"type": "h200,8gpus"},
+                "memory": {"size": "400G"},
+            }
+            self.num_gpus_per_node = 8
+
+    @run_before("run")
+    def set_job_options(self):
+        """
+        Define extra test resources.
+        """
+        if self.variant == "h200_8_singlenode":
+            self.job.options = [
+                "--gpus=8",
+                "--gpus-per-node=8",
+            ]
+        
 @rfm.simple_test
 class pytorch_a100_gpu(pytorch_test):
     """
