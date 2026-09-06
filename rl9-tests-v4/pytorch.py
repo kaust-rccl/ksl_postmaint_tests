@@ -65,7 +65,7 @@ class pytorch_h200_gpu(pytorch_test):
             "module purge",
             "module load rl9-gpustack",
             "module use  /sw/rl9g/dl/modulefiles ",
-            "module load  /ibex/user/solimaay/support/scripts/horovod-0280-sm90/modules/0.28.0 ",
+            "module load  0.28.1-cu118-sm90 ",
             "export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
             "export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
             "export OPENBLAS_NUM_THREADS=${SLURM_CPUS_PER_TASK} ",
