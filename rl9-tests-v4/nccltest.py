@@ -168,7 +168,7 @@ class nccl_tests(rfm.RunOnlyRegressionTest):
                 ],
             },
             "h200_8_singlenode": {
-                "tags": {"singlenode"},
+                "tags": {"h200","singlenode"},
                 "time_limit": "30m",
                 "num_tasks": 8,
                 "num_tasks_per_node": 8,

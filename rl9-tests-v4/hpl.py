@@ -18,14 +18,14 @@ class hpl_cpu(hpl_test):
     Define test variants for CPUs.
     """
 
-    variant = parameter(["intel", "amd", "intel_xeon8568"])
+    variant = parameter(["intel", "amd", "intel_xeon8568_h200"])
     valid_systems = ["ibex:batch"]
     tags = {"hpl", "cpu", "singlenode", "acceptance"}
     reference = {
         "ibex": {
             "amd": (2600, -0.06, None, "Gflops"),
             "intel": (1800, -0.06, None, "Gflops"),
-            "intel_xeon8568": (2200, -0.06, 0.01, "Gflops"),
+            "intel_xeon8568_h200": (2200, -0.06, 0.01, "Gflops"),
         }
     }
 
@@ -68,7 +68,7 @@ class hpl_cpu(hpl_test):
                 "nodes": {"num_of_nodes": "1"},
             }
             self.tags |= {"amd"}
-        elif self.variant == "intel_xeon8568":
+        elif self.variant == "intel_xeon8568_h200":
             self.valid_systems = ["ibex:batch"]
             self.valid_prog_environs = ["cpustack_builtin"]
             self.time_limit = "10m"
@@ -92,10 +92,10 @@ class hpl_cpu(hpl_test):
                 "./xhpl"
             )
             self.extra_resources = {
-                "constraint": {"type": "intel"},
-                "nodes": {"num_of_nodes": "1"},
+                "constraint": {"type": "intel,h200"},
+                "nodes": {"num_of_nodes": "1"}
             }
-            self.tags |= {"intel"}
+            self.tags |= {"intel", self.variant}
 
     @run_before("sanity")
     def set_sanity_patterns(self):
@@ -361,7 +361,7 @@ class hpl_gpu(hpl_test):
                 "export OMPI_MCA_hwloc_base_binding_policy=none",
             ]
 
-            self.tags |= {"h200_8"}
+            self.tags |= {"h200", self.variant}
             
     @run_before("run")
     def set_job_options(self):

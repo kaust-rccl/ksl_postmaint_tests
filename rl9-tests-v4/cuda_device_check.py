@@ -61,6 +61,7 @@ class Cuda_device_checks(rfm.RegressionTest):
             self.tags.discard("acceptance")
         elif self.variant == "h200_8":
             self.extra_resources = {"constraint": {"type": "h200"}}
+            self.tags.add("h200")
 
         # Validation
         self.sanity_patterns = sn.assert_found(r"Devcount", self.stdout)

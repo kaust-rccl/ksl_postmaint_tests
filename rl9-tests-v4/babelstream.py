@@ -72,6 +72,7 @@ class babelstream_tests(rfm.RunOnlyRegressionTest):
                 "${IMAGE} "
                 "./run_script_ksl_cs_storm_h200_8gpu.sh "
             )
+            self.tags.add("h200")
             self.modules = ["singularity"]
             self.sourcesdir = "../src/babelstream"
             self.prerun_cmds = [

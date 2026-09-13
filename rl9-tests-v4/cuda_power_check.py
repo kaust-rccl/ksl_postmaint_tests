@@ -57,6 +57,7 @@ class Cuda_power_checks(rfm.RunOnlyRegressionTest):
             self.extra_resources = {"constraint": {"type": "a100"}}
         elif self.variant == "h200_8":
             self.extra_resources = {"constraint": {"type": "h200"}}
+            self.tags.add("h200")
         # Validation
         self.sanity_patterns = sn.assert_found(r"Current Power Limit", self.stdout)
         # Performance check
