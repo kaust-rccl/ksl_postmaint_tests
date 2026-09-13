@@ -9,7 +9,7 @@ class Cuda_device_checks(rfm.RegressionTest):
     """
 
     variant = parameter(
-        ["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "rtx4090_singlegpu"]
+        ["v100_4", "v100_8", "p100", "rtx2080ti", "a100_4", "rtx4090_singlegpu", "h200_8"]
     )
 
     @run_after("init")
@@ -32,7 +32,7 @@ class Cuda_device_checks(rfm.RegressionTest):
         self.valid_prog_environs = ["gpustack_cuda"]
         self.sourcesdir = "../src/cuda/device_check"
         self.time_limit = "10m"
-        if self.variant in ("v100_8", "rtx2080ti"):
+        if self.variant in ("v100_8", "rtx2080ti", 'h200_8'):
             self.num_gpus_per_node = 8
         elif self.variant == "rtx4090_singlegpu":
             self.num_gpus_per_node = 1
@@ -59,6 +59,9 @@ class Cuda_device_checks(rfm.RegressionTest):
             self.extra_resources = {"constraint": {"type": "gpu_rtx4090"}}
             self.tags.add("rtx4090")
             self.tags.discard("acceptance")
+        elif self.variant == "h200_8":
+            self.extra_resources = {"constraint": {"type": "h200"}}
+            self.tags.add("h200")
 
         # Validation
         self.sanity_patterns = sn.assert_found(r"Devcount", self.stdout)
@@ -77,6 +80,7 @@ class Cuda_device_checks(rfm.RegressionTest):
                 "rtx2080ti": (8, None, None, "devices"),
                 "rtx4090_singlegpu": (1, None, None, "devices"),
                 "a100_4": (4, None, None, "devices"),
+                "h200_8": (8, None, None, "devices"),
             },
         }
 

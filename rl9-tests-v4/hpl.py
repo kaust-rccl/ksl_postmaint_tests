@@ -18,13 +18,14 @@ class hpl_cpu(hpl_test):
     Define test variants for CPUs.
     """
 
-    variant = parameter(["intel", "amd"])
+    variant = parameter(["intel", "amd", "intel_xeon8568"])
     valid_systems = ["ibex:batch"]
     tags = {"hpl", "cpu", "singlenode", "acceptance"}
     reference = {
         "ibex": {
             "amd": (2600, -0.06, None, "Gflops"),
             "intel": (1800, -0.06, None, "Gflops"),
+            "intel_xeon8568": (2200, -0.06, 0.01, "Gflops"),
         }
     }
 
@@ -67,6 +68,34 @@ class hpl_cpu(hpl_test):
                 "nodes": {"num_of_nodes": "1"},
             }
             self.tags |= {"amd"}
+        elif self.variant == "intel_xeon8568":
+            self.valid_systems = ["ibex:batch"]
+            self.valid_prog_environs = ["cpustack_builtin"]
+            self.time_limit = "10m"
+            self.sourcesdir = "../src/hpl/cpu/intel"
+
+            self.modules = ["openmpi/4.1.4/intel2022.3"]
+            self.num_tasks = 1
+            self.num_tasks_per_node = 1
+            self.num_cpus_per_task = 94
+            self.num_gpus_per_node = 1 # Current configuration of H200 node requires to allocate a single GPU
+            self.prerun_cmds = [
+                "export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}",
+                "export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK}",
+                "export OMP_PROC_BIND=close",
+                "export OMP_PLACES=cores",
+                "./env.sh",
+            ]
+            self.executable = (
+                "srun --cpus-per-task=${SLURM_CPUS_PER_TASK} " \
+                "--cpu-bind=none " \
+                "./xhpl"
+            )
+            self.extra_resources = {
+                "constraint": {"type": "intel,h200"},
+                "nodes": {"num_of_nodes": "1"}
+            }
+            self.tags |= {"intel", "h200", self.variant}
 
     @run_before("sanity")
     def set_sanity_patterns(self):
@@ -108,7 +137,7 @@ class hpl_gpu(hpl_test):
     """
 
     variant = parameter(
-        ["p100", "v100_4", "v100_8", "a100_4", "a100_8", "rtx4090_singlegpu"]
+        ["p100", "v100_4", "v100_8", "a100_4", "a100_8", "rtx4090_singlegpu", "h200_8"]
     )
     valid_systems = ["ibex:batch"]
     valid_prog_environs = ["gpustack_builtin"]
@@ -124,6 +153,7 @@ class hpl_gpu(hpl_test):
             "a100_4": (56000, -0.05, None, "Gflops"),
             "a100_8": (92500, -0.05, None, "Gflops"),
             "rtx4090_singlegpu": (1220, -0.05, None, "Gflops"),
+            "h200_8": (300100, -0.05, None, "Gflops"),
         }
     }
 
@@ -297,6 +327,42 @@ class hpl_gpu(hpl_test):
                 "./env.sh",
             ]
 
+        elif self.variant == "h200_8":
+            self.num_tasks = 1
+            self.num_gpus_per_node = 8
+            self.num_cpus_per_task = 94
+            
+            self.extra_resources = {
+                "memory": {"size": "850G"},
+                "constraint": {"type": "h200,8gpus"},
+                "nodes": {"num_of_nodes": "1"},
+            }
+
+            self.executable = (
+                "singularity run --nv "
+                "-B .:/my-dat-files "
+                "$IMAGE "
+                "mpirun --oversubscribe --bind-to none -np 8 "
+                "/workspace/hpl.sh "
+                "--dat /my-dat-files/HPL.dat.h200.G8N1 "
+                "--cpu-affinity "
+                "0,3-9:10-16:17-23:24-47:48-55:56-63:64-71:72-95 "
+                "--mem-affinity "
+                "0:0:0:1:2:2:2:3 "
+                "--gpu-affinity "
+                "0:1:2:3:4:5:6:7 "
+            )
+
+            self.prerun_cmds = [
+                "module purge",
+                "module load rl9-gpustack",
+                "module load singularity",
+                "export IMAGE=./hpl_sing_h200.sif",
+                "export OMPI_MCA_hwloc_base_binding_policy=none",
+            ]
+
+            self.tags |= {"h200", self.variant}
+            
     @run_before("run")
     def set_job_options(self):
         """
