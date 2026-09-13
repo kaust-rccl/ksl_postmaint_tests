@@ -18,14 +18,14 @@ class hpl_cpu(hpl_test):
     Define test variants for CPUs.
     """
 
-    variant = parameter(["intel", "amd", "intel_xeon8568_h200"])
+    variant = parameter(["intel", "amd", "intel_xeon8568"])
     valid_systems = ["ibex:batch"]
     tags = {"hpl", "cpu", "singlenode", "acceptance"}
     reference = {
         "ibex": {
             "amd": (2600, -0.06, None, "Gflops"),
             "intel": (1800, -0.06, None, "Gflops"),
-            "intel_xeon8568_h200": (2200, -0.06, 0.01, "Gflops"),
+            "intel_xeon8568": (2200, -0.06, 0.01, "Gflops"),
         }
     }
 
@@ -68,7 +68,7 @@ class hpl_cpu(hpl_test):
                 "nodes": {"num_of_nodes": "1"},
             }
             self.tags |= {"amd"}
-        elif self.variant == "intel_xeon8568_h200":
+        elif self.variant == "intel_xeon8568":
             self.valid_systems = ["ibex:batch"]
             self.valid_prog_environs = ["cpustack_builtin"]
             self.time_limit = "10m"
@@ -95,7 +95,7 @@ class hpl_cpu(hpl_test):
                 "constraint": {"type": "intel,h200"},
                 "nodes": {"num_of_nodes": "1"}
             }
-            self.tags |= {"intel", self.variant}
+            self.tags |= {"intel", "h200", self.variant}
 
     @run_before("sanity")
     def set_sanity_patterns(self):
